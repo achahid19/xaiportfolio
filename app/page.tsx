@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Github, Linkedin, Mail, Twitter } from "lucide-react";
+import type { ReactNode } from "react";
 
 import { profile, projects, timeline } from "@/lib/site-data";
 import { getBlogPosts } from "@/lib/blog";
@@ -15,11 +17,11 @@ export default async function HomePage() {
       !link.href.includes("your-handle") &&
       !link.href.includes("hello@example.com"),
   );
-  const socialIcons: Record<string, string> = {
-    GitHub: "⌘",
-    LinkedIn: "in",
-    Email: "✉",
-    X: "↗",
+  const socialIcons: Record<string, ReactNode> = {
+    GitHub: <Github size={16} strokeWidth={2.1} />,
+    LinkedIn: <Linkedin size={16} strokeWidth={2.1} />,
+    Email: <Mail size={16} strokeWidth={2.1} />,
+    X: <Twitter size={16} strokeWidth={2.1} />,
   };
   return (
     <>
@@ -41,7 +43,9 @@ export default async function HomePage() {
               <div className="hero-proof-grid">
                 <article className="hero-proof-card">
                   <span className="muted-label">Focus</span>
-                  <strong>AI agents, workflow automation, and product-minded execution</strong>
+                  <strong>
+                    AI agents, workflow automation, and product-minded execution
+                  </strong>
                 </article>
                 <article className="hero-proof-card">
                   <span className="muted-label">Base</span>
@@ -49,7 +53,9 @@ export default async function HomePage() {
                 </article>
                 <article className="hero-proof-card">
                   <span className="muted-label">Open to</span>
-                  <strong>Freelance builds, experiments, and practical collaboration</strong>
+                  <strong>
+                    Freelance builds, experiments, and practical collaboration
+                  </strong>
                 </article>
               </div>
             </div>
@@ -83,7 +89,9 @@ export default async function HomePage() {
                           className="portrait-card__link-icon"
                           aria-hidden="true"
                         >
-                          {socialIcons[link.label] ?? "•"}
+                          {socialIcons[link.label] ?? (
+                            <Mail size={16} strokeWidth={2.1} />
+                          )}
                         </span>
                         <span className="portrait-card__link-label">
                           {link.label}
@@ -92,12 +100,18 @@ export default async function HomePage() {
                     ))}
                   </div>
                 ) : (
-                  <Link className="button button--secondary button--small" href="/contact">
+                  <Link
+                    className="button button--secondary button--small"
+                    href="/contact"
+                  >
                     Add your real profile links next
                   </Link>
                 )}
                 <div className="portrait-card__cta">
-                  <Link className="button button--primary button--small" href="/contact">
+                  <Link
+                    className="button button--primary button--small"
+                    href="/contact"
+                  >
                     Discuss a workflow
                   </Link>
                 </div>
@@ -126,8 +140,9 @@ export default async function HomePage() {
               <h3>What I do</h3>
               <p className="muted">{profile.shortBio}</p>
               <p className="muted">
-                I care about automation that earns trust by being understandable,
-                measurable, and genuinely useful to the people around it.
+                I care about automation that earns trust by being
+                understandable, measurable, and genuinely useful to the people
+                around it.
               </p>
             </article>
             <article className="panel">
@@ -155,7 +170,9 @@ export default async function HomePage() {
           <div className="section-head">
             <div>
               <span className="eyebrow">Current path</span>
-              <h2 className="section-title">How I am growing into this niche</h2>
+              <h2 className="section-title">
+                How I am growing into this niche
+              </h2>
             </div>
           </div>
           <div className="timeline-grid">
@@ -269,8 +286,8 @@ export default async function HomePage() {
               <h2 className="section-title">Two clear ways to continue</h2>
             </div>
             <p className="section-copy">
-              If you want to collaborate privately, use the contact form. If
-              you want to leave a public hello, use the guestbook.
+              If you want to collaborate privately, use the contact form. If you
+              want to leave a public hello, use the guestbook.
             </p>
           </div>
           <div className="connect-layout">
@@ -301,12 +318,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <footer className="footer-note">
-        <div className="container">
-          Built for Vercel with `Next.js`, Markdown content, and a guestbook
-          flow that can evolve into a moderated community feature.
-        </div>
-      </footer>
     </>
   );
 }

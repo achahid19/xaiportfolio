@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { AmbientNetwork } from "@/components/ambient-network";
 import { ScrollToTop } from "@/components/scroll-to-top";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 
@@ -36,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body suppressHydrationWarning>
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -54,10 +55,11 @@ export default function RootLayout({
             `
           }}
         />
-        <div className="site-shell">
+        <div className="site-shell" suppressHydrationWarning>
           <AmbientNetwork />
           <SiteHeader />
           <main>{children}</main>
+          <SiteFooter />
           <ScrollToTop />
         </div>
       </body>
