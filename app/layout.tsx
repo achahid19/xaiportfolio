@@ -1,30 +1,31 @@
 import type { Metadata } from "next";
 
 import { AmbientNetwork } from "@/components/ambient-network";
+import { ScrollToTop } from "@/components/scroll-to-top";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://your-portfolio.vercel.app"
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://aixautomation.tech"
   ),
   title: {
-    default: "AI Agent Builder Portfolio",
-    template: "%s | AI Agent Builder Portfolio"
+    default: "Anas Chahid Ksabi | AI Agent & Workflow Automation Engineer",
+    template: "%s | Anas Chahid Ksabi"
   },
   description:
-    "Personal portfolio for a junior software engineer specializing in AI agents, workflow automation, and n8n systems.",
+    "Portfolio of Anas Chahid Ksabi, an AI Agent & Workflow Automation Engineer building practical AI systems, automation workflows, and n8n-powered products.",
   openGraph: {
-    title: "AI Agent Builder Portfolio",
+    title: "Anas Chahid Ksabi | AI Agent & Workflow Automation Engineer",
     description:
-      "A bold portfolio about shipping AI agents, automation systems, and thoughtful product experiments.",
+      "A portfolio about shipping AI agents, workflow automation systems, and thoughtful product experiments.",
     type: "website"
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Agent Builder Portfolio",
+    title: "Anas Chahid Ksabi | AI Agent & Workflow Automation Engineer",
     description:
-      "A bold portfolio about shipping AI agents, automation systems, and thoughtful product experiments."
+      "A portfolio about shipping AI agents, workflow automation systems, and thoughtful product experiments."
   }
 };
 
@@ -57,6 +58,7 @@ export default function RootLayout({
           <AmbientNetwork />
           <SiteHeader />
           <main>{children}</main>
+          <ScrollToTop />
         </div>
       </body>
     </html>

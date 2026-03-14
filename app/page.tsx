@@ -15,70 +15,43 @@ export default async function HomePage() {
       !link.href.includes("your-handle") &&
       !link.href.includes("hello@example.com"),
   );
-
+  const socialIcons: Record<string, string> = {
+    GitHub: "⌘",
+    LinkedIn: "in",
+    Email: "✉",
+    X: "↗",
+  };
   return (
     <>
       <section className="page-hero">
         <div className="container hero-grid">
           <div className="hero-main">
             <div className="hero-card">
-              <span className="eyebrow">AI agents x workflow automation</span>
+              <span className="eyebrow">{profile.headline}</span>
               <h1 className="hero-title">{displayName}</h1>
-              <p className="hero-copy">{profile.headline}</p>
               <p className="hero-copy">{profile.longBio}</p>
               <div className="hero-actions">
                 <Link className="button button--primary" href="#projects">
                   Explore my work
                 </Link>
-                <Link className="button button--secondary" href="#connect">
-                  Jump to contact
+                <Link className="button button--secondary" href="/blog">
+                  Read my notes
                 </Link>
               </div>
-              <div className="hero-pills">
-                <span className="chip">AI agents</span>
-                <span className="chip">n8n workflows</span>
-                <span className="chip">Product-minded engineering</span>
+              <div className="hero-proof-grid">
+                <article className="hero-proof-card">
+                  <span className="muted-label">Focus</span>
+                  <strong>AI agents, workflow automation, and product-minded execution</strong>
+                </article>
+                <article className="hero-proof-card">
+                  <span className="muted-label">Base</span>
+                  <strong>{profile.location}</strong>
+                </article>
+                <article className="hero-proof-card">
+                  <span className="muted-label">Open to</span>
+                  <strong>Freelance builds, experiments, and practical collaboration</strong>
+                </article>
               </div>
-            </div>
-
-            <div className="hero-support-grid">
-              <article className="stat-card">
-                <span className="muted-label">Current focus</span>
-                <h3>What I am building right now</h3>
-                <ul className="detail-list">
-                  {profile.currentFocus.map((item) => (
-                    <li key={item} className="chip">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-              <article className="timeline-card">
-                <span className="muted-label">Availability</span>
-                <h3>Open to meaningful automation work</h3>
-                <p className="muted">
-                  I am interested in freelance work, product experiments, and
-                  collaborations around AI workflows that solve a real problem.
-                </p>
-                <p className="muted">Base: {profile.location}</p>
-                {socialLinks.length > 0 ? (
-                  <div className="social-links">
-                    {socialLinks.map((link) => (
-                      <a
-                        key={link.label}
-                        className="button button--secondary"
-                        href={link.href}
-                      >
-                        {link.label}
-                      </a>
-                    ))}
-                  </div>
-                ) : (
-                  <Link className="button button--secondary" href="/contact">
-                    Add your real profile links next
-                  </Link>
-                )}
-              </article>
             </div>
           </div>
 
@@ -92,21 +65,43 @@ export default async function HomePage() {
                 />
               </div>
               <div className="portrait-card__caption">
-                <span className="muted-label">Portrait</span>
                 <p className="muted">
                   Building useful AI systems with a product mindset and a bias
                   toward clear automation.
                 </p>
+                {socialLinks.length > 0 ? (
+                  <div className="social-links portrait-card__links">
+                    {socialLinks.map((link) => (
+                      <a
+                        key={link.label}
+                        className="button button--secondary button--small portrait-card__link"
+                        href={link.href}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <span
+                          className="portrait-card__link-icon"
+                          aria-hidden="true"
+                        >
+                          {socialIcons[link.label] ?? "•"}
+                        </span>
+                        <span className="portrait-card__link-label">
+                          {link.label}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                ) : (
+                  <Link className="button button--secondary button--small" href="/contact">
+                    Add your real profile links next
+                  </Link>
+                )}
+                <div className="portrait-card__cta">
+                  <Link className="button button--primary button--small" href="/contact">
+                    Discuss a workflow
+                  </Link>
+                </div>
               </div>
-            </article>
-            <article className="panel hero-note">
-              <span className="muted-label">Approach</span>
-              <h3>Clear handoffs, visible systems, practical outcomes</h3>
-              <ul className="hero-note__list">
-                <li>Map the workflow before automating it</li>
-                <li>Design agent outputs people can verify</li>
-                <li>Keep the interface simple enough to trust</li>
-              </ul>
             </article>
           </div>
         </div>
@@ -126,10 +121,14 @@ export default async function HomePage() {
               tasks, better decisions, and workflows that can survive real use.
             </p>
           </div>
-          <div className="grid-3">
-            <article className="panel">
+          <div className="about-grid">
+            <article className="panel panel--story">
               <h3>What I do</h3>
               <p className="muted">{profile.shortBio}</p>
+              <p className="muted">
+                I care about automation that earns trust by being understandable,
+                measurable, and genuinely useful to the people around it.
+              </p>
             </article>
             <article className="panel">
               <h3>Skills</h3>
@@ -156,12 +155,10 @@ export default async function HomePage() {
           <div className="section-head">
             <div>
               <span className="eyebrow">Current path</span>
-              <h2 className="section-title">
-                How I am growing into this niche
-              </h2>
+              <h2 className="section-title">How I am growing into this niche</h2>
             </div>
           </div>
-          <div className="grid-3">
+          <div className="timeline-grid">
             {timeline.map((item) => (
               <article key={item.title} className="timeline-card">
                 <span className="muted-label">{item.title}</span>
@@ -186,7 +183,7 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="grid-2">
+          <div className="projects-grid">
             {featuredProjects.map((project) => (
               <article key={project.slug} className="project-card">
                 <div className="project-card__header">
@@ -230,7 +227,7 @@ export default async function HomePage() {
               Read the blog
             </Link>
           </div>
-          <div className="grid-2">
+          <div className="writing-grid">
             {posts.slice(0, 2).map((post) => (
               <article key={post.slug} className="post-card">
                 <div className="post-card__header">
@@ -249,58 +246,58 @@ export default async function HomePage() {
                 </Link>
               </article>
             ))}
+            <article className="panel panel--highlight writing-panel">
+              <span className="muted-label">Writing system</span>
+              <h3>Lightweight publishing, structured thinking</h3>
+              <p className="muted">
+                Posts live in Markdown inside the project, which keeps writing
+                easy to publish and versioned with the site itself.
+              </p>
+              <Link className="button button--secondary" href="/blog">
+                Browse all posts
+              </Link>
+            </article>
           </div>
         </div>
       </section>
 
       <section className="section" id="connect">
-        <div className="container connect-grid">
-          <article className="panel">
-            <span className="eyebrow">Guestbook</span>
-            <h2 className="section-title">Leave a visible note</h2>
-            <p className="section-copy">
-              The guestbook is a lightweight public wall for comments,
-              collaboration hellos, and feedback.
-            </p>
-            <Link className="button button--primary" href="/guestbook">
-              Open guestbook
-            </Link>
-          </article>
-
-          <article className="panel">
-            <span className="eyebrow">Contact</span>
-            <h2 className="section-title">Reach out directly</h2>
-            <p className="section-copy">
-              Use the contact form if you want to collaborate, discuss an idea,
-              or talk through an automation problem.
-            </p>
-            <Link className="button button--primary" href="/contact">
-              Send a message
-            </Link>
-          </article>
-
-          <article className="panel panel--highlight">
-            <span className="eyebrow">Navigate faster</span>
-            <h2 className="section-title">Choose the path that fits you</h2>
-            <div className="action-list">
-              <Link className="action-list__item" href="#about">
-                <strong>Understand my background</strong>
-                <span className="muted">
-                  Read the story before the projects.
-                </span>
-              </Link>
-              <Link className="action-list__item" href="#projects">
-                <strong>See my practical work</strong>
-                <span className="muted">Jump directly to featured builds.</span>
-              </Link>
-              <Link className="action-list__item" href="/blog">
-                <strong>Read my thinking</strong>
-                <span className="muted">
-                  Open the blog and explore systems notes.
-                </span>
-              </Link>
+        <div className="container">
+          <div className="section-head">
+            <div>
+              <span className="eyebrow">Connect</span>
+              <h2 className="section-title">Two clear ways to continue</h2>
             </div>
-          </article>
+            <p className="section-copy">
+              If you want to collaborate privately, use the contact form. If
+              you want to leave a public hello, use the guestbook.
+            </p>
+          </div>
+          <div className="connect-layout">
+            <article className="panel connect-card">
+              <span className="muted-label">Direct</span>
+              <h3>Reach out about a project or idea</h3>
+              <p className="muted">
+                Use the contact form if you want to discuss a workflow problem,
+                a potential collaboration, or a product experiment.
+              </p>
+              <Link className="button button--primary" href="/contact">
+                Send a message
+              </Link>
+            </article>
+
+            <article className="panel panel--highlight connect-card">
+              <span className="muted-label">Public</span>
+              <h3>Leave a note in the guestbook</h3>
+              <p className="muted">
+                The guestbook is a lightweight public wall for comments,
+                collaboration hellos, and feedback from visitors.
+              </p>
+              <Link className="button button--secondary" href="/guestbook">
+                Open guestbook
+              </Link>
+            </article>
+          </div>
         </div>
       </section>
 

@@ -108,3 +108,11 @@
 - This specifically corrected the low-contrast project cards in dark mode where light surfaces and light text were colliding.
 - Checks run: `npm run typecheck`, `npm run build`
 - Outstanding: do a final browser-side sweep for page-specific content colors beyond the shared theme layer.
+
+## 2026-03-14 18:26 Africa/Casablanca
+- Reworked the homepage information architecture for production: simplified the hero, replaced early card overload with clearer proof points, and organized the page into stronger overview, about, projects, writing, and connect flows.
+- Added a more deliberate UX path with clearer section entry points, lighter secondary navigation inside the page, and a cleaner two-choice connect area instead of three competing cards.
+- Updated styles to support the new structure with overview grids, proof cards, clearer project emphasis, smaller secondary buttons, and mobile-safe spacing.
+- Updated files: `app/page.tsx`, `app/globals.css`.
+- Checks run: `npm run typecheck`, `npm run build`.
+- Outstanding: replace placeholder profile identity content and links in `lib/site-data.ts` for a fully production-ready presentation.

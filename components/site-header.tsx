@@ -1,21 +1,32 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const navItems = [
-  { href: "/#about", label: "About" },
-  { href: "/#projects", label: "Projects" },
-  { href: "/#writing", label: "Writing" },
-  { href: "/#connect", label: "Connect" },
-  { href: "/blog", label: "Blog" },
+  { href: "/", label: "Home" },
+  { href: "/blog", label: "Writing" },
   { href: "/contact", label: "Contact" }
 ];
 
 export function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  function isItemActive(href: string) {
+    if (href === "/") {
+      return pathname === "/";
+    }
+
+    if (href === "/blog") {
+      return pathname.startsWith("/blog");
+    }
+
+    return pathname === href;
+  }
 
   return (
     <header className="site-header">
@@ -43,23 +54,29 @@ export function SiteHeader() {
           className={`site-header__nav ${isOpen ? "site-header__nav--open" : ""}`}
           aria-label="Primary"
         >
-          {navItems.map((item) => (
+          <div className="site-header__links">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={isItemActive(item.href) ? "is-active" : undefined}
+                aria-current={isItemActive(item.href) ? "page" : undefined}
+                onClick={() => setIsOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+          <div className="site-header__actions">
+            <ThemeToggle />
             <Link
-              key={item.href}
-              href={item.href}
+              className="button button--primary site-header__cta"
+              href="/guestbook"
               onClick={() => setIsOpen(false)}
             >
-              {item.label}
+              Guestbook
             </Link>
-          ))}
-          <ThemeToggle />
-          <Link
-            className="button button--primary site-header__cta"
-            href="/guestbook"
-            onClick={() => setIsOpen(false)}
-          >
-            Guestbook
-          </Link>
+          </div>
         </nav>
       </div>
     </header>

@@ -1,21 +1,22 @@
 import type { Profile, Project } from "@/lib/types";
 
 export const profile: Profile = {
-  name: "Your Name",
-  headline: "Junior software engineer building AI agents and workflow systems",
+  name: "Anas Chahid Ksabi",
+  headline: "AI Agent & Workflow Automation Engineer",
   shortBio:
-    "I design practical automation experiences that move from idea to useful workflow quickly.",
+    "Building useful AI systems with a product mindset and a bias toward clear automation.",
   longBio:
-    "I am a junior software engineer focused on AI agents and workflow automation with n8n. I like building systems that reduce repetitive work, connect disconnected tools, and turn fuzzy ideas into repeatable flows. My portfolio is intentionally part lab, part journal, and part proof that thoughtful automation can still feel human.",
+    "I am a software engineer focused on AI agents and workflow automation with n8n. I like building systems that reduce repetitive work, connect disconnected tools, and turn fuzzy ideas into repeatable flows. My portfolio is intentionally part lab, part journal, and part proof that thoughtful automation can still feel human.",
   currentFocus: [
-    "Designing AI agent flows that solve clear business tasks",
-    "Using n8n to automate handoffs across products and teams",
-    "Learning how product, UX, and engineering decisions shape better automations"
+    "AI agents",
+    "Workflow automation",
+    "Product-minded execution"
   ],
-  location: "Open to remote collaboration",
+  location: "Morocco, Casablanca",
   skills: [
     "JavaScript",
     "TypeScript",
+    "Python",
     "Next.js",
     "Prompt engineering",
     "API integrations",
@@ -23,16 +24,21 @@ export const profile: Profile = {
   ],
   tools: [
     "n8n",
+    "Make",
     "OpenAI APIs",
+    "Claude Code",
     "Vercel",
     "GitHub",
-    "Notion",
-    "Figma"
+    "Docker"
   ],
   socialLinks: [
-    { label: "GitHub", href: "https://github.com/your-handle" },
-    { label: "LinkedIn", href: "https://linkedin.com/in/your-handle" },
-    { label: "Email", href: "mailto:hello@example.com" }
+    { label: "GitHub", href: "https://github.com/achahid19" },
+    {
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/anas-chahid-ksabi/?skipRedirect=true"
+    },
+    { label: "Email", href: "mailto:anasks1999@gmail.com" },
+    { label: "X", href: "https://x.com/it_CryptoKs" }
   ]
 };
 
