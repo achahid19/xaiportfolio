@@ -41,9 +41,9 @@ export function GuestbookFeed({ entries }: GuestbookFeedProps) {
 
       <div className="guestbook-feed__scroll">
         <div className="guestbook-feed__list">
-          {visibleEntries.map((entry, index) => (
+          {visibleEntries.map((entry) => (
             <article
-              key={`${entry.name}-${entry.createdAt}-${index}`}
+              key={entry.id}
               className="entry-card guestbook-feed__entry"
             >
               <div className="entry-card__meta">

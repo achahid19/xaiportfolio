@@ -1142,6 +1142,132 @@ textarea:focus-visible {
   margin: 0;
 }
 
+.admin-login-placeholder {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-login-placeholder__field,
+.admin-login-placeholder__button {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--surface-soft) 80%, transparent),
+      color-mix(in srgb, var(--surface-strong) 70%, transparent),
+      color-mix(in srgb, var(--surface-soft) 80%, transparent)
+    );
+  background-size: 220% 100%;
+  animation: adminPlaceholderPulse 1.8s ease-in-out infinite;
+}
+
+.admin-login-placeholder__field {
+  height: 3.35rem;
+}
+
+.admin-login-placeholder__button {
+  height: 3.1rem;
+}
+
+.admin-panel {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.admin-panel__header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.admin-panel__summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.admin-stat {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem 1.05rem;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface-soft);
+}
+
+.admin-stat strong {
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.7rem;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.admin-entry-list {
+  display: grid;
+  gap: 0.95rem;
+}
+
+.admin-entry {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.15rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--surface-soft) 82%, transparent);
+}
+
+.admin-entry__top {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.admin-entry__status {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 0.45rem;
+  padding: 0.32rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.admin-entry__status--visible {
+  background: color-mix(in srgb, var(--success) 16%, transparent);
+  color: var(--success);
+}
+
+.admin-entry__status--hidden {
+  background: color-mix(in srgb, var(--danger) 14%, transparent);
+  color: var(--danger);
+}
+
+.admin-entry__actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.admin-entry__delete {
+  border-color: color-mix(in srgb, var(--danger) 25%, var(--line));
+  color: var(--danger);
+}
+
+@keyframes adminPlaceholderPulse {
+  0% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .divider {
   height: 1px;
   background: var(--line);
@@ -1378,6 +1504,14 @@ textarea:focus-visible {
     overflow: visible;
     padding-right: 0;
   }
+
+  .admin-panel__header {
+    align-items: start;
+  }
+
+  .admin-panel__summary {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1556,6 +1690,11 @@ textarea:focus-visible {
     border-radius: 18px;
   }
 
+  .admin-entry {
+    padding: 1rem;
+    border-radius: 20px;
+  }
+
   .portrait-card {
     padding: 0;
   }
@@ -1659,6 +1798,13 @@ textarea:focus-visible {
     align-items: flex-start;
   }
 
+  .admin-panel__header,
+  .admin-entry__top,
+  .admin-entry__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .scroll-top {
     right: 0.85rem;
     bottom: 1rem;
@@ -1717,6 +1863,10 @@ textarea:focus-visible {
   }
 
   .guestbook-feed__button {
+    width: 100%;
+  }
+
+  .admin-entry__actions .button {
     width: 100%;
   }
 

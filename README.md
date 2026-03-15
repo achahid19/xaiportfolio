@@ -18,6 +18,7 @@ npm run dev
 ## Environment notes
 - `NEXT_PUBLIC_SITE_URL` is optional in local development and should be set in Vercel for correct production metadata URLs.
 - Connect a Vercel Blob store for production persistence. This provides `BLOB_READ_WRITE_TOKEN`, which the app uses for guestbook entries and contact submission backups on Vercel.
+- Set `ADMIN_PASSWORD` in Vercel to enable the protected `/admin/guestbook` moderation page.
 - Configure SMTP in Vercel to send contact submissions to `anasks1999@gmail.com`:
   - `SMTP_HOST=smtp.gmail.com`
   - `SMTP_PORT=465`

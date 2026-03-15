@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { createHash, randomUUID } from "node:crypto";
 import { get, put } from "@vercel/blob";
 
 import type { ContactSubmission, GuestbookEntry } from "@/lib/types";
@@ -12,12 +13,17 @@ const guestbookBlobPath = "portfolio-data/guestbook-entries.json";
 
 const defaultGuestbookEntries: GuestbookEntry[] = [
   {
+    id: "seed-future-collaborator",
     name: "Future collaborator",
     message: "This space is ready for thoughtful notes, project ideas, and collaboration hellos.",
     createdAt: "2026-03-14T14:00:00.000Z",
     approved: true
   }
 ];
+
+type GuestbookEntryInput = Omit<GuestbookEntry, "id"> & {
+  id?: string;
+};
 
 async function ensureDirectory() {
   await fs.mkdir(dataDirectory, { recursive: true });
@@ -39,6 +45,23 @@ async function readJsonFile<T>(filePath: string, fallback: T): Promise<T> {
 async function writeJsonFile<T>(filePath: string, data: T) {
   await ensureDirectory();
   await fs.writeFile(filePath, JSON.stringify(data, null, 2));
+}
+
+function buildGuestbookEntryId(entry: GuestbookEntryInput) {
+  return createHash("sha1")
+    .update(`${entry.name}::${entry.createdAt}::${entry.message}`)
+    .digest("hex");
+}
+
+function normalizeGuestbookEntry(entry: GuestbookEntryInput): GuestbookEntry {
+  return {
+    ...entry,
+    id: entry.id ?? buildGuestbookEntryId(entry)
+  };
+}
+
+function normalizeGuestbookEntries(entries: GuestbookEntryInput[]) {
+  return entries.map(normalizeGuestbookEntry);
 }
 
 function hasBlobStore() {
@@ -113,19 +136,26 @@ async function writeContactSubmissions(
 
 async function readGuestbookEntries() {
   if (!hasBlobStore()) {
+    const data = await readJsonFile<GuestbookEntryInput[]>(
+      guestbookFile,
+      defaultGuestbookEntries
+    );
+
     return {
-      data: await readJsonFile<GuestbookEntry[]>(
-        guestbookFile,
-        defaultGuestbookEntries
-      ),
+      data: normalizeGuestbookEntries(data),
       etag: undefined as string | undefined
     };
   }
 
-  return readBlobJsonFile<GuestbookEntry[]>(
+  const result = await readBlobJsonFile<GuestbookEntryInput[]>(
     guestbookBlobPath,
     defaultGuestbookEntries
   );
+
+  return {
+    data: normalizeGuestbookEntries(result.data),
+    etag: result.etag
+  };
 }
 
 async function writeGuestbookEntries(entries: GuestbookEntry[], etag?: string) {
@@ -172,5 +202,42 @@ export async function saveGuestbookEntry(entry: GuestbookEntry) {
   const { data, etag } = await readGuestbookEntries();
   const entries = [...data];
   entries.unshift(entry);
+  await writeGuestbookEntries(entries, etag);
+}
+
+export async function createGuestbookEntry(
+  entry: Omit<GuestbookEntry, "id">
+) {
+  const guestbookEntry = normalizeGuestbookEntry({
+    ...entry,
+    id: randomUUID()
+  });
+
+  await saveGuestbookEntry(guestbookEntry);
+}
+
+export async function listAllGuestbookEntries() {
+  const { data } = await readGuestbookEntries();
+
+  return [...data].sort(
+    (left, right) =>
+      new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime()
+  );
+}
+
+export async function updateGuestbookEntryApproval(
+  id: string,
+  approved: boolean
+) {
+  const { data, etag } = await readGuestbookEntries();
+  const entries = data.map((entry) =>
+    entry.id === id ? { ...entry, approved } : entry
+  );
+  await writeGuestbookEntries(entries, etag);
+}
+
+export async function deleteGuestbookEntry(id: string) {
+  const { data, etag } = await readGuestbookEntries();
+  const entries = data.filter((entry) => entry.id !== id);
   await writeGuestbookEntries(entries, etag);
 }
