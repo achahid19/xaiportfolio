@@ -357,6 +357,9 @@ main,
 .site-header__brand {
   display: grid;
   gap: 0.15rem;
+  min-width: 0;
+  flex: 1 1 auto;
+  max-width: calc(100% - 5rem);
 }
 
 .site-header__title {
@@ -365,11 +368,13 @@ main,
   font-weight: 700;
   letter-spacing: 0.03em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .site-header__tag {
   font-size: 0.72rem;
   color: var(--ink-soft);
+  white-space: nowrap;
 }
 
 .site-header__nav {
@@ -537,6 +542,11 @@ textarea:focus-visible {
   align-items: start;
 }
 
+.hero-grid > .hero-proof-grid {
+  grid-column: 1 / 2;
+  margin-top: 0;
+}
+
 .hero-main,
 .hero-side {
   display: grid;
@@ -604,6 +614,10 @@ textarea:focus-visible {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.9rem;
   margin-top: 1.5rem;
+}
+
+.hero-proof-grid--mobile {
+  display: none;
 }
 
 .hero-proof-card {
@@ -842,7 +856,8 @@ textarea:focus-visible {
   position: relative;
   overflow: hidden;
   width: 100%;
-  height: 300px;
+  aspect-ratio: 4 / 4.9;
+  max-height: 26rem;
   background:
     radial-gradient(circle at 20% 20%, var(--portrait-overlay-warm), transparent 22%),
     linear-gradient(180deg, var(--portrait-overlay-dark-top), var(--portrait-overlay-dark-bottom));
@@ -853,7 +868,7 @@ textarea:focus-visible {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 8%;
 }
 
 .portrait-card__caption {
@@ -1166,7 +1181,6 @@ textarea:focus-visible {
 
   .hero-grid,
   .hero-support-grid,
-  .hero-proof-grid,
   .about-grid,
   .timeline-grid,
   .projects-grid,
@@ -1250,13 +1264,26 @@ textarea:focus-visible {
   }
 
   .hero-side {
-    width: 100%;
-    max-width: 320px;
-    justify-self: stretch;
+    width: min(100%, 30rem);
+    max-width: 30rem;
+    justify-self: center;
+  }
+
+  .hero-grid > .hero-proof-grid {
+    grid-column: auto;
+  }
+
+  .hero-proof-grid--desktop {
+    display: none;
+  }
+
+  .hero-proof-grid--mobile {
+    display: grid;
   }
 
   .portrait-card__media {
-    height: 360px;
+    aspect-ratio: 4 / 4.7;
+    max-height: none;
   }
 
   .footer-bottom {
@@ -1269,8 +1296,12 @@ textarea:focus-visible {
     width: min(100%, calc(100% - 1.2rem));
   }
 
+  body {
+    overflow-x: hidden;
+  }
+
   .ambient-network {
-    opacity: 0.42;
+    opacity: 0.34;
   }
 
   .ambient-network__svg--left {
@@ -1283,7 +1314,27 @@ textarea:focus-visible {
   }
 
   .page-hero {
-    padding: 2.6rem 0 1.5rem;
+    padding: 2.2rem 0 1.35rem;
+  }
+
+  .hero-grid {
+    gap: 0.9rem;
+  }
+
+  .hero-main,
+  .hero-side {
+    gap: 0.85rem;
+  }
+
+  .hero-side {
+    width: 100%;
+    max-width: none;
+  }
+
+  .hero-grid > .hero-proof-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+    margin-top: 0;
   }
 
   .page-intro {
@@ -1292,7 +1343,7 @@ textarea:focus-visible {
   }
 
   .section {
-    padding: 2rem 0 2.3rem;
+    padding: 1.8rem 0 2.15rem;
   }
 
   .section-head {
@@ -1300,8 +1351,14 @@ textarea:focus-visible {
     margin-bottom: 1.1rem;
   }
 
+  .section-head .button {
+    width: 100%;
+  }
+
   .section-copy {
     max-width: none;
+    font-size: 0.98rem;
+    line-height: 1.65;
   }
 
   .hero-card,
@@ -1318,51 +1375,55 @@ textarea:focus-visible {
   }
 
   .hero-card {
-    padding: 1.5rem;
+    padding: 1.35rem;
   }
 
   .hero-title {
-    margin-top: 0.8rem;
-    font-size: clamp(2.55rem, 13vw, 3.6rem);
-    line-height: 0.9;
+    margin-top: 0.7rem;
+    font-size: clamp(2.1rem, 11.2vw, 2.95rem);
+    line-height: 0.92;
     letter-spacing: -0.02em;
+    max-width: 10ch;
   }
 
   .hero-copy {
-    font-size: 1rem;
-    line-height: 1.72;
+    font-size: 0.98rem;
+    line-height: 1.62;
   }
 
   .eyebrow {
     max-width: 100%;
     font-size: 0.74rem;
-    padding: 0.4rem 0.72rem;
+    padding: 0.38rem 0.68rem;
     line-height: 1.3;
   }
 
   .hero-actions {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.65rem;
+    gap: 0.55rem;
+    margin-top: 1.1rem;
   }
 
   .hero-actions .button {
     width: 100%;
-  }
-
-  .hero-proof-grid {
-    gap: 0.7rem;
-    margin-top: 1.1rem;
+    min-height: 3rem;
   }
 
   .hero-proof-card {
-    gap: 0.35rem;
-    padding: 0.85rem 0.9rem;
-    border-radius: 18px;
+    gap: 0.3rem;
+    min-height: auto;
+    padding: 0.78rem 0.82rem;
+    border-radius: 16px;
+  }
+
+  .hero-proof-card:last-child {
+    grid-column: 1 / -1;
   }
 
   .hero-proof-card strong {
-    font-size: 0.92rem;
+    font-size: 0.86rem;
+    line-height: 1.38;
   }
 
   .muted-label,
@@ -1375,10 +1436,30 @@ textarea:focus-visible {
     font-size: 1.45rem;
   }
 
+  .project-card,
+  .post-card,
+  .timeline-card,
+  .panel {
+    gap: 0.8rem;
+  }
+
+  .project-card p,
+  .post-card p,
+  .timeline-card p,
+  .panel p {
+    font-size: 0.96rem;
+    line-height: 1.65;
+  }
+
   .project-card__actions .button,
   .writing-panel .button,
   .connect-card .button {
     width: 100%;
+  }
+
+  .project-card__header,
+  .post-card__header {
+    gap: 0.7rem;
   }
 
   .portrait-card {
@@ -1386,42 +1467,74 @@ textarea:focus-visible {
   }
 
   .portrait-card__media {
-    height: 250px;
+    aspect-ratio: 4 / 4.35;
   }
 
   .portrait-card__caption {
-    gap: 0.75rem;
-    padding: 0.95rem 1rem 1rem;
+    gap: 0.68rem;
+    padding: 0.9rem 0.95rem 0.95rem;
   }
 
   .portrait-card__links {
-    gap: 0.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem;
   }
 
   .portrait-card__link {
-    min-height: 2.7rem;
-    padding: 0.62rem 0.72rem;
+    min-height: 2.45rem;
+    padding: 0.5rem 0.65rem;
+    font-size: 0.84rem;
+  }
+
+  .portrait-card__link-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .portrait-card__cta .button {
+    min-height: 3rem;
   }
 
   .site-header__nav {
     left: 0.5rem;
     right: 0.5rem;
+    top: calc(100% + 0.35rem);
+    padding: 0.65rem;
+    border-radius: 20px;
   }
 
   .site-header__inner {
-    min-height: 64px;
+    min-height: 60px;
   }
 
   .site-header__brand {
     gap: 0.05rem;
+    max-width: calc(100% - 3.6rem);
   }
 
   .site-header__title {
-    font-size: 0.9rem;
+    font-size: 0.74rem;
+    letter-spacing: 0.015em;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .site-header__tag {
-    font-size: 0.68rem;
+    font-size: 0.58rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .site-header__toggle {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+  }
+
+  .site-header__links a,
+  .site-header__nav .button,
+  .theme-toggle {
+    min-height: 2.9rem;
   }
 
   .theme-toggle {
@@ -1429,16 +1542,16 @@ textarea:focus-visible {
   }
 
   .footer-note {
-    padding: 1.3rem 0 3.2rem;
+    padding: 1.1rem 0 3rem;
   }
 
   .footer-grid {
-    gap: 1.2rem;
-    padding-top: 1.2rem;
+    gap: 1rem;
+    padding-top: 1rem;
   }
 
   .footer-title {
-    font-size: 1.8rem;
+    font-size: 1.65rem;
   }
 
   .footer-bottom {
@@ -1448,9 +1561,9 @@ textarea:focus-visible {
 
   .scroll-top {
     right: 0.85rem;
-    bottom: 0.85rem;
-    width: 3rem;
-    height: 3rem;
+    bottom: 1rem;
+    width: 2.85rem;
+    height: 2.85rem;
   }
 }
 
@@ -1469,7 +1582,16 @@ textarea:focus-visible {
   }
 
   .hero-title {
-    font-size: clamp(2.35rem, 12.8vw, 3.15rem);
+    font-size: clamp(1.8rem, 10.2vw, 2.35rem);
+    max-width: none;
+  }
+
+  .hero-grid > .hero-proof-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-proof-card:last-child {
+    grid-column: auto;
   }
 
   .hero-card,
@@ -1483,11 +1605,35 @@ textarea:focus-visible {
   }
 
   .portrait-card__media {
-    height: 230px;
+    aspect-ratio: 4 / 4.15;
+  }
+
+  .portrait-card__photo {
+    object-position: center 9%;
   }
 
   .portrait-card__links {
     grid-template-columns: 1fr;
+  }
+
+  .hero-copy,
+  .section-copy,
+  .muted {
+    font-size: 0.95rem;
+  }
+
+  .project-card__title,
+  .post-card__title,
+  .section-title {
+    line-height: 0.98;
+  }
+
+  .section-title {
+    font-size: clamp(1.65rem, 8vw, 2.1rem);
+  }
+
+  .footer-links {
+    gap: 0.5rem;
   }
 
   .footer-bottom {

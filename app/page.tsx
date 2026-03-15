@@ -40,7 +40,7 @@ export default async function HomePage() {
                   Read my notes
                 </Link>
               </div>
-              <div className="hero-proof-grid">
+              <div className="hero-proof-grid hero-proof-grid--desktop">
                 <article className="hero-proof-card">
                   <span className="muted-label">Focus</span>
                   <strong>
@@ -68,6 +68,7 @@ export default async function HomePage() {
                   src="/images/portrait.png?v=2"
                   alt={`${profile.name} portrait`}
                   className="portrait-card__photo"
+                  suppressHydrationWarning
                 />
               </div>
               <div className="portrait-card__caption">
@@ -116,6 +117,25 @@ export default async function HomePage() {
                   </Link>
                 </div>
               </div>
+            </article>
+          </div>
+
+          <div className="hero-proof-grid hero-proof-grid--mobile">
+            <article className="hero-proof-card">
+              <span className="muted-label">Focus</span>
+              <strong>
+                AI agents, workflow automation, and product-minded execution
+              </strong>
+            </article>
+            <article className="hero-proof-card">
+              <span className="muted-label">Base</span>
+              <strong>{profile.location}</strong>
+            </article>
+            <article className="hero-proof-card">
+              <span className="muted-label">Open to</span>
+              <strong>
+                Freelance builds, experiments, and practical collaboration
+              </strong>
             </article>
           </div>
         </div>
