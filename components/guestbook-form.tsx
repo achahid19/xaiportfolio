@@ -9,14 +9,19 @@ import { SubmitButton } from "@/components/submit-button";
 export function GuestbookForm() {
   const [state, formAction] = useActionState(
     submitGuestbookAction,
-    initialActionState
+    initialActionState,
   );
 
   return (
     <form action={formAction} className="form-grid">
       <div className="field">
         <label htmlFor="name">Name</label>
-        <input id="guestbook-name" name="name" placeholder="Your name" required />
+        <input
+          id="guestbook-name"
+          name="name"
+          placeholder="Your name"
+          required
+        />
       </div>
       <div className="field">
         <label htmlFor="message">Comment</label>
@@ -27,10 +32,6 @@ export function GuestbookForm() {
           required
         />
       </div>
-      <p className="form-hint">
-        Entries are stored with an approval flag so moderation can be added
-        without changing the data shape.
-      </p>
       {state.message ? (
         <p
           className={`status-message ${
@@ -42,10 +43,7 @@ export function GuestbookForm() {
           {state.message}
         </p>
       ) : null}
-      <SubmitButton
-        idleLabel="Leave a note"
-        pendingLabel="Saving note..."
-      />
+      <SubmitButton idleLabel="Leave a note" pendingLabel="Saving note..." />
     </form>
   );
 }

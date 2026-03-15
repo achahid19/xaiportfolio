@@ -1052,12 +1052,94 @@ textarea:focus-visible {
   gap: 0.7rem;
 }
 
+.guestbook-feed {
+  display: grid;
+  gap: 1rem;
+  min-height: 100%;
+}
+
+.guestbook-feed__header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.guestbook-feed__title {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+  line-height: 1;
+  color: var(--ink);
+}
+
+.guestbook-feed__count {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.guestbook-feed__scroll {
+  max-height: 36rem;
+  overflow-y: auto;
+  padding-right: 0.35rem;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--accent-alt) 40%, transparent)
+    transparent;
+}
+
+.guestbook-feed__scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.guestbook-feed__scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.guestbook-feed__scroll::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent-alt) 36%, transparent);
+  background-clip: padding-box;
+}
+
+.guestbook-feed__list {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.guestbook-feed__entry {
+  border-radius: 22px;
+  padding: 1.1rem 1.15rem;
+  background: color-mix(in srgb, var(--surface-soft) 72%, transparent);
+  box-shadow: none;
+}
+
+.guestbook-feed__entry .muted {
+  margin: 0;
+}
+
 .entry-card__meta {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
   color: var(--ink-soft);
   font-size: 0.92rem;
+}
+
+.guestbook-feed__footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+}
+
+.guestbook-feed__button {
+  min-width: 12rem;
+}
+
+.guestbook-feed__hint {
+  margin: 0;
 }
 
 .divider {
@@ -1198,7 +1280,8 @@ textarea:focus-visible {
   .section-head,
   .project-card__header,
   .post-card__header,
-  .entry-card__meta {
+  .entry-card__meta,
+  .guestbook-feed__header {
     align-items: start;
   }
 
@@ -1288,6 +1371,12 @@ textarea:focus-visible {
 
   .footer-bottom {
     justify-content: flex-start;
+  }
+
+  .guestbook-feed__scroll {
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
   }
 }
 
@@ -1462,6 +1551,11 @@ textarea:focus-visible {
     gap: 0.7rem;
   }
 
+  .guestbook-feed__entry {
+    padding: 0.95rem 1rem;
+    border-radius: 18px;
+  }
+
   .portrait-card {
     padding: 0;
   }
@@ -1559,6 +1653,12 @@ textarea:focus-visible {
     font-size: 0.88rem;
   }
 
+  .guestbook-feed__header,
+  .entry-card__meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .scroll-top {
     right: 0.85rem;
     bottom: 1rem;
@@ -1614,6 +1714,10 @@ textarea:focus-visible {
 
   .portrait-card__links {
     grid-template-columns: 1fr;
+  }
+
+  .guestbook-feed__button {
+    width: 100%;
   }
 
   .hero-copy,

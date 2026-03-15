@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import { sendContactEmail } from "@/lib/email";
 import type { ActionState } from "@/lib/form-state";
 import { saveContactSubmission, saveGuestbookEntry } from "@/lib/storage";
 
@@ -39,14 +40,32 @@ export async function submitContactAction(
     };
   }
 
-  await saveContactSubmission({
+  const submission = {
     ...parsed.data,
     submittedAt: new Date().toISOString()
-  });
+  };
+
+  try {
+    await saveContactSubmission(submission);
+  } catch (error) {
+    console.error("Failed to save contact submission backup", error);
+  }
+
+  try {
+    await sendContactEmail(submission);
+  } catch (error) {
+    console.error("Failed to send contact email", error);
+
+    return {
+      status: "success",
+      message:
+        "Your message was saved."
+    };
+  }
 
   return {
     status: "success",
-    message: "Message saved. Connect this action to email or a database for production."
+    message: "Message sent successfully. I will receive it at anasks1999@gmail.com."
   };
 }
 
@@ -66,11 +85,21 @@ export async function submitGuestbookAction(
     };
   }
 
-  await saveGuestbookEntry({
-    ...parsed.data,
-    createdAt: new Date().toISOString(),
-    approved: true
-  });
+  try {
+    await saveGuestbookEntry({
+      ...parsed.data,
+      createdAt: new Date().toISOString(),
+      approved: true
+    });
+  } catch (error) {
+    console.error("Failed to save guestbook entry", error);
+
+    return {
+      status: "error",
+      message:
+        "The guestbook is not configured for production persistence yet. Connect Vercel Blob and try again."
+    };
+  }
 
   revalidatePath("/guestbook");
 

@@ -5,7 +5,7 @@ Personal portfolio built with `Next.js` App Router and intended for Vercel deplo
 ## Features
 - Bold landing page focused on AI agents and `n8n` automation work
 - Markdown-powered blog
-- Contact form using a server action
+- Contact form using a server action with structured HTML email delivery
 - Guestbook with moderation-ready data shape
 - Local JSON persistence for development
 
@@ -17,7 +17,16 @@ npm run dev
 
 ## Environment notes
 - `NEXT_PUBLIC_SITE_URL` is optional in local development and should be set in Vercel for correct production metadata URLs.
-- For production on Vercel, replace the local JSON storage in `lib/storage.ts` with a persistent hosted store such as Vercel Postgres or KV.
+- Connect a Vercel Blob store for production persistence. This provides `BLOB_READ_WRITE_TOKEN`, which the app uses for guestbook entries and contact submission backups on Vercel.
+- Configure SMTP in Vercel to send contact submissions to `anasks1999@gmail.com`:
+  - `SMTP_HOST=smtp.gmail.com`
+  - `SMTP_PORT=465`
+  - `SMTP_SECURE=true`
+  - `SMTP_USER=anasks1999@gmail.com`
+  - `SMTP_PASS=<your Gmail app password>`
+  - `CONTACT_TO_EMAIL=anasks1999@gmail.com`
+- Local JSON storage in `lib/storage.ts` is still used in development.
+- On Vercel, guestbook entries and contact submission backups use Vercel Blob automatically when `BLOB_READ_WRITE_TOKEN` is available.
 
 ## Content
 - Profile data lives in `lib/site-data.ts`

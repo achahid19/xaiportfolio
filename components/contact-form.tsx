@@ -9,7 +9,7 @@ import { initialActionState } from "@/lib/form-state";
 export function ContactForm() {
   const [state, formAction] = useActionState(
     submitContactAction,
-    initialActionState
+    initialActionState,
   );
 
   return (
@@ -37,10 +37,6 @@ export function ContactForm() {
           required
         />
       </div>
-      <p className="form-hint">
-        For production, wire this action to your preferred storage or email
-        provider in Vercel environment variables.
-      </p>
       {state.message ? (
         <p
           className={`status-message ${

@@ -1,16 +1,10 @@
 import { GuestbookForm } from "@/components/guestbook-form";
+import { GuestbookFeed } from "@/components/guestbook-feed";
 import { listApprovedGuestbookEntries } from "@/lib/storage";
 
 export const metadata = {
   title: "Guestbook"
 };
-
-const guestbookDateFormatter = new Intl.DateTimeFormat("en-US", {
-  year: "numeric",
-  month: "short",
-  day: "numeric",
-  timeZone: "UTC"
-});
 
 export default async function GuestbookPage() {
   const entries = await listApprovedGuestbookEntries();
@@ -28,17 +22,7 @@ export default async function GuestbookPage() {
           <GuestbookForm />
         </article>
 
-        <div className="grid-1">
-          {entries.map((entry) => (
-            <article key={`${entry.name}-${entry.createdAt}`} className="entry-card">
-              <div className="entry-card__meta">
-                <strong>{entry.name}</strong>
-                <span>{guestbookDateFormatter.format(new Date(entry.createdAt))}</span>
-              </div>
-              <p className="muted">{entry.message}</p>
-            </article>
-          ))}
-        </div>
+        <GuestbookFeed entries={entries} />
       </div>
     </section>
   );

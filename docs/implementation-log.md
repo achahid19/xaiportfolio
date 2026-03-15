@@ -116,3 +116,20 @@
 - Updated files: `app/page.tsx`, `app/globals.css`.
 - Checks run: `npm run typecheck`, `npm run build`.
 - Outstanding: replace placeholder profile identity content and links in `lib/site-data.ts` for a fully production-ready presentation.
+
+## 2026-03-15 00:18 Africa/Casablanca
+- Added real contact email delivery using SMTP via `nodemailer` while keeping local JSON submission storage as a backup record.
+- Created a structured HTML email template for contact submissions and wired the server action to send messages to `anasks1999@gmail.com` with the sender's email set as `replyTo`.
+- Documented the required Gmail SMTP environment variables in `.env.example` and `README.md`.
+- Updated files: `lib/actions.ts`, `lib/email.ts`, `.env.example`, `README.md`, `package.json`.
+- Checks run: `npm run typecheck`, `npm run build`.
+- Outstanding: add `SMTP_*` and `CONTACT_TO_EMAIL` variables in Vercel before expecting live contact emails to be delivered.
+
+## 2026-03-15 12:25 Africa/Casablanca
+- Reworked the guestbook into a newest-first note feed with only 3 entries shown initially and a `Load 3 more notes` action for progressive reveal.
+- Added a contained scroll area on larger screens so the guestbook stays manageable instead of expanding into an endless wall of equal-height cards.
+- Moved production persistence for guestbook entries and contact submission backups to Vercel Blob when `BLOB_READ_WRITE_TOKEN` is available, while keeping local JSON storage for development.
+- Added safer production failure handling: contact email can still send even if backup persistence fails, and guestbook shows a clear error if Blob is not configured.
+- Updated files: `app/guestbook/page.tsx`, `components/guestbook-feed.tsx`, `app/globals.css`, `lib/storage.ts`, `lib/actions.ts`, `.env.example`, `README.md`, `package.json`.
+- Checks run: `npm run typecheck`, `npm run build`.
+- Outstanding: connect a Vercel Blob store and verify `BLOB_READ_WRITE_TOKEN` is set in the production project before expecting guestbook writes to persist live.
