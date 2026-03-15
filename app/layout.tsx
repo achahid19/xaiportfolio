@@ -10,6 +10,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://aixautomation.tech"
   ),
+  icons: {
+    icon: "/images/aix_logo_no_bg.png",
+    apple: "/images/aix_logo_no_bg.png",
+    shortcut: "/images/aix_logo_no_bg.png"
+  },
   title: {
     default: "Anas Chahid Ksabi | AI Agent & Workflow Automation Engineer",
     template: "%s | Anas Chahid Ksabi"

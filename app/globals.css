@@ -355,11 +355,35 @@ main,
 }
 
 .site-header__brand {
-  display: grid;
-  gap: 0.15rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
   min-width: 0;
   flex: 1 1 auto;
   max-width: calc(100% - 5rem);
+}
+
+.site-header__brand-mark {
+  flex: 0 0 auto;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--surface-soft) 70%, transparent);
+  border: 1px solid color-mix(in srgb, var(--line) 82%, transparent);
+}
+
+.site-header__brand-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.site-header__brand-copy {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
 }
 
 .site-header__title {
@@ -1332,6 +1356,34 @@ textarea:focus-visible {
   gap: 0.85rem;
 }
 
+.footer-brand__lockup {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+}
+
+.footer-brand__mark {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--surface-soft) 72%, transparent);
+  border: 1px solid color-mix(in srgb, var(--line) 84%, transparent);
+}
+
+.footer-brand__mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.footer-brand__copy {
+  display: grid;
+  gap: 0.2rem;
+}
+
 .footer-title {
   margin: 0;
   font-family: var(--font-display), sans-serif;
@@ -1790,8 +1842,14 @@ textarea:focus-visible {
   }
 
   .site-header__brand {
-    gap: 0.05rem;
+    gap: 0.55rem;
     max-width: calc(100% - 3.6rem);
+  }
+
+  .site-header__brand-mark {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
   }
 
   .site-header__title {
@@ -1830,6 +1888,16 @@ textarea:focus-visible {
   .footer-grid {
     gap: 1rem;
     padding-top: 1rem;
+  }
+
+  .footer-brand__lockup {
+    gap: 0.75rem;
+  }
+
+  .footer-brand__mark {
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
   }
 
   .footer-title {
@@ -1872,6 +1940,12 @@ textarea:focus-visible {
     display: none;
   }
 
+  .site-header__brand-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 13px;
+  }
+
   .theme-toggle {
     padding-inline: 0.85rem;
   }
@@ -1909,6 +1983,16 @@ textarea:focus-visible {
 
   .portrait-card__links {
     grid-template-columns: 1fr;
+  }
+
+  .footer-brand__lockup {
+    align-items: center;
+  }
+
+  .footer-brand__mark {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
   }
 
   .guestbook-feed__button {

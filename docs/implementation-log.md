@@ -133,3 +133,11 @@
 - Updated files: `app/guestbook/page.tsx`, `components/guestbook-feed.tsx`, `app/globals.css`, `lib/storage.ts`, `lib/actions.ts`, `.env.example`, `README.md`, `package.json`.
 - Checks run: `npm run typecheck`, `npm run build`.
 - Outstanding: connect a Vercel Blob store and verify `BLOB_READ_WRITE_TOKEN` is set in the production project before expecting guestbook writes to persist live.
+
+## 2026-03-15 16:05 Africa/Casablanca
+- Integrated the new `aix_logo_no_bg.png` brand asset into the shared site shell with a compact header lockup and a more spacious footer lockup.
+- Kept the text brand alongside the logo for readability, navigation clarity, and stronger metadata/accessibility while preserving the logo ratio with fixed square brand-mark containers.
+- Added metadata icons so the same logo is used consistently for the browser tab and platform icon surfaces.
+- Updated files: `components/site-header.tsx`, `components/site-footer.tsx`, `app/layout.tsx`, `app/globals.css`.
+- Checks run: `npm run typecheck`, `npm run build`.
+- Outstanding: visual review on very small mobile widths after the next deploy to confirm the header brand spacing still feels balanced with the menu toggle.

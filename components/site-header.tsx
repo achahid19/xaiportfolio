@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -32,8 +33,20 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="container site-header__inner">
         <Link className="site-header__brand" href="/" onClick={() => setIsOpen(false)}>
-          <span className="site-header__title">AI x Automation</span>
-          <span className="site-header__tag">Portfolio and writing lab</span>
+          <span className="site-header__brand-mark" aria-hidden="true">
+            <Image
+              src="/images/aix_logo_no_bg.png"
+              alt=""
+              width={500}
+              height={500}
+              priority
+              sizes="(max-width: 480px) 44px, (max-width: 900px) 48px, 52px"
+            />
+          </span>
+          <span className="site-header__brand-copy">
+            <span className="site-header__title">AI x Automation</span>
+            <span className="site-header__tag">Portfolio and writing lab</span>
+          </span>
         </Link>
 
         <button

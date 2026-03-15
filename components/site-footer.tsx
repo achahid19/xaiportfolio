@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { profile } from "@/lib/site-data";
@@ -14,8 +15,21 @@ export function SiteFooter() {
     <footer className="footer-note">
       <div className="container footer-grid">
         <div className="footer-brand">
-          <span className="eyebrow">AI X Automation</span>
-          <h2 className="footer-title">Anas Chahid Ksabi</h2>
+          <div className="footer-brand__lockup">
+            <span className="footer-brand__mark" aria-hidden="true">
+              <Image
+                src="/images/aix_logo_no_bg.png"
+                alt=""
+                width={500}
+                height={500}
+                sizes="(max-width: 640px) 52px, 64px"
+              />
+            </span>
+            <div className="footer-brand__copy">
+              <span className="eyebrow">AI X Automation</span>
+              <h2 className="footer-title">Anas Chahid Ksabi</h2>
+            </div>
+          </div>
           <p className="muted">
             AI Agent & Workflow Automation Engineer building practical AI
             systems that connect tools, reduce repeated work, and stay
