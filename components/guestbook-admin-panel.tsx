@@ -1,3 +1,7 @@
+"use client";
+
+import { useMemo, useState } from "react";
+
 import {
   approveGuestbookEntryAction,
   deleteGuestbookEntryAction,
@@ -20,8 +24,14 @@ type GuestbookAdminPanelProps = {
 };
 
 export function GuestbookAdminPanel({ entries }: GuestbookAdminPanelProps) {
+  const [visibleCount, setVisibleCount] = useState(6);
   const approvedCount = entries.filter((entry) => entry.approved).length;
   const hiddenCount = entries.length - approvedCount;
+  const visibleEntries = useMemo(
+    () => entries.slice(0, visibleCount),
+    [entries, visibleCount]
+  );
+  const remainingCount = Math.max(entries.length - visibleEntries.length, 0);
 
   return (
     <section className="admin-panel panel">
@@ -56,55 +66,84 @@ export function GuestbookAdminPanel({ entries }: GuestbookAdminPanelProps) {
         </div>
       </div>
 
-      <div className="admin-entry-list">
-        {entries.map((entry) => (
-          <article key={entry.id} className="admin-entry">
-            <div className="admin-entry__top">
-              <div>
-                <div className="entry-card__meta">
-                  <strong>{entry.name}</strong>
-                  <span>{adminDateFormatter.format(new Date(entry.createdAt))}</span>
+      <div className="admin-entry-feed">
+        <div className="admin-entry-feed__header">
+          <h2 className="guestbook-feed__title">Latest moderation queue</h2>
+          <span className="guestbook-feed__count">
+            Showing {visibleEntries.length} of {entries.length}
+          </span>
+        </div>
+
+        <div className="admin-entry-feed__scroll">
+          <div className="admin-entry-list">
+            {visibleEntries.map((entry) => (
+              <article key={entry.id} className="admin-entry">
+                <div className="admin-entry__top">
+                  <div>
+                    <div className="entry-card__meta">
+                      <strong>{entry.name}</strong>
+                      <span>
+                        {adminDateFormatter.format(new Date(entry.createdAt))}
+                      </span>
+                    </div>
+                    <span
+                      className={`admin-entry__status ${
+                        entry.approved
+                          ? "admin-entry__status--visible"
+                          : "admin-entry__status--hidden"
+                      }`}
+                    >
+                      {entry.approved ? "Visible" : "Hidden"}
+                    </span>
+                  </div>
                 </div>
-                <span
-                  className={`admin-entry__status ${
-                    entry.approved
-                      ? "admin-entry__status--visible"
-                      : "admin-entry__status--hidden"
-                  }`}
-                >
-                  {entry.approved ? "Visible" : "Hidden"}
-                </span>
-              </div>
-            </div>
 
-            <p className="muted">{entry.message}</p>
+                <p className="muted">{entry.message}</p>
 
-            <div className="admin-entry__actions">
-              <form
-                action={
-                  entry.approved
-                    ? hideGuestbookEntryAction
-                    : approveGuestbookEntryAction
-                }
-              >
-                <input type="hidden" name="id" value={entry.id} />
-                <button type="submit" className="button button--secondary">
-                  {entry.approved ? "Hide entry" : "Approve entry"}
-                </button>
-              </form>
+                <div className="admin-entry__actions">
+                  <form
+                    action={
+                      entry.approved
+                        ? hideGuestbookEntryAction
+                        : approveGuestbookEntryAction
+                    }
+                  >
+                    <input type="hidden" name="id" value={entry.id} />
+                    <button type="submit" className="button button--secondary">
+                      {entry.approved ? "Hide entry" : "Approve entry"}
+                    </button>
+                  </form>
 
-              <form action={deleteGuestbookEntryAction}>
-                <input type="hidden" name="id" value={entry.id} />
-                <button
-                  type="submit"
-                  className="button button--secondary admin-entry__delete"
-                >
-                  Delete entry
-                </button>
-              </form>
-            </div>
-          </article>
-        ))}
+                  <form action={deleteGuestbookEntryAction}>
+                    <input type="hidden" name="id" value={entry.id} />
+                    <button
+                      type="submit"
+                      className="button button--secondary admin-entry__delete"
+                    >
+                      Delete entry
+                    </button>
+                  </form>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        {remainingCount > 0 ? (
+          <div className="admin-entry-feed__footer">
+            <button
+              type="button"
+              className="button button--secondary guestbook-feed__button"
+              onClick={() => setVisibleCount((count) => count + 6)}
+            >
+              Load 6 more entries
+            </button>
+            <p className="guestbook-feed__hint">
+              {remainingCount} more {remainingCount === 1 ? "entry" : "entries"} in
+              the queue.
+            </p>
+          </div>
+        ) : null}
       </div>
     </section>
   );
