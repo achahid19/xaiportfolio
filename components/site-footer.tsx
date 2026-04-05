@@ -24,6 +24,7 @@ export function SiteFooter() {
                 height={500}
                 className=""
                 sizes="(max-width: 640px) 52px, 64px"
+                suppressHydrationWarning
               />
             </span>
             <div className="footer-brand__copy">

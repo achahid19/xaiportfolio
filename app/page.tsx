@@ -78,7 +78,7 @@ export default async function HomePage() {
 
           <div className="hero-side">
             <article className="portrait-card">
-              <div className="portrait-card__media">
+              <div className="portrait-card__media" suppressHydrationWarning>
                 <img
                   src="/images/portrait.png?v=2"
                   alt={`${profile.name} portrait`}

@@ -40,19 +40,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <section className="section page-hero">
-      <article className="container hero-card">
-        <span className="eyebrow">{post.tags.join(" / ")}</span>
-        <h1 className="article-title hero-title">{post.title}</h1>
-        <p className="article-copy">{post.excerpt}</p>
-        <div className="meta-row">
-          <span className="chip">{post.date}</span>
-          <span className="chip">Markdown-powered</span>
-        </div>
-        <div
-          className="prose"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
-      </article>
+      <div className="container">
+        <article className="article-wrap">
+          <span className="eyebrow">{post.tags.join(" / ")}</span>
+          <h1 className="article-title">{post.title}</h1>
+          <p className="article-excerpt">{post.excerpt}</p>
+          <div className="meta-row">
+            <span className="chip">{post.date}</span>
+          </div>
+          <div
+            className="prose"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
+        </article>
+      </div>
     </section>
   );
 }

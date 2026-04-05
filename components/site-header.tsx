@@ -42,6 +42,7 @@ export function SiteHeader() {
               priority
               className=""
               sizes="(max-width: 480px) 44px, (max-width: 900px) 48px, 52px"
+              suppressHydrationWarning
             />
           </span>
           <span className="site-header__brand-copy">
