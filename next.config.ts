@@ -1,4 +1,9 @@
+import path from "path";
 import type { NextConfig } from "next";
+
+// When running from a git worktree inside .claude/worktrees/*, resolve
+// node_modules from the real project root three levels up.
+const projectRoot = path.resolve(__dirname, "../../..");
 
 const nextConfig: NextConfig = {
   images: {
@@ -10,7 +15,7 @@ const nextConfig: NextConfig = {
     ]
   },
   turbopack: {
-    root: __dirname
+    root: projectRoot
   }
 };
 

@@ -22,6 +22,7 @@ export function SiteFooter() {
                 alt=""
                 width={500}
                 height={500}
+                className=""
                 sizes="(max-width: 640px) 52px, 64px"
               />
             </span>
@@ -31,9 +32,9 @@ export function SiteFooter() {
             </div>
           </div>
           <p className="muted">
-            AI Agent & Workflow Automation Engineer building practical AI
-            systems that connect tools, reduce repeated work, and stay
-            understandable in production.
+            AI Agent & Workflow Automation Engineer helping businesses automate
+            complex processes, integrate systems, and unlock real operational
+            value through intelligent automation.
           </p>
         </div>
 

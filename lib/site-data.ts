@@ -4,9 +4,9 @@ export const profile: Profile = {
   name: "Anas Chahid Ksabi",
   headline: "AI Agent & Workflow Automation Engineer",
   shortBio:
-    "Building useful AI systems with a product mindset and a bias toward clear automation.",
+    "I help businesses move faster by turning complex processes into intelligent, automated systems — built to scale and easy to own.",
   longBio:
-    "I am a software engineer focused on AI agents and workflow automation with n8n. I like building systems that reduce repetitive work, connect disconnected tools, and turn fuzzy ideas into repeatable flows. My portfolio is intentionally part lab, part journal, and part proof that thoughtful automation can still feel human.",
+    "I design and build AI-powered systems that automate business processes, connect your tools, and surface the right information at the right time. With a background in finance, I understand the business logic behind every workflow — so what I build drives real ROI, not just technical complexity.",
   currentFocus: [
     "AI agents",
     "Workflow automation",
@@ -47,11 +47,11 @@ export const projects: Project[] = [
     title: "Agent Ops Desk",
     slug: "agent-ops-desk",
     summary:
-      "An internal dashboard concept for tracking AI agent tasks, outcomes, and failure patterns.",
+      "An internal operations dashboard for monitoring AI agent performance, task outcomes, and failure patterns in real time.",
     problem:
-      "Teams experimenting with agents often lack visibility into what the automations are actually doing and where they fail.",
+      "Businesses deploying AI agents have no visibility into what's working, what's failing, or where value is being lost.",
     solution:
-      "I designed a simple operations view that surfaces task status, retry paths, and notes so operators can improve prompts and workflows faster.",
+      "Built an ops view that surfaces task status, retry paths, and agent notes — giving teams the control to iterate fast and reduce costly failures.",
     role: "Product-minded builder across UX, flow design, and front-end implementation",
     stack: ["Next.js", "TypeScript", "OpenAI", "n8n"],
     links: [{ label: "Case Study", href: "#" }],
@@ -62,11 +62,11 @@ export const projects: Project[] = [
     title: "Lead Capture Automation",
     slug: "lead-capture-automation",
     summary:
-      "A lightweight automation pipeline that routes inbound leads into structured follow-up workflows.",
+      "An end-to-end pipeline that captures, qualifies, and routes inbound leads into automated follow-up sequences — cutting response time from hours to minutes.",
     problem:
-      "Lead data often lands in multiple tools with no clean qualification path or response rhythm.",
+      "Revenue was leaking through slow, manual lead handling spread across disconnected tools with no consistent follow-up process.",
     solution:
-      "I mapped the handoff, normalized incoming fields, and routed qualified leads into automated sequences for faster follow-up.",
+      "Designed and built a unified intake flow that normalizes lead data, applies qualification logic, and triggers personalized outreach automatically.",
     role: "Workflow automation design and implementation",
     stack: ["n8n", "Webhooks", "CRM APIs", "Sheets"],
     links: [{ label: "Workflow Notes", href: "#" }],

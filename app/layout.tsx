@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { AmbientNetwork } from "@/components/ambient-network";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -41,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <body suppressHydrationWarning>
         <script
           dangerouslySetInnerHTML={{
@@ -66,6 +67,7 @@ export default function RootLayout({
           <main>{children}</main>
           <SiteFooter />
           <ScrollToTop />
+          <ScrollReveal />
         </div>
       </body>
     </html>

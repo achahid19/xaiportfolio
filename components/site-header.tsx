@@ -40,6 +40,7 @@ export function SiteHeader() {
               width={500}
               height={500}
               priority
+              className=""
               sizes="(max-width: 480px) 44px, (max-width: 900px) 48px, 52px"
             />
           </span>

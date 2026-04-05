@@ -69,31 +69,38 @@ function hasBlobStore() {
 }
 
 async function readBlobJsonFile<T>(pathname: string, fallback: T) {
-  const result = await get(pathname, {
-    access: "private",
-    useCache: false
-  });
+  try {
+    const result = await get(pathname, {
+      access: "private",
+      useCache: false
+    });
 
-  if (!result || result.statusCode !== 200) {
+    if (!result || result.statusCode !== 200) {
+      return {
+        data: fallback,
+        etag: undefined as string | undefined
+      };
+    }
+
+    const text = await new Response(result.stream).text();
+
+    if (!text.trim()) {
+      return {
+        data: fallback,
+        etag: result.blob.etag
+      };
+    }
+
+    return {
+      data: JSON.parse(text) as T,
+      etag: result.blob.etag
+    };
+  } catch {
     return {
       data: fallback,
       etag: undefined as string | undefined
     };
   }
-
-  const text = await new Response(result.stream).text();
-
-  if (!text.trim()) {
-    return {
-      data: fallback,
-      etag: result.blob.etag
-    };
-  }
-
-  return {
-    data: JSON.parse(text) as T,
-    etag: result.blob.etag
-  };
 }
 
 async function writeBlobJsonFile<T>(
