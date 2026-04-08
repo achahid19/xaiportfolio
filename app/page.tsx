@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 
 import { profile, projects } from "@/lib/site-data";
 import { getBlogPosts } from "@/lib/blog";
+import { getN8nTemplateCount } from "@/lib/n8n";
 
 const socialIcons: Record<string, ReactNode> = {
   GitHub: <Github size={15} strokeWidth={2.2} />,
@@ -34,7 +35,10 @@ const services = [
 ];
 
 export default async function HomePage() {
-  const posts = await getBlogPosts();
+  const [posts, n8nCount] = await Promise.all([
+    getBlogPosts(),
+    getN8nTemplateCount("anasks"),
+  ]);
   const featuredProjects = projects.filter((p) => p.featured);
   const socialLinks = profile.socialLinks.filter(
     (link) =>
@@ -74,6 +78,34 @@ export default async function HomePage() {
                 <strong>Freelance work</strong>
               </article>
             </div>
+
+            {/* ── n8n Creator Strip ─────────────────────────── */}
+            <a
+              href="https://n8n.io/creators/anasks/"
+              target="_blank"
+              rel="noreferrer"
+              className="n8n-strip"
+            >
+              {/* n8n wordmark */}
+              <span className="n8n-strip__logo">n8n</span>
+
+              <span className="n8n-strip__divider" aria-hidden="true" />
+
+              <span className="n8n-strip__badge">
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M6 0L7.5 4.5H12L8.25 7.25L9.75 11.75L6 9L2.25 11.75L3.75 7.25L0 4.5H4.5L6 0Z" fill="#FF6D5A"/>
+                </svg>
+                Verified Creator
+              </span>
+
+              <span className="n8n-strip__divider" aria-hidden="true" />
+
+              <span className="n8n-strip__stat">
+                <strong>{n8nCount || 1}</strong> published template{n8nCount !== 1 ? "s" : ""}
+              </span>
+
+              <span className="n8n-strip__arrow" aria-hidden="true">↗</span>
+            </a>
           </div>
 
           <div className="hero-side">
