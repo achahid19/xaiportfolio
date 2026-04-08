@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 import { profile, projects } from "@/lib/site-data";
 import { getBlogPosts } from "@/lib/blog";
-import { getN8nTemplateCount } from "@/lib/n8n";
+import { N8N_TEMPLATE_COUNT } from "@/lib/n8n";
 
 const socialIcons: Record<string, ReactNode> = {
   GitHub: <Github size={15} strokeWidth={2.2} />,
@@ -35,10 +35,8 @@ const services = [
 ];
 
 export default async function HomePage() {
-  const [posts, n8nCount] = await Promise.all([
-    getBlogPosts(),
-    getN8nTemplateCount("anasks"),
-  ]);
+  const posts = await getBlogPosts();
+  const n8nCount = N8N_TEMPLATE_COUNT;
   const featuredProjects = projects.filter((p) => p.featured);
   const socialLinks = profile.socialLinks.filter(
     (link) =>
