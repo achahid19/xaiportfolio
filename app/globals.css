@@ -1424,6 +1424,79 @@ textarea:focus-visible {
 }
 
 /* ============================================================
+   N8N CREATOR STRIP
+   ============================================================ */
+.n8n-strip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 1.5rem;
+  padding: 0.55rem 0.9rem 0.55rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 109, 90, 0.22);
+  background: rgba(255, 109, 90, 0.06);
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 0.82rem;
+  transition: border-color 180ms ease, background 180ms ease;
+  cursor: pointer;
+}
+
+.n8n-strip:hover {
+  border-color: rgba(255, 109, 90, 0.45);
+  background: rgba(255, 109, 90, 0.1);
+}
+
+.n8n-strip__logo {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  font-family: monospace;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+  color: #FF6D5A;
+}
+
+.n8n-strip__divider {
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 109, 90, 0.25);
+  flex-shrink: 0;
+}
+
+.n8n-strip__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 600;
+  color: #FF6D5A;
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
+}
+
+.n8n-strip__stat {
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+}
+
+.n8n-strip__stat strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.n8n-strip__arrow {
+  font-size: 0.75rem;
+  color: rgba(255, 109, 90, 0.6);
+  margin-left: 0.1rem;
+  transition: transform 180ms ease;
+}
+
+.n8n-strip:hover .n8n-strip__arrow {
+  transform: translate(2px, -2px);
+}
+
+/* ============================================================
    PROSE / BLOG
    ============================================================ */
 .prose {
