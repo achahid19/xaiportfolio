@@ -51,23 +51,23 @@
   --bg-bottom: #f6f3ed;
   --network-opacity: 0.42;
   --network-mask: radial-gradient(circle at center, rgba(246, 243, 237, 0.9) 0 28%, rgba(246, 243, 237, 0.72) 42%, rgba(246, 243, 237, 0.14) 64%, transparent 80%);
-  --network-line: rgba(95, 131, 122, 0.11);
-  --network-arrow: rgba(95, 131, 122, 0.11);
+  --network-line: rgba(95, 131, 122, 0.18);
+  --network-arrow: rgba(95, 131, 122, 0.18);
   --network-card-bg: rgba(255, 251, 247, 0.42);
   --network-card-soft-bg: rgba(250, 247, 241, 0.3);
   --network-card-accent-bg: rgba(255, 243, 236, 0.46);
-  --network-card-border: rgba(95, 131, 122, 0.1);
-  --network-card-accent-border: rgba(204, 116, 72, 0.16);
-  --network-icon: rgba(95, 131, 122, 0.12);
-  --network-icon-accent: rgba(204, 116, 72, 0.16);
-  --network-bar: rgba(95, 131, 122, 0.16);
-  --network-bar-accent: rgba(204, 116, 72, 0.22);
-  --network-copy: rgba(21, 21, 21, 0.08);
-  --network-copy-short: rgba(21, 21, 21, 0.05);
+  --network-card-border: rgba(95, 131, 122, 0.16);
+  --network-card-accent-border: rgba(204, 116, 72, 0.22);
+  --network-icon: rgba(95, 131, 122, 0.22);
+  --network-icon-accent: rgba(204, 116, 72, 0.26);
+  --network-bar: rgba(95, 131, 122, 0.22);
+  --network-bar-accent: rgba(204, 116, 72, 0.28);
+  --network-copy: rgba(21, 21, 21, 0.1);
+  --network-copy-short: rgba(21, 21, 21, 0.06);
   --network-signal: rgba(204, 116, 72, 0.72);
-  --network-signal-glow: rgba(204, 116, 72, 0.18);
-  --network-signal-ghost: rgba(95, 131, 122, 0.38);
-  --network-signal-ghost-glow: rgba(95, 131, 122, 0.12);
+  --network-signal-glow: rgba(204, 116, 72, 0.22);
+  --network-signal-ghost: rgba(95, 131, 122, 0.4);
+  --network-signal-ghost-glow: rgba(95, 131, 122, 0.14);
   --network-glow-one: rgba(204, 116, 72, 0.06);
   --network-glow-two: rgba(95, 131, 122, 0.05);
 }
@@ -119,23 +119,23 @@
   --bg-bottom: #101413;
   --network-opacity: 0.48;
   --network-mask: radial-gradient(circle at center, rgba(16, 20, 19, 0.9) 0 28%, rgba(16, 20, 19, 0.72) 42%, rgba(16, 20, 19, 0.16) 64%, transparent 80%);
-  --network-line: rgba(130, 168, 157, 0.12);
-  --network-arrow: rgba(130, 168, 157, 0.12);
+  --network-line: rgba(130, 168, 157, 0.18);
+  --network-arrow: rgba(130, 168, 157, 0.18);
   --network-card-bg: rgba(32, 39, 36, 0.38);
   --network-card-soft-bg: rgba(25, 31, 29, 0.28);
   --network-card-accent-bg: rgba(60, 38, 29, 0.42);
-  --network-card-border: rgba(130, 168, 157, 0.1);
-  --network-card-accent-border: rgba(240, 138, 88, 0.16);
-  --network-icon: rgba(130, 168, 157, 0.14);
-  --network-icon-accent: rgba(240, 138, 88, 0.18);
-  --network-bar: rgba(130, 168, 157, 0.16);
-  --network-bar-accent: rgba(240, 138, 88, 0.22);
-  --network-copy: rgba(238, 244, 239, 0.08);
-  --network-copy-short: rgba(238, 244, 239, 0.05);
+  --network-card-border: rgba(130, 168, 157, 0.16);
+  --network-card-accent-border: rgba(240, 138, 88, 0.22);
+  --network-icon: rgba(130, 168, 157, 0.24);
+  --network-icon-accent: rgba(240, 138, 88, 0.28);
+  --network-bar: rgba(130, 168, 157, 0.22);
+  --network-bar-accent: rgba(240, 138, 88, 0.28);
+  --network-copy: rgba(238, 244, 239, 0.1);
+  --network-copy-short: rgba(238, 244, 239, 0.06);
   --network-signal: rgba(240, 138, 88, 0.74);
-  --network-signal-glow: rgba(240, 138, 88, 0.18);
-  --network-signal-ghost: rgba(130, 168, 157, 0.38);
-  --network-signal-ghost-glow: rgba(130, 168, 157, 0.12);
+  --network-signal-glow: rgba(240, 138, 88, 0.22);
+  --network-signal-ghost: rgba(130, 168, 157, 0.42);
+  --network-signal-ghost-glow: rgba(130, 168, 157, 0.14);
   --network-glow-one: rgba(240, 138, 88, 0.05);
   --network-glow-two: rgba(130, 168, 157, 0.05);
 }
@@ -285,136 +285,111 @@ main,
   background: var(--network-mask);
 }
 
+/* SVG containers */
 .ambient-network__svg {
   position: absolute;
-  width: min(44vw, 620px);
+  width: min(48vw, 580px);
   height: auto;
   overflow: visible;
-  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--accent-alt) 20%, transparent));
 }
 
-.ambient-network__links path {
+.ambient-network__svg--left {
+  top: 6rem;
+  left: -9rem;
+}
+
+.ambient-network__svg--right {
+  right: -9rem;
+  top: 14rem;
+}
+
+/* Edges (connection lines) */
+.ambient-network__edge {
   fill: none;
   stroke: var(--network-line);
-  stroke-width: 2;
+  stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.ambient-network__arrowhead {
-  fill: var(--network-arrow);
-}
-
-.ambient-network__card-body {
+/* Node body */
+.ambient-network__node-body {
   fill: var(--network-card-bg);
   stroke: var(--network-card-border);
-  stroke-width: 1.5;
-  filter: drop-shadow(0 6px 18px rgba(17, 17, 17, 0.06));
+  stroke-width: 1.2;
 }
 
-.ambient-network__card--accent .ambient-network__card-body {
+.ambient-network__node--accent .ambient-network__node-body {
   fill: var(--network-card-accent-bg);
   stroke: var(--network-card-accent-border);
 }
 
-.ambient-network__card--soft .ambient-network__card-body {
-  fill: var(--network-card-soft-bg);
-  stroke: var(--network-card-border);
-}
-
-.ambient-network__card {
-  animation: cardDrift 10s ease-in-out infinite;
-}
-
-.ambient-network__card--accent {
-  animation-delay: -2.4s;
-}
-
-.ambient-network__card--soft {
-  animation-delay: -4.8s;
-}
-
-.ambient-network__card-port {
-  fill: transparent;
-}
-
-.ambient-network__card-port--input {
-  stroke: rgba(37, 122, 102, 0.2);
-  stroke-width: 1;
-}
-
-.ambient-network__card-port--output {
-  stroke: rgba(239, 108, 47, 0.24);
-  stroke-width: 1;
-}
-
-.ambient-network__card-icon {
+/* Node icon & bars */
+.ambient-network__node-icon {
   fill: var(--network-icon);
 }
 
-.ambient-network__card--accent .ambient-network__card-icon {
+.ambient-network__node--accent .ambient-network__node-icon {
   fill: var(--network-icon-accent);
 }
 
-.ambient-network__card-bar {
+.ambient-network__node-bar {
   fill: var(--network-bar);
 }
 
-.ambient-network__card--accent .ambient-network__card-bar {
-  fill: var(--network-bar-accent);
-}
-
-.ambient-network__card-line {
+.ambient-network__node-sub {
   fill: var(--network-copy);
 }
 
-.ambient-network__card-line--short {
-  fill: var(--network-copy-short);
+/* Ports */
+.ambient-network__port {
+  fill: var(--network-card-border);
+  stroke: none;
 }
 
-.ambient-network__signal {
+.ambient-network__port--out {
   fill: var(--network-signal);
-  filter: drop-shadow(0 0 10px var(--network-signal-glow));
+  opacity: 0.55;
 }
 
-.ambient-network__signal--ghost {
+.ambient-network__node--accent .ambient-network__port--out {
+  fill: var(--network-bar-accent);
+}
+
+/* Animated signal pulses */
+.ambient-network__pulse {
+  fill: var(--network-signal);
+  filter: drop-shadow(0 0 6px var(--network-signal-glow));
+}
+
+.ambient-network__pulse--ghost {
   fill: var(--network-signal-ghost);
-  filter: drop-shadow(0 0 7px var(--network-signal-ghost-glow));
+  filter: drop-shadow(0 0 4px var(--network-signal-ghost-glow));
 }
 
-.ambient-network__svg--left {
-  top: 8rem;
-  left: -12rem;
-  transform: rotate(-3deg);
-}
-
-.ambient-network__svg--right {
-  right: -12rem;
-  top: 16rem;
-  transform: rotate(3deg);
-}
-
+/* Glow blobs */
 .ambient-network__glow {
   position: absolute;
   border-radius: 999px;
-  filter: blur(12px);
   animation: pulseFloat 14s ease-in-out infinite;
 }
 
 .ambient-network__glow--one {
-  width: 18rem;
-  height: 18rem;
-  left: 8%;
-  top: 14rem;
+  width: 32rem;
+  height: 32rem;
+  left: 5%;
+  top: 10rem;
   background: radial-gradient(circle, var(--network-glow-one), transparent 70%);
+  filter: blur(60px);
 }
 
 .ambient-network__glow--two {
-  width: 14rem;
-  height: 14rem;
-  right: 12%;
-  top: 24rem;
+  width: 26rem;
+  height: 26rem;
+  right: 8%;
+  top: 22rem;
   background: radial-gradient(circle, var(--network-glow-two), transparent 70%);
+  filter: blur(60px);
   animation-delay: -4s;
 }
 
@@ -1992,18 +1967,7 @@ textarea:focus-visible {
    ============================================================ */
 @media (max-width: 900px) {
   .ambient-network__svg {
-    width: min(80vw, 520px);
-    opacity: 0.58;
-  }
-
-  .ambient-network__svg--left {
-    left: -16rem;
-    top: 10rem;
-  }
-
-  .ambient-network__svg--right {
-    right: -16rem;
-    top: 22rem;
+    display: none;
   }
 
   .hero-grid,
@@ -2156,14 +2120,6 @@ textarea:focus-visible {
     opacity: 0.34;
   }
 
-  .ambient-network__svg--left {
-    left: -18rem;
-  }
-
-  .ambient-network__svg--right {
-    right: -18rem;
-    top: 28rem;
-  }
 
   .page-hero {
     padding: 2.4rem 0 1.5rem;
