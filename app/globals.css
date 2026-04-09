@@ -1401,73 +1401,75 @@ textarea:focus-visible {
 /* ============================================================
    N8N CREATOR STRIP
    ============================================================ */
-.n8n-strip {
+/* n8n credentials block */
+.n8n-creds {
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.75rem;
   margin-top: 1.5rem;
-  padding: 0.55rem 0.9rem 0.55rem 0.75rem;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 109, 90, 0.22);
-  background: rgba(255, 109, 90, 0.06);
-  text-decoration: none;
-  color: var(--ink);
-  font-size: 0.82rem;
-  transition: border-color 180ms ease, background 180ms ease;
-  cursor: pointer;
 }
 
-.n8n-strip:hover {
-  border-color: rgba(255, 109, 90, 0.45);
-  background: rgba(255, 109, 90, 0.1);
-}
-
-.n8n-strip__logo {
-  display: inline-flex;
-  align-items: center;
-  flex-shrink: 0;
+.n8n-creds__brand {
   font-family: monospace;
   font-weight: 800;
-  font-size: 1rem;
+  font-size: 0.95rem;
   letter-spacing: -0.02em;
   color: #FF6D5A;
-}
-
-.n8n-strip__divider {
-  width: 1px;
-  height: 14px;
-  background: rgba(255, 109, 90, 0.25);
   flex-shrink: 0;
+  opacity: 0.9;
 }
 
-.n8n-strip__badge {
+.n8n-creds__pills {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Individual credential pill */
+.n8n-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  font-weight: 600;
-  color: #FF6D5A;
-  font-size: 0.8rem;
-  letter-spacing: 0.01em;
-}
-
-.n8n-strip__stat {
-  color: var(--ink-soft);
-  font-size: 0.8rem;
-}
-
-.n8n-strip__stat strong {
+  gap: 0.35rem;
+  padding: 0.42rem 0.75rem 0.42rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 109, 90, 0.24);
+  background: rgba(255, 109, 90, 0.07);
+  text-decoration: none;
   color: var(--ink);
-  font-weight: 700;
+  font-size: 0.78rem;
+  font-weight: 500;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+  white-space: nowrap;
 }
 
-.n8n-strip__arrow {
-  font-size: 0.75rem;
-  color: rgba(255, 109, 90, 0.6);
+.n8n-pill:hover {
+  border-color: rgba(255, 109, 90, 0.5);
+  background: rgba(255, 109, 90, 0.13);
+  transform: translateY(-1px);
+}
+
+.n8n-pill--cert {
+  border-color: rgba(255, 109, 90, 0.18);
+  background: rgba(255, 109, 90, 0.05);
+}
+
+.n8n-pill__count {
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  padding-left: 0.25rem;
+  border-left: 1px solid rgba(255, 109, 90, 0.2);
   margin-left: 0.1rem;
-  transition: transform 180ms ease;
 }
 
-.n8n-strip:hover .n8n-strip__arrow {
+.n8n-pill__arrow {
+  font-size: 0.7rem;
+  color: rgba(255, 109, 90, 0.55);
+  transition: transform 160ms ease;
+  margin-left: 0.05rem;
+}
+
+.n8n-pill:hover .n8n-pill__arrow {
   transform: translate(2px, -2px);
 }
 

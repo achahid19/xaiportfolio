@@ -77,33 +77,44 @@ export default async function HomePage() {
               </article>
             </div>
 
-            {/* ── n8n Creator Strip ─────────────────────────── */}
-            <a
-              href="https://n8n.io/creators/anasks/"
-              target="_blank"
-              rel="noreferrer"
-              className="n8n-strip"
-            >
-              {/* n8n wordmark */}
-              <span className="n8n-strip__logo">n8n</span>
+            {/* ── n8n Credentials ───────────────────────────── */}
+            <div className="n8n-creds">
+              <span className="n8n-creds__brand" aria-label="n8n">n8n</span>
 
-              <span className="n8n-strip__divider" aria-hidden="true" />
+              <div className="n8n-creds__pills">
+                {/* Creator pill */}
+                <a
+                  href="https://n8n.io/creators/anasks/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="n8n-pill"
+                >
+                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M6 0L7.5 4.5H12L8.25 7.25L9.75 11.75L6 9L2.25 11.75L3.75 7.25L0 4.5H4.5L6 0Z" fill="#FF6D5A"/>
+                  </svg>
+                  <span>Verified Creator</span>
+                  <span className="n8n-pill__count">{n8nCount || 1} template{n8nCount !== 1 ? "s" : ""}</span>
+                  <span className="n8n-pill__arrow" aria-hidden="true">↗</span>
+                </a>
 
-              <span className="n8n-strip__badge">
-                <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                  <path d="M6 0L7.5 4.5H12L8.25 7.25L9.75 11.75L6 9L2.25 11.75L3.75 7.25L0 4.5H4.5L6 0Z" fill="#FF6D5A"/>
-                </svg>
-                Verified Creator
-              </span>
-
-              <span className="n8n-strip__divider" aria-hidden="true" />
-
-              <span className="n8n-strip__stat">
-                <strong>{n8nCount || 1}</strong> published template{n8nCount !== 1 ? "s" : ""}
-              </span>
-
-              <span className="n8n-strip__arrow" aria-hidden="true">↗</span>
-            </a>
+                {/* Level 1 badge pill */}
+                <a
+                  href="https://community.n8n.io/badges/104/completed-n8n-course-level-1?username=anasks"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="n8n-pill n8n-pill--cert"
+                >
+                  {/* Medal icon */}
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="14" r="7" stroke="#FF6D5A" strokeWidth="2"/>
+                    <path d="M9 14l2 2 4-4" stroke="#FF6D5A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M8.5 7.5L7 3h10l-1.5 4.5" stroke="#FF6D5A" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                  <span>Course Level 1</span>
+                  <span className="n8n-pill__arrow" aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </div>
           </div>
 
           <div className="hero-side">
