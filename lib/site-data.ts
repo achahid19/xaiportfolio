@@ -44,16 +44,16 @@ export const profile: Profile = {
 
 export const projects: Project[] = [
   {
-    title: "Library Intelligence Agent",
+    title: "Package Eval Agent",
     slug: "agent-ops-desk",
     summary:
-      "An AI agent that automatically evaluates open-source libraries — pulling GitHub activity, download trends, vulnerability data, and docs — so engineering teams can make adoption decisions in seconds, not hours.",
+      "A web crawler agent specialized in package evaluation — it crawls npm, GitHub, and documentation pages, extracts the signals that matter, and delivers a structured adoption recommendation to Slack in seconds.",
     problem:
       "Fast-moving dev teams can't afford to adopt a library that breaks or gets abandoned. Manual due diligence — npm trends, GitHub health, CVE checks, doc quality — eats 30+ minutes per package and still gets skipped under pressure.",
     solution:
-      "Built an automated evaluation pipeline that runs every check in parallel, enriches results with structured context, and delivers a clear adoption recommendation to Slack — turning 30 minutes of research into a 10-second read.",
-    role: "End-to-end: system design, n8n workflow architecture, API integrations, and output formatting",
-    stack: ["n8n", "GitHub API", "npm Registry", "OpenAI", "Slack"],
+      "Built a Firecrawl-powered crawler agent that scrapes the right pages, extracts structured signals, and pipes everything through an AI layer to produce a clear go/no-go recommendation — turning 30 minutes of research into a 10-second read.",
+    role: "End-to-end: system design, n8n workflow architecture, web crawling pipeline, and output formatting",
+    stack: ["n8n", "Firecrawl", "OpenAI", "Slack"],
     links: [{ label: "Case Study", href: "#" }],
     featured: true,
     coverImage: "Library evaluation agent workflow"
