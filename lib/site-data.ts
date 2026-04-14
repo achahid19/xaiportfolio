@@ -44,19 +44,19 @@ export const profile: Profile = {
 
 export const projects: Project[] = [
   {
-    title: "Agent Ops Desk",
+    title: "Library Intelligence Agent",
     slug: "agent-ops-desk",
     summary:
-      "An internal operations dashboard for monitoring AI agent performance, task outcomes, and failure patterns in real time.",
+      "An AI agent that automatically evaluates open-source libraries — pulling GitHub activity, download trends, vulnerability data, and docs — so engineering teams can make adoption decisions in seconds, not hours.",
     problem:
-      "Businesses deploying AI agents have no visibility into what's working, what's failing, or where value is being lost.",
+      "Fast-moving dev teams can't afford to adopt a library that breaks or gets abandoned. Manual due diligence — npm trends, GitHub health, CVE checks, doc quality — eats 30+ minutes per package and still gets skipped under pressure.",
     solution:
-      "Built an ops view that surfaces task status, retry paths, and agent notes — giving teams the control to iterate fast and reduce costly failures.",
-    role: "Product-minded builder across UX, flow design, and front-end implementation",
-    stack: ["Next.js", "TypeScript", "OpenAI", "n8n"],
+      "Built an automated evaluation pipeline that runs every check in parallel, enriches results with structured context, and delivers a clear adoption recommendation to Slack — turning 30 minutes of research into a 10-second read.",
+    role: "End-to-end: system design, n8n workflow architecture, API integrations, and output formatting",
+    stack: ["n8n", "GitHub API", "npm Registry", "OpenAI", "Slack"],
     links: [{ label: "Case Study", href: "#" }],
     featured: true,
-    coverImage: "Abstract operations dashboard concept"
+    coverImage: "Library evaluation agent workflow"
   },
   {
     title: "Lead Capture Automation",
