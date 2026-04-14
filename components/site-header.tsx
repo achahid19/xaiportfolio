@@ -98,6 +98,7 @@ export function SiteHeader() {
             ))}
           </div>
           <div className="site-header__actions">
+            <ThemeToggle />
             <Link
               className="button button--primary site-header__cta"
               href="/guestbook"
