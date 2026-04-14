@@ -51,18 +51,21 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <button
-          type="button"
-          className="site-header__toggle"
-          aria-expanded={isOpen}
-          aria-controls="site-nav"
-          aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-          onClick={() => setIsOpen((open) => !open)}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
+        <div className="site-header__mobile-actions">
+          <ThemeToggle />
+          <button
+            type="button"
+            className="site-header__toggle"
+            aria-expanded={isOpen}
+            aria-controls="site-nav"
+            aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+            onClick={() => setIsOpen((open) => !open)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
 
         <nav
           id="site-nav"
@@ -83,7 +86,6 @@ export function SiteHeader() {
             ))}
           </div>
           <div className="site-header__actions">
-            <ThemeToggle />
             <Link
               className="button button--primary site-header__cta"
               href="/guestbook"

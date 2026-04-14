@@ -514,8 +514,14 @@ main,
   margin-left: 0.25rem;
 }
 
-.site-header__toggle {
+.site-header__mobile-actions {
   display: none;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.site-header__toggle {
+  display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 0.3rem;
@@ -1398,6 +1404,55 @@ textarea:focus-visible {
   margin: 1.25rem 0 2rem;
 }
 
+.article-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+  padding: 1.5rem 2rem;
+  border-radius: 16px;
+  border: 1px solid var(--card-border);
+  background: var(--surface-soft);
+}
+
+.article-cta__text {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--ink);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.article-cta__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+  padding: 0.6rem 1.25rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 160ms ease;
+  white-space: nowrap;
+}
+
+.article-cta__link:hover {
+  opacity: 0.82;
+}
+
+@media (max-width: 600px) {
+  .article-cta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem 1.25rem;
+  }
+}
+
 /* ============================================================
    N8N CREATOR STRIP
    ============================================================ */
@@ -2001,8 +2056,16 @@ textarea:focus-visible {
     padding: 0.8rem 0;
   }
 
+  .site-header__mobile-actions {
+    display: flex;
+  }
+
   .site-header__toggle {
     display: inline-flex;
+  }
+
+  .site-header__actions .theme-toggle {
+    display: none;
   }
 
   .site-header__nav {

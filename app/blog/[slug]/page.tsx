@@ -52,6 +52,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             className="prose"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
+
+          <div className="article-cta">
+            <p className="article-cta__text">
+              Working on a similar challenge in your business?
+            </p>
+            <a href="/contact" className="article-cta__link">
+              Let&rsquo;s talk <span aria-hidden="true">→</span>
+            </a>
+          </div>
         </article>
       </div>
     </section>
