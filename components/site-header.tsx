@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -16,6 +16,18 @@ const navItems = [
 export function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const headerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    function handleClickOutside(e: MouseEvent) {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
 
   function isItemActive(href: string) {
     if (href === "/") {
@@ -30,7 +42,7 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="site-header">
+    <header className="site-header" ref={headerRef}>
       <div className="container site-header__inner">
         <Link className="site-header__brand" href="/" onClick={() => setIsOpen(false)}>
           <span className="site-header__brand-mark" aria-hidden="true">
