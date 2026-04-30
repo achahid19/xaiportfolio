@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { profile } from "@/lib/site-data";
@@ -8,71 +7,57 @@ export function SiteFooter() {
   const socialLinks = profile.socialLinks.filter(
     (link) =>
       !link.href.includes("your-handle") &&
-      !link.href.includes("hello@example.com"),
+      !link.href.includes("hello@example.com")
   );
+  const emailLink = socialLinks.find((s) => s.label === "Email");
+  const email = emailLink?.href.replace("mailto:", "") ?? "";
 
   return (
-    <footer className="footer-note">
-      <div className="container footer-grid">
-        <div className="footer-brand">
-          <div className="footer-brand__lockup">
-            <span className="footer-brand__mark" aria-hidden="true">
-              <Image
-                src="/images/aix_logo_no_bg.png"
-                alt=""
-                width={500}
-                height={500}
-                className=""
-                sizes="(max-width: 640px) 52px, 64px"
-                suppressHydrationWarning
-              />
+    <footer className="site-footer">
+      <div className="footer-grid">
+        <div>
+          <Link className="logo" href="/">
+            <span className="logo-mark mono" aria-hidden="true">▲</span>
+            <span>
+              anasks<small>.dev</small>
             </span>
-            <div className="footer-brand__copy">
-              <span className="eyebrow">AI X Automation</span>
-              <h2 className="footer-title">Anas Chahid Ksabi</h2>
-            </div>
-          </div>
-          <p className="muted">
-            AI Agent & Workflow Automation Engineer helping businesses automate
-            complex processes, integrate systems, and unlock real operational
-            value through intelligent automation.
+          </Link>
+          <p className="footer-tag mono">
+            AI agents &amp; workflow automation, shipped.
+            <br />
+            Based in Casablanca · working worldwide.
           </p>
         </div>
 
-        <div className="footer-column">
-          <span className="muted-label">Explore</span>
-          <div className="footer-links">
-            <Link href="/">Home</Link>
-            <Link href="/#about">About</Link>
-            <Link href="/#projects">Projects</Link>
-            <Link href="/blog">Writing</Link>
-          </div>
+        <div className="footer-col">
+          <h5 className="mono">Pages</h5>
+          <Link href="/">Home</Link>
+          <Link href="/systems">Systems</Link>
+          <Link href="/blog">Notes</Link>
+          <Link href="/contact">Contact</Link>
+          <Link href="/guestbook">Guestbook</Link>
         </div>
 
-        <div className="footer-column">
-          <span className="muted-label">Connect</span>
-          <div className="footer-links">
-            <Link href="/contact">Contact</Link>
-            <Link href="/guestbook">Guestbook</Link>
-            {socialLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {link.label}
+        <div className="footer-col">
+          <h5 className="mono">Elsewhere</h5>
+          {socialLinks
+            .filter((s) => s.label !== "Email")
+            .map((s) => (
+              <a key={s.label} href={s.href} target="_blank" rel="noreferrer">
+                {s.label} ↗
               </a>
             ))}
-          </div>
         </div>
 
-        <div className="footer-bottom">
-          <span>© {currentYear} Anas Chahid Ksabi</span>
-          <a href="https://aixautomation.tech" target="_blank" rel="noreferrer">
-            aixautomation.tech
-          </a>
+        <div className="footer-col">
+          <h5 className="mono">Direct</h5>
+          {email && <a href={`mailto:${email}`}>{email}</a>}
         </div>
+      </div>
+
+      <div className="footer-bottom mono">
+        <span>© {currentYear} {profile.name} · Built clean, shipped fast.</span>
+        <span>v3.0 · redesigned 2026.04</span>
       </div>
     </footer>
   );

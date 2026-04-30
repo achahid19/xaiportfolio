@@ -1,274 +1,246 @@
 import Link from "next/link";
-import { Github, Linkedin, Mail, Twitter, Workflow, BrainCircuit, Plug, ArrowRight } from "lucide-react";
-import type { ReactNode } from "react";
 
-import { profile, systems } from "@/lib/site-data";
+import { Magnetic } from "@/components/magnetic";
+import { SystemsGrid } from "@/components/systems-grid";
+import { Workflow } from "@/components/workflow";
 import { getBlogPosts } from "@/lib/blog";
-import { N8N_TEMPLATE_COUNT } from "@/lib/n8n";
-import { SystemsCarousel } from "@/components/systems-carousel";
-
-const socialIcons: Record<string, ReactNode> = {
-  GitHub: <Github size={15} strokeWidth={2.2} />,
-  LinkedIn: <Linkedin size={15} strokeWidth={2.2} />,
-  Email: <Mail size={15} strokeWidth={2.2} />,
-  X: <Twitter size={15} strokeWidth={2.2} />,
-};
-
-const services = [
-  {
-    icon: <Workflow size={20} strokeWidth={2} />,
-    title: "Process Automation",
-    description:
-      "Turn complex, multi-step business processes into reliable automated workflows. From lead handling to ops pipelines — I build systems that scale without adding headcount.",
-  },
-  {
-    icon: <BrainCircuit size={20} strokeWidth={2} />,
-    title: "AI Agent Development",
-    description:
-      "Deploy intelligent agents that research, decide, and act autonomously — handling tasks that previously required human judgment, at a fraction of the cost and time.",
-  },
-  {
-    icon: <Plug size={20} strokeWidth={2} />,
-    title: "System Integration",
-    description:
-      "Break down tool silos. I connect your CRMs, APIs, databases, and communication channels into a unified data layer that powers smarter, faster decisions.",
-  },
-];
+import {
+  heroMetrics,
+  profile,
+  proofMetrics,
+  services,
+  systems,
+  testimonials,
+  trustTools
+} from "@/lib/site-data";
 
 export default async function HomePage() {
   const posts = await getBlogPosts();
-  const n8nCount = N8N_TEMPLATE_COUNT;
   const featuredSystems = systems.filter((s) => s.featured);
   const systemCount = systems.length;
-  const socialLinks = profile.socialLinks.filter(
-    (link) =>
-      !link.href.includes("your-handle") &&
-      !link.href.includes("hello@example.com"),
-  );
 
   return (
     <>
-      {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="page-hero">
+      {/* ── HERO ────────────────────────────────────────────── */}
+      <section className="hero">
         <div className="container hero-grid">
-          <div className="hero-main">
-            <span className="eyebrow">{profile.headline}</span>
-            <h1 className="hero-title">{profile.name}</h1>
-            <p className="hero-copy">{profile.longBio}</p>
+          <div>
+            <div className="hero-status mono">
+              <span className="status-dot" />
+              {systemCount} systems in production · Open to new work
+            </div>
+            <h1 className="hero-title">
+              I build <span className="accent">AI agents</span>
+              <br />
+              and <span className="stroke">automation</span>
+              <br />
+              that pay for themselves.
+            </h1>
+            <p className="hero-copy">
+              I&rsquo;m {profile.name} — an automation engineer turning slow,
+              manual ops into reliable AI-powered systems. Real ROI, not demos.
+            </p>
             <div className="hero-actions">
-              <Link className="button button--primary" href="/contact">
-                Let&apos;s work together
-                <ArrowRight size={16} strokeWidth={2.2} />
+              <Magnetic>
+                <Link className="btn btn-primary" href="/contact">
+                  Discuss a workflow →
+                </Link>
+              </Magnetic>
+              <Link className="btn btn-secondary" href="/systems">
+                See {systemCount} systems shipped
               </Link>
-              <Link className="button button--secondary" href="#projects">
-                View my work
-              </Link>
-            </div>
-            <div className="hero-proof-grid">
-              <article className="hero-proof-card">
-                <span className="muted-label">Focus</span>
-                <strong>AI &amp; automation</strong>
-              </article>
-              <article className="hero-proof-card">
-                <span className="muted-label">Base</span>
-                <strong>{profile.location}</strong>
-              </article>
-              <article className="hero-proof-card">
-                <span className="muted-label">Open to</span>
-                <strong>Freelance&nbsp;· CDI</strong>
-              </article>
-              <article className="hero-proof-card hero-proof-card--accent" style={{ borderColor: "var(--accent)" }}>
-                <span className="muted-label">Systems built</span>
-                <strong>{systemCount}<span className="proof-plus">+</span></strong>
-              </article>
             </div>
 
-            {/* ── n8n Credentials ───────────────────────────── */}
-            <div className="n8n-creds">
-              <span className="n8n-creds__brand" aria-label="n8n">n8n</span>
-
-              <div className="n8n-creds__pills">
-                {/* Creator pill */}
-                <a
-                  href="https://n8n.io/creators/anasks/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="n8n-pill"
-                >
-                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                    <path d="M6 0L7.5 4.5H12L8.25 7.25L9.75 11.75L6 9L2.25 11.75L3.75 7.25L0 4.5H4.5L6 0Z" fill="#FF6D5A"/>
-                  </svg>
-                  <span>Verified Creator</span>
-                  <span className="n8n-pill__count">{n8nCount || 1} template{n8nCount !== 1 ? "s" : ""}</span>
-                  <span className="n8n-pill__arrow" aria-hidden="true">↗</span>
-                </a>
-
-                {/* Level 1 badge pill */}
-                <a
-                  href="https://community.n8n.io/badges/104/completed-n8n-course-level-1?username=anasks"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="n8n-pill n8n-pill--cert"
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <circle cx="12" cy="14" r="7" stroke="#FF6D5A" strokeWidth="2"/>
-                    <path d="M9 14l2 2 4-4" stroke="#FF6D5A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M8.5 7.5L7 3h10l-1.5 4.5" stroke="#FF6D5A" strokeWidth="1.5" strokeLinecap="round"/>
-                  </svg>
-                  <span>Course Level 1</span>
-                  <span className="n8n-pill__arrow" aria-hidden="true">↗</span>
-                </a>
-
-                {/* Level 2 badge pill */}
-                <a
-                  href="https://community.n8n.io/badges/105/completed-n8n-course-level-2?username=anasks"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="n8n-pill n8n-pill--cert"
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <circle cx="12" cy="14" r="7" stroke="#FF6D5A" strokeWidth="2"/>
-                    <path d="M9 14l2 2 4-4" stroke="#FF6D5A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M8.5 7.5L7 3h10l-1.5 4.5" stroke="#FF6D5A" strokeWidth="1.5" strokeLinecap="round"/>
-                    <circle cx="12" cy="14" r="3" fill="#FF6D5A" opacity="0.25"/>
-                  </svg>
-                  <span>Course Level 2</span>
-                  <span className="n8n-pill__arrow" aria-hidden="true">↗</span>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="hero-side">
-            <article className="portrait-card">
-              <div className="portrait-card__media" suppressHydrationWarning>
-                <img
-                  src="/images/portrait.png?v=2"
-                  alt={`${profile.name} portrait`}
-                  className="portrait-card__photo"
-                  suppressHydrationWarning
-                />
-              </div>
-              <div className="portrait-card__caption">
-                <p className="muted" style={{ fontSize: "0.9rem", margin: 0 }}>
-                  Helping businesses automate processes, reduce operational costs,
-                  and scale intelligently with AI.
-                </p>
-                {socialLinks.length > 0 && (
-                  <div className="portrait-card__links">
-                    {socialLinks.map((link) => (
-                      <a
-                        key={link.label}
-                        className="button button--secondary button--small portrait-card__link"
-                        href={link.href}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <span className="portrait-card__link-icon" aria-hidden="true">
-                          {socialIcons[link.label] ?? <Mail size={15} />}
-                        </span>
-                        <span className="portrait-card__link-label">{link.label}</span>
-                      </a>
-                    ))}
+            <div className="hero-stats">
+              {heroMetrics.map((m) => (
+                <div key={m.label} className="hero-stat">
+                  <div className="num mono">
+                    <span className="accent">{m.v}</span>
                   </div>
-                )}
-                <div className="portrait-card__cta">
-                  <Link className="button button--primary button--small" href="/contact">
-                    Discuss a workflow
-                  </Link>
+                  <div className="label mono">{m.label}</div>
                 </div>
-              </div>
-            </article>
+              ))}
+            </div>
           </div>
 
+          <div>
+            <Workflow />
+          </div>
         </div>
       </section>
 
-      {/* ── SERVICES ─────────────────────────────────────────── */}
-      <section className="section section--alt" id="services">
+      {/* ── TRUST STRIP ─────────────────────────────────────── */}
+      <section className="container animate-in" style={{ paddingBottom: "32px" }}>
+        <div className="logo-row mono">
+          <span className="lbl">Built with</span>
+          {trustTools.map((t, i) => (
+            <span key={t}>
+              {i > 0 && "· "}
+              {t}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      {/* ── SERVICES ────────────────────────────────────────── */}
+      <section className="section" id="services">
         <div className="container">
           <div className="section-head animate-in">
-            <div>
-              <span className="eyebrow">What I deliver</span>
-              <h2 className="section-title">Automation that drives real business outcomes</h2>
+            <div className="row">
+              <div>
+                <div className="eyebrow mono">What I deliver</div>
+                <h2 className="section-title">
+                  Three capabilities. Every system I ship is one of them.
+                </h2>
+              </div>
+              <p className="section-sub">
+                Every engagement starts with a measurable business problem.
+                Tools come second.
+              </p>
             </div>
-            <p className="section-copy">
-              Three capabilities that turn operational complexity into competitive advantage.
-            </p>
           </div>
-
-          <div className="services-grid">
-            {services.map((service, i) => (
-              <article
-                key={service.title}
-                className="service-card animate-in"
-                style={{ transitionDelay: `${i * 90}ms` }}
-              >
-                <div className="service-card__icon" aria-hidden="true">
-                  {service.icon}
-                </div>
-                <h3>{service.title}</h3>
-                <p>{service.description}</p>
+          <div className="services-grid animate-in">
+            {services.map((s) => (
+              <article key={s.num} className="service">
+                <div className="service-num mono">{s.num} / 03</div>
+                <h3>{s.title}</h3>
+                <p>{s.desc}</p>
+                <Link href="/systems" className="service-arrow mono">
+                  View related systems →
+                </Link>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── SELECTED SYSTEMS ─────────────────────────────────── */}
-      <section className="section" id="projects">
+      {/* ── SYSTEMS PREVIEW ─────────────────────────────────── */}
+      <section className="section" id="systems-preview">
         <div className="container">
           <div className="section-head animate-in">
-            <div>
-              <span className="eyebrow">Selected work</span>
-              <h2 className="section-title">Systems built to deliver results</h2>
-            </div>
-            <Link className="systems-count-badge" href="/systems">
-              <span className="systems-count-badge__num">{systemCount}</span>
-              systems in the library →
-            </Link>
-          </div>
-          <SystemsCarousel systems={featuredSystems} />
-        </div>
-      </section>
-
-      {/* ── ABOUT + SKILLS ───────────────────────────────────── */}
-      <section className="section section--alt" id="about">
-        <div className="container">
-          <div className="about-row">
-            <article className="panel animate-in">
-              <span className="eyebrow" style={{ marginBottom: "1rem", display: "inline-flex" }}>
-                About me
-              </span>
-              <h3>Business value first, technology second</h3>
-              <p className="muted">{profile.shortBio}</p>
-              <p className="muted" style={{ marginTop: "0.75rem" }}>
-                I approach every project as a business problem first. The
-                automation is the vehicle — the outcome is faster processes,
-                lower costs, and systems your team can actually trust and own.
-              </p>
-              <div className="hero-actions" style={{ marginTop: "1.25rem" }}>
-                <Link className="button button--secondary" href="/blog">
-                  Read my notes
-                </Link>
+            <div className="row">
+              <div>
+                <div className="eyebrow mono">
+                  Selected work · {systemCount} in production
+                </div>
+                <h2 className="section-title">Systems built to deliver results.</h2>
               </div>
-            </article>
+              <Magnetic>
+                <Link className="btn btn-secondary" href="/systems">
+                  Explore the library →
+                </Link>
+              </Magnetic>
+            </div>
+          </div>
+          <div className="animate-in">
+            <SystemsGrid systems={featuredSystems} />
+          </div>
+        </div>
+      </section>
 
-            <div className="animate-in" style={{ transitionDelay: "100ms" }}>
-              <article className="panel" style={{ marginBottom: "1.25rem" }}>
-                <h3 style={{ fontSize: "1.1rem", marginBottom: "0.5rem" }}>Skills</h3>
-                <div className="skills-wrap">
-                  {profile.skills.map((skill) => (
-                    <span key={skill} className="skill-tag">{skill}</span>
+      {/* ── PROOF / RESULTS ─────────────────────────────────── */}
+      <section className="section" id="results">
+        <div className="container">
+          <div className="about animate-in">
+            <div className="about-text">
+              <div className="eyebrow mono">Outcomes, in numbers</div>
+              <h2 className="section-title" style={{ margin: "12px 0 24px" }}>
+                I don&rsquo;t ship demos. I ship systems that move metrics.
+              </h2>
+              <p>
+                Every system in the library was built to fix a measurable
+                operational pain. Below are the deltas — measured before /
+                after, in production.
+              </p>
+              <p>
+                <strong>The pattern:</strong> identify the silent cost, isolate
+                it, automate the loop, and hand back something the team can own
+                without me.
+              </p>
+              <div className="hero-actions" style={{ marginTop: "24px" }}>
+                <Magnetic>
+                  <Link className="btn btn-primary" href="/contact">
+                    Bring me a workflow →
+                  </Link>
+                </Magnetic>
+              </div>
+            </div>
+            <div>
+              <article className="about-card">
+                <h4 className="mono">Measured impact across systems</h4>
+                <ul className="metric-list mono">
+                  {proofMetrics.map((m) => (
+                    <li key={m.k}>
+                      <span style={{ fontFamily: "var(--font-body)" }}>{m.k}</span>
+                      <span className="v">{m.v}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+              <article className="about-card">
+                <h4 className="mono">What clients say</h4>
+                {testimonials.map((t, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      marginBottom: i === 0 ? "18px" : 0,
+                      paddingBottom: i === 0 ? "18px" : 0,
+                      borderBottom: i === 0 ? "1px dashed var(--hairline)" : "none"
+                    }}
+                  >
+                    <p style={{ fontSize: "14.5px", lineHeight: 1.55, color: "var(--fg)" }}>
+                      &ldquo;{t.quote}&rdquo;
+                    </p>
+                    <p
+                      className="mono"
+                      style={{
+                        fontSize: "11px",
+                        color: "var(--fg-dim)",
+                        marginTop: "8px",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em"
+                      }}
+                    >
+                      — {t.who}
+                    </p>
+                  </div>
+                ))}
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── ABOUT / SKILLS ──────────────────────────────────── */}
+      <section className="section" id="about">
+        <div className="container">
+          <div className="about animate-in">
+            <div className="about-text">
+              <div className="eyebrow mono">About</div>
+              <h2 className="section-title" style={{ margin: "12px 0 24px" }}>
+                Business value first, technology second.
+              </h2>
+              <p>{profile.longBio}</p>
+              <p>
+                With a background in finance, I read the business logic behind
+                every workflow — so what I build drives ROI, not technical
+                complexity.
+              </p>
+            </div>
+            <div>
+              <article className="about-card">
+                <h4 className="mono">Skills</h4>
+                <div className="tag-row">
+                  {profile.skills.map((s) => (
+                    <span key={s} className="tool mono">{s}</span>
                   ))}
                 </div>
               </article>
-
-              <article className="panel">
-                <h3 style={{ fontSize: "1.1rem", marginBottom: "0.5rem" }}>Tools I reach for</h3>
-                <div className="skills-wrap">
-                  {profile.tools.map((tool) => (
-                    <span key={tool} className="skill-tag">{tool}</span>
+              <article className="about-card">
+                <h4 className="mono">Tools I reach for</h4>
+                <div className="tag-row">
+                  {profile.tools.map((s) => (
+                    <span key={s} className="tool mono">{s}</span>
                   ))}
                 </div>
               </article>
@@ -277,68 +249,60 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── WRITING TEASER ───────────────────────────────────── */}
+      {/* ── NOTES TEASER ────────────────────────────────────── */}
       {posts.length > 0 && (
-        <section className="section" id="writing">
+        <section className="section" id="notes">
           <div className="container">
             <div className="section-head animate-in">
-              <div>
-                <span className="eyebrow">Writing</span>
-                <h2 className="section-title">Notes on AI &amp; automation</h2>
+              <div className="row">
+                <div>
+                  <div className="eyebrow mono">Notes</div>
+                  <h2 className="section-title">Writing on AI &amp; automation.</h2>
+                </div>
+                <Link className="btn btn-secondary" href="/blog">
+                  All notes →
+                </Link>
               </div>
-              <Link className="button button--secondary" href="/blog">
-                All posts
-              </Link>
             </div>
-
-            <div className="writing-grid">
-              {posts.slice(0, 2).map((post, i) => (
-                <article
-                  key={post.slug}
-                  className="post-card animate-in"
-                  style={{ transitionDelay: `${i * 90}ms` }}
-                >
-                  <div className="post-card__header">
-                    <div>
-                      <span className="muted-label">{post.date}</span>
-                      <h3 className="post-card__title">{post.title}</h3>
-                    </div>
-                    <span className="chip">{post.tags[0]}</span>
+            <div className="blog-list animate-in">
+              {posts.slice(0, 3).map((p) => (
+                <Link key={p.slug} href={`/blog/${p.slug}`} className="post">
+                  <span className="post-date mono">{p.date}</span>
+                  <div className="post-body">
+                    <h3>{p.title}</h3>
+                    <p>{p.excerpt}</p>
                   </div>
-                  <p className="muted" style={{ marginTop: "0.75rem" }}>{post.excerpt}</p>
-                  <div style={{ marginTop: "1.25rem" }}>
-                    <Link className="button button--secondary" href={`/blog/${post.slug}`}>
-                      Read post
-                    </Link>
-                  </div>
-                </article>
+                  <span className="post-tag mono">
+                    {p.tags[0] ?? "Note"} →
+                  </span>
+                </Link>
               ))}
             </div>
           </div>
         </section>
       )}
 
-      {/* ── CTA ──────────────────────────────────────────────── */}
-      <section className="cta-section">
-        <div className="container">
-          <div className="cta-inner animate-in">
-            <div className="cta-glow" aria-hidden="true" />
-            <span className="eyebrow">Ready to move faster?</span>
-            <h2 className="cta-title">Let&apos;s turn your process into a competitive edge</h2>
-            <p className="cta-copy">
-              Whether you have a clear scope or just a pain point worth solving —
-              let&apos;s talk. I&apos;ll help you identify where automation
-              delivers the most value and build a system that actually ships.
-            </p>
-            <div className="cta-actions">
-              <Link className="button button--primary" href="/contact">
-                Start the conversation
-                <ArrowRight size={16} strokeWidth={2.2} />
+      {/* ── CTA ─────────────────────────────────────────────── */}
+      <section className="cta">
+        <div className="cta-inner animate-in">
+          <div className="eyebrow mono" style={{ justifyContent: "center", display: "inline-flex" }}>
+            Ready to move faster?
+          </div>
+          <h2>Let&rsquo;s turn your process into a competitive edge.</h2>
+          <p>
+            Whether you have a clear scope or just a pain point worth solving —
+            let&rsquo;s talk. I&rsquo;ll help you identify where automation
+            delivers the most value and build the system.
+          </p>
+          <div className="cta-actions">
+            <Magnetic>
+              <Link className="btn btn-primary" href="/contact">
+                Start the conversation →
               </Link>
-              <Link className="button button--secondary" href="/guestbook">
-                Leave a note
-              </Link>
-            </div>
+            </Magnetic>
+            <Link className="btn btn-secondary" href="/systems">
+              Browse systems library
+            </Link>
           </div>
         </div>
       </section>

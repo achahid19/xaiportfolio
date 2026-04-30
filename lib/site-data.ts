@@ -1,4 +1,12 @@
-import type { Profile, Project, System } from "@/lib/types";
+import type {
+  HeroMetric,
+  ProofMetric,
+  Profile,
+  Project,
+  Service,
+  System,
+  Testimonial
+} from "@/lib/types";
 
 export const profile: Profile = {
   name: "Anas Chahid Ksabi",
@@ -91,8 +99,9 @@ export const projects: Project[] = [
 ];
 
 export const systems: System[] = [
-  // ── FEATURED (carousel on homepage) ──────────────────────────────
+  // ── FEATURED (homepage preview grid) ─────────────────────────────
   {
+    id: "S-001",
     title: "Package Eval Agent",
     problem: "Manual package due diligence eats 30+ min per library and still gets skipped under pressure.",
     result: "Structured go/no-go recommendation delivered to Slack in under 10 seconds.",
@@ -102,6 +111,7 @@ export const systems: System[] = [
     featured: true
   },
   {
+    id: "S-002",
     title: "Daily Sprint Briefing",
     problem: "Teams waste 15–30 min every morning manually reviewing Jira to figure out what's critical.",
     result: "Full AI sprint health report in the inbox at 8 AM — readable in 30 seconds.",
@@ -111,6 +121,7 @@ export const systems: System[] = [
     featured: true
   },
   {
+    id: "S-003",
     title: "Priority Ticket Alert Hub",
     problem: "High-priority tickets sit unnoticed for hours — delayed responses compound sprint risk.",
     result: "Critical ticket response time cut from hours to under 5 minutes across Slack, Gmail & Google Chat.",
@@ -120,6 +131,7 @@ export const systems: System[] = [
     featured: true
   },
   {
+    id: "S-004",
     title: "Jira → Google Calendar Sync",
     problem: "Jira due dates are invisible in calendar tools — deadlines get missed or duplicated manually.",
     result: "Every Jira due date becomes a calendar event instantly — no manual duplication, no missed deadlines.",
@@ -129,6 +141,7 @@ export const systems: System[] = [
     featured: true
   },
   {
+    id: "S-005",
     title: "Weekly Sprint Report",
     problem: "Weekly reporting eats 30–60 minutes of manual Jira pulls, metric computation, and formatting.",
     result: "1 hour of manual reporting eliminated every week — leadership gets full sprint visibility automatically.",
@@ -139,6 +152,7 @@ export const systems: System[] = [
   },
   // ── LIBRARY ───────────────────────────────────────────────────────
   {
+    id: "S-006",
     title: "Sprint Blocker Radar",
     problem: "Blocked sprint issues go unnoticed for days, silently delaying delivery until retrospectives.",
     result: "Blockers surface within 24 hours — before they cascade into sprint delays.",
@@ -147,6 +161,7 @@ export const systems: System[] = [
     tools: ["Jira", "Gmail", "n8n"]
   },
   {
+    id: "S-007",
     title: "Daily Automation Backup",
     problem: "n8n has no built-in version control — one misconfiguration could wipe weeks of automation work.",
     result: "100% of automations versioned daily to GitHub — full recovery in under 5 minutes.",
@@ -155,6 +170,7 @@ export const systems: System[] = [
     tools: ["n8n", "GitHub"]
   },
   {
+    id: "S-008",
     title: "Blocker Accountability Engine",
     problem: "Blocked tickets linger with no owner or resolution plan, draining sprint capacity silently.",
     result: "Every blocker beyond 2 days gets a follow-up subtask and an owner — no ticket stays stuck.",
@@ -163,6 +179,7 @@ export const systems: System[] = [
     tools: ["Jira", "n8n"]
   },
   {
+    id: "S-009",
     title: "Live Issue Change Propagator",
     problem: "Jira updates don't sync to calendar — teams work off stale deadlines and miss rescheduled work.",
     result: "Calendar and Jira stay in sync within seconds of any change — zero stale deadlines.",
@@ -171,6 +188,7 @@ export const systems: System[] = [
     tools: ["Jira", "Google Calendar", "Gmail", "Postgres", "n8n"]
   },
   {
+    id: "S-010",
     title: "Smart Ticket Auto-Assigner",
     problem: "New Jira issues sit unassigned, stalling triage and adding friction to every sprint planning session.",
     result: "Unassigned tickets drop to 0 — every new issue has an owner within seconds of creation.",
@@ -179,6 +197,7 @@ export const systems: System[] = [
     tools: ["Jira", "n8n"]
   },
   {
+    id: "S-011",
     title: "Deadline Escalation Engine",
     problem: "Approaching deadlines go unnoticed until overdue — managers learn about slippage in status meetings.",
     result: "3-level escalation (reminder → warning → manager alert) ensures no deadline slips without accountability.",
@@ -186,6 +205,62 @@ export const systems: System[] = [
     category: "Deadline Management",
     tools: ["Jira", "Gmail", "n8n"]
   }
+];
+
+export const heroMetrics: HeroMetric[] = [
+  { v: "11+", label: "Systems shipped" },
+  { v: "<5min", label: "P1 ticket response" },
+  { v: "30→0.1", label: "Eval minutes / package" }
+];
+
+export const proofMetrics: ProofMetric[] = [
+  { k: "Critical ticket response", v: "hours → <5 min" },
+  { k: "Manual reporting eliminated", v: "1 hr / week" },
+  { k: "Package due diligence", v: "30 min → 10 sec" },
+  { k: "Sprint blocker discovery", v: "5 days → 24 hrs" },
+  { k: "Automation backups", v: "100% daily" }
+];
+
+export const services: Service[] = [
+  {
+    num: "01",
+    title: "Process Automation",
+    desc: "Multi-step business processes turned into reliable, observable workflows. Lead handling, ops pipelines, internal tools that scale without adding headcount."
+  },
+  {
+    num: "02",
+    title: "AI Agent Development",
+    desc: "Agents that research, decide, and act — handling tasks that used to need human judgment. Built with guardrails, logged, and reviewable."
+  },
+  {
+    num: "03",
+    title: "System Integration",
+    desc: "Connecting CRMs, APIs, databases and channels into one data layer your team can trust. Less tool-tax, more signal."
+  }
+];
+
+export const testimonials: Testimonial[] = [
+  {
+    quote:
+      "Anas turned a process we were dreading into a system we now lean on every day. Clear thinking, clean delivery.",
+    who: "Operations Lead, B2B SaaS"
+  },
+  {
+    quote:
+      "He built faster than our internal team thought possible — and the workflow has run untouched for months.",
+    who: "Founder, Product Studio"
+  }
+];
+
+export const trustTools = [
+  "n8n",
+  "OpenAI",
+  "Claude",
+  "Firecrawl",
+  "Postgres",
+  "Vercel",
+  "Slack",
+  "Jira"
 ];
 
 export const timeline = [

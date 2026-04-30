@@ -14,7 +14,7 @@ export function SubmitButton({
   const { pending } = useFormStatus();
 
   return (
-    <button className="button button--primary" type="submit" disabled={pending}>
+    <button className="btn btn-primary" type="submit" disabled={pending}>
       {pending ? pendingLabel : idleLabel}
     </button>
   );
