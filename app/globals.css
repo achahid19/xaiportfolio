@@ -2707,3 +2707,58 @@ textarea:focus-visible {
   color: var(--ink);
   font-weight: 500;
 }
+
+/* ── Systems count metric styles ─────────────────────────── */
+
+/* 4-card proof grid — remove last-child span on mobile */
+.hero-proof-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.hero-proof-grid .hero-proof-card:last-child {
+  grid-column: auto;
+}
+
+/* Accent card for "Systems built" */
+.hero-proof-card--accent {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.hero-proof-card--accent strong {
+  color: var(--accent);
+}
+
+.proof-plus {
+  font-size: 0.75em;
+  margin-left: 1px;
+  opacity: 0.7;
+}
+
+/* Systems count badge in section head */
+.systems-count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  background: var(--chip-bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+  text-decoration: none;
+}
+
+.systems-count-badge:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.systems-count-badge__num {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--accent);
+}

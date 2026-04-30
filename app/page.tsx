@@ -39,6 +39,7 @@ export default async function HomePage() {
   const posts = await getBlogPosts();
   const n8nCount = N8N_TEMPLATE_COUNT;
   const featuredSystems = systems.filter((s) => s.featured);
+  const systemCount = systems.length;
   const socialLinks = profile.socialLinks.filter(
     (link) =>
       !link.href.includes("your-handle") &&
@@ -75,6 +76,10 @@ export default async function HomePage() {
               <article className="hero-proof-card">
                 <span className="muted-label">Open to</span>
                 <strong>Freelance&nbsp;· CDI</strong>
+              </article>
+              <article className="hero-proof-card hero-proof-card--accent">
+                <span className="muted-label">Systems built</span>
+                <strong>{systemCount}<span className="proof-plus">+</span></strong>
               </article>
             </div>
 
@@ -218,6 +223,10 @@ export default async function HomePage() {
               <span className="eyebrow">Selected work</span>
               <h2 className="section-title">Systems built to deliver results</h2>
             </div>
+            <Link className="systems-count-badge" href="/systems">
+              <span className="systems-count-badge__num">{systemCount}</span>
+              systems in the library →
+            </Link>
           </div>
           <SystemsCarousel systems={featuredSystems} />
         </div>
