@@ -2066,94 +2066,114 @@ h3 {
 /* ============================================================
    RESPONSIVE
    ============================================================ */
+/* ============================================================
+   RESPONSIVE — tablet (≤960px)
+   ============================================================ */
 @media (max-width: 960px) {
   .hero-grid {
     grid-template-columns: 1fr;
     gap: 48px;
   }
+
+  /* Workflow only shown on desktop */
+  .hero-grid > div:last-child {
+    display: none;
+  }
+
+  .hero-copy {
+    max-width: 100%;
+  }
+
   .carousel-row {
     grid-template-columns: 1fr;
   }
+
   .carousel-card:first-child {
     border-right: none;
     border-bottom: 1px solid var(--line);
   }
-}
 
-@media (max-width: 880px) {
   .about {
     grid-template-columns: 1fr;
     gap: 40px;
   }
+
+  .services-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
   .contact-grid {
     grid-template-columns: 1fr;
     gap: 40px;
   }
+
   .contact-aside {
     border-left: 0;
     padding-left: 0;
     padding-top: 32px;
     border-top: 1px solid var(--line-soft);
   }
+
   .split-grid {
     grid-template-columns: 1fr;
     gap: 32px;
   }
-}
 
-@media (max-width: 860px) {
-  .services-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 760px) {
-  .systems-grid {
-    grid-template-columns: 1fr;
-  }
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-  }
-  .grid-2 {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 720px) {
-  .post {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    padding: 20px 8px;
-  }
-  .post-tag {
-    text-align: left;
-  }
-}
-
-@media (max-width: 760px) {
   .gb-grid {
     grid-template-columns: 1fr;
   }
+
   .gb-form-card {
     position: static;
   }
 }
 
+/* ============================================================
+   RESPONSIVE — mobile (≤700px)
+   ============================================================ */
 @media (max-width: 700px) {
+  /* Layout */
+  .container {
+    padding: 0 18px;
+  }
+
+  .section {
+    padding: 56px 0;
+  }
+
+  .section-head {
+    margin-bottom: 36px;
+  }
+
+  /* Nav */
   .nav {
-    padding: 12px 20px;
+    padding: 12px 18px;
     flex-wrap: wrap;
+    gap: 0;
     position: relative;
   }
+
+  .logo-text {
+    font-size: 11px;
+  }
+
   .nav-toggle {
     display: flex;
     order: 2;
+    margin-left: auto;
   }
+
   .nav-cta {
     order: 1;
     margin-left: auto;
+    /* Hide "Book a call" on very small screens — keep theme toggle */
   }
+
+  .nav-cta .btn-primary {
+    display: none;
+  }
+
   .nav-links {
     order: 3;
     width: 100%;
@@ -2162,59 +2182,253 @@ h3 {
     gap: 0;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.25s ease;
+    transition: max-height 0.28s ease;
+    padding: 0 4px;
   }
+
   .nav-links.nav-links--open {
-    max-height: 320px;
-    margin-top: 8px;
-    padding-top: 8px;
+    max-height: 360px;
+    margin-top: 10px;
+    padding-top: 10px;
     border-top: 1px solid var(--line-soft);
   }
+
+  .nav-links li {
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .nav-links li:last-child {
+    border-bottom: none;
+  }
+
   .nav-links a {
-    padding: 12px 8px;
-    border-radius: 2px;
+    display: block;
+    padding: 14px 8px;
+    font-size: 14px;
   }
-  .container {
-    padding: 0 20px;
-  }
-  .section {
-    padding: 64px 0;
-  }
+
+  /* Hero */
   .hero {
-    padding-top: 48px;
-    padding-bottom: 64px;
+    padding-top: 40px;
+    padding-bottom: 56px;
   }
+
+  .hero-status {
+    font-size: 11px;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+  }
+
+  .hero-title {
+    margin-bottom: 16px;
+  }
+
+  .hero-copy {
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+
   .hero-actions {
-    margin-bottom: 32px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 36px;
   }
+
+  .hero-actions .btn {
+    text-align: center;
+    justify-content: center;
+  }
+
   .hero-stats {
     flex-direction: column;
     align-items: flex-start;
     min-height: unset;
+    border-top: 1px solid var(--line-soft);
   }
+
   .hero-stat {
     border-right: none;
     border-bottom: 1px solid var(--line-soft);
     padding: 14px 0;
     width: 100%;
   }
+
   .hero-badges {
-    padding: 14px 0;
+    padding: 16px 0 12px;
     width: 100%;
-    gap: 8px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
+
   .hero-badge-row {
     gap: 6px;
+    flex-wrap: wrap;
   }
+
+  .hero-badge {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+
+  /* Services */
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Systems grid (on /systems page) */
+  .systems-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Carousel */
+  .carousel-card {
+    padding: 20px;
+  }
+
+  .carousel-controls {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .carousel-dots {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* Blog list */
+  .post {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 20px 0;
+  }
+
+  .post-date {
+    font-size: 10px;
+  }
+
+  .post-tag {
+    text-align: left;
+  }
+
+  /* Proof / results */
+  .metric-list li {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .metric-list .v {
+    text-align: left;
+  }
+
+  /* About cards */
+  .about-card {
+    padding: 20px;
+  }
+
+  .tag-row {
+    gap: 6px;
+  }
+
+  /* CTA section */
   .cta {
-    padding: 64px 16px;
+    padding: 56px 0;
   }
+
   .cta-inner {
-    padding: 40px 24px;
+    padding: 36px 20px;
   }
+
+  .cta-inner h2 {
+    font-size: clamp(24px, 7vw, 36px);
+  }
+
+  .cta-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .cta-actions .btn {
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* Blog article */
   .article-cta {
     flex-direction: column;
     align-items: flex-start;
+    gap: 14px;
+  }
+
+  /* Footer */
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 24px;
+  }
+
+  .footer-grid > div:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+
+  /* Page hero (blog, systems, contact, guestbook) */
+  .page-hero {
+    padding: 64px 0 28px;
+  }
+
+  .page-hero h1 {
+    font-size: clamp(28px, 8vw, 44px);
+  }
+
+  /* Contact */
+  .contact-form {
+    gap: 18px;
+  }
+
+  /* Guestbook */
+  .gb-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .gb-form-card {
+    position: static;
+    padding: 22px;
+  }
+
+  .entry-card {
+    padding: 16px 18px;
+  }
+
+  .guestbook-feed__header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Filter bar (systems page) */
+  .filter-bar {
+    gap: 6px;
+    padding: 12px 0;
+  }
+
+  .filter-pill {
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+
+  /* Prose / article */
+  .prose {
+    font-size: 15px;
+  }
+
+  .prose h2 {
+    font-size: clamp(20px, 5vw, 28px);
   }
 }
