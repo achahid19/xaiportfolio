@@ -73,7 +73,7 @@ export default async function HomePage() {
               </article>
               <article className="hero-proof-card">
                 <span className="muted-label">Open to</span>
-                <strong>Freelance work</strong>
+                <strong>Freelance&nbsp;· CDI</strong>
               </article>
             </div>
 
@@ -104,13 +104,29 @@ export default async function HomePage() {
                   rel="noreferrer"
                   className="n8n-pill n8n-pill--cert"
                 >
-                  {/* Medal icon */}
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <circle cx="12" cy="14" r="7" stroke="#FF6D5A" strokeWidth="2"/>
                     <path d="M9 14l2 2 4-4" stroke="#FF6D5A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     <path d="M8.5 7.5L7 3h10l-1.5 4.5" stroke="#FF6D5A" strokeWidth="1.5" strokeLinecap="round"/>
                   </svg>
                   <span>Course Level 1</span>
+                  <span className="n8n-pill__arrow" aria-hidden="true">↗</span>
+                </a>
+
+                {/* Level 2 badge pill */}
+                <a
+                  href="https://community.n8n.io/badges/105/completed-n8n-course-level-2?username=anasks"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="n8n-pill n8n-pill--cert"
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="14" r="7" stroke="#FF6D5A" strokeWidth="2"/>
+                    <path d="M9 14l2 2 4-4" stroke="#FF6D5A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M8.5 7.5L7 3h10l-1.5 4.5" stroke="#FF6D5A" strokeWidth="1.5" strokeLinecap="round"/>
+                    <circle cx="12" cy="14" r="3" fill="#FF6D5A" opacity="0.25"/>
+                  </svg>
+                  <span>Course Level 2</span>
                   <span className="n8n-pill__arrow" aria-hidden="true">↗</span>
                 </a>
               </div>
