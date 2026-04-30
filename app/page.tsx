@@ -77,7 +77,7 @@ export default async function HomePage() {
                 <span className="muted-label">Open to</span>
                 <strong>Freelance&nbsp;· CDI</strong>
               </article>
-              <article className="hero-proof-card hero-proof-card--accent">
+              <article className="hero-proof-card hero-proof-card--accent" style={{ borderColor: "var(--accent)" }}>
                 <span className="muted-label">Systems built</span>
                 <strong>{systemCount}<span className="proof-plus">+</span></strong>
               </article>
