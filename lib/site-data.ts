@@ -106,7 +106,7 @@ export const systems: System[] = [
     problem: "Teams waste 15–30 min every morning manually reviewing Jira to figure out what's critical.",
     result: "Full AI sprint health report in the inbox at 8 AM — readable in 30 seconds.",
     impact: "When every team member starts the day aligned, standups get shorter and priorities stop shifting mid-sprint. That's hours recovered every week, compounding.",
-    category: "Sprint Intelligence",
+    category: "AI Reporting",
     tools: ["Jira", "OpenRouter", "Gmail", "Postgres", "n8n"],
     featured: true
   },
