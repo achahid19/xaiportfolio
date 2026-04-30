@@ -93,6 +93,14 @@ export const projects: Project[] = [
 export const systems: System[] = [
   // ── FEATURED (carousel on homepage) ──────────────────────────────
   {
+    title: "Package Eval Agent",
+    problem: "Manual package due diligence eats 30+ min per library and still gets skipped under pressure.",
+    result: "Structured go/no-go recommendation delivered to Slack in under 10 seconds.",
+    category: "AI Agent",
+    tools: ["n8n", "Firecrawl", "OpenAI", "Slack"],
+    featured: true
+  },
+  {
     title: "Daily Sprint Briefing",
     problem: "Teams waste 15–30 min every morning manually reviewing Jira to figure out what's critical.",
     result: "Full AI sprint health report in the inbox at 8 AM — readable in 30 seconds.",
