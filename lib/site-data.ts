@@ -45,7 +45,7 @@ export const profile: Profile = {
       label: "LinkedIn",
       href: "https://www.linkedin.com/in/anas-chahid-ksabi/?skipRedirect=true"
     },
-    { label: "Email", href: "mailto:anasks1999@gmail.com" },
+    { label: "Email", href: "mailto:aixautomation01@gmail.com" },
     { label: "X", href: "https://x.com/it_CryptoKs" }
   ]
 };
