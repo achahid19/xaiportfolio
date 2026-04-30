@@ -96,6 +96,7 @@ export const systems: System[] = [
     title: "Package Eval Agent",
     problem: "Manual package due diligence eats 30+ min per library and still gets skipped under pressure.",
     result: "Structured go/no-go recommendation delivered to Slack in under 10 seconds.",
+    impact: "One bad dependency can cost a team weeks of refactoring. This agent kills that risk before it hits your codebase — keeping velocity high and your stack clean.",
     category: "AI Agent",
     tools: ["n8n", "Firecrawl", "OpenAI", "Slack"],
     featured: true

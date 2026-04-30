@@ -46,6 +46,7 @@ export type System = {
   title: string;
   problem: string;
   result: string;
+  impact?: string;
   category: string;
   tools: string[];
   featured?: boolean;
