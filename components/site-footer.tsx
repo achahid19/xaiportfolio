@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { profile } from "@/lib/site-data";
@@ -17,9 +18,15 @@ export function SiteFooter() {
       <div className="footer-grid">
         <div>
           <Link className="logo" href="/">
-            <span className="logo-mark mono" aria-hidden="true">▲</span>
-            <span>
-              anasks<small>.dev</small>
+            <Image
+              src="/images/aix_logo_no_bg.png"
+              alt="AIX Automation"
+              width={32}
+              height={32}
+              className="logo-img"
+            />
+            <span className="logo-text">
+              AI X Automation
             </span>
           </Link>
           <p className="footer-tag mono">
@@ -56,7 +63,7 @@ export function SiteFooter() {
       </div>
 
       <div className="footer-bottom mono">
-        <span>© {currentYear} {profile.name} · Built clean, shipped fast.</span>
+        <span>© {currentYear} AI X Automation · Built clean, shipped fast.</span>
         <span>v3.0 · redesigned 2026.04</span>
       </div>
     </footer>

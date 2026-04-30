@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -41,9 +42,16 @@ export function SiteHeader() {
     <header className="site-header" ref={headerRef}>
       <nav className="nav">
         <Link className="logo" href="/" onClick={() => setIsOpen(false)}>
-          <span className="logo-mark mono" aria-hidden="true">▲</span>
-          <span>
-            anasks<small>.dev</small>
+          <Image
+            src="/images/aix_logo_no_bg.png"
+            alt="AIX Automation"
+            width={32}
+            height={32}
+            className="logo-img"
+            priority
+          />
+          <span className="logo-text">
+            AI X Automation
           </span>
         </Link>
 

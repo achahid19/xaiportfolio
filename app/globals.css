@@ -316,37 +316,26 @@ h3 {
   font-family: var(--font-mono-stack);
 }
 
-.logo-mark {
-  width: 26px;
-  height: 26px;
-  border: 1px solid var(--line);
-  background: var(--bg-card);
-  display: grid;
-  place-items: center;
-  font-size: 11px;
-  color: var(--accent);
-  position: relative;
+.logo-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  /* Keep logo visible in both themes */
+  filter: brightness(1);
 }
 
-.logo-mark::before,
-.logo-mark::after {
-  content: "";
-  position: absolute;
-  background: var(--accent);
+[data-theme="dark"] .logo-img {
+  /* Slight brightness boost so it pops on dark bg */
+  filter: brightness(1.15) drop-shadow(0 0 6px var(--accent-soft));
 }
 
-.logo-mark::before {
-  top: -2px;
-  left: -2px;
-  width: 4px;
-  height: 1px;
-}
-
-.logo-mark::after {
-  bottom: -2px;
-  right: -2px;
-  width: 4px;
-  height: 1px;
+.logo-text {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--fg);
+  font-family: var(--font-mono-stack);
+  text-transform: uppercase;
 }
 
 .logo small {
