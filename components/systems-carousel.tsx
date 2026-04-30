@@ -1,19 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import type { System } from "@/lib/types";
-
-const PER_PAGE = 2;
 
 type Props = {
   systems: System[];
 };
 
+function usePerPage() {
+  const [perPage, setPerPage] = useState(2); // default SSR = desktop
+
+  useEffect(() => {
+    function update() {
+      setPerPage(window.innerWidth <= 700 ? 1 : 2);
+    }
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  return perPage;
+}
+
 export function SystemsCarousel({ systems }: Props) {
-  const totalPages = Math.ceil(systems.length / PER_PAGE);
+  const perPage = usePerPage();
+  const totalPages = Math.ceil(systems.length / perPage);
   const [page, setPage] = useState(0);
   const [expanded, setExpanded] = useState<string | null>(null);
+
+  // Clamp page index when perPage changes (e.g. resize)
+  useEffect(() => {
+    setPage((p) => Math.min(p, Math.max(0, totalPages - 1)));
+  }, [totalPages]);
 
   function prev() {
     setExpanded(null);
@@ -25,11 +44,10 @@ export function SystemsCarousel({ systems }: Props) {
     setPage((p) => (p + 1) % totalPages);
   }
 
-  const visible = systems.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
+  const visible = systems.slice(page * perPage, page * perPage + perPage);
 
   return (
     <div className="carousel">
-      {/* 2-up card row */}
       <div className="carousel-row">
         {visible.map((s) => {
           const isExpanded = expanded === s.id;
@@ -90,7 +108,7 @@ export function SystemsCarousel({ systems }: Props) {
             type="button"
             className="carousel-btn mono"
             onClick={prev}
-            aria-label="Previous systems"
+            aria-label="Previous"
           >
             ←
           </button>
@@ -101,7 +119,7 @@ export function SystemsCarousel({ systems }: Props) {
             type="button"
             className="carousel-btn mono"
             onClick={next}
-            aria-label="Next systems"
+            aria-label="Next"
           >
             →
           </button>
