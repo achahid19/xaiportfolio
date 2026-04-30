@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { Magnetic } from "@/components/magnetic";
-import { SystemsCarousel } from "@/components/systems-carousel";
+import { SystemsGrid } from "@/components/systems-grid";
 import { Workflow } from "@/components/workflow";
 import { getBlogPosts } from "@/lib/blog";
 import {
@@ -15,7 +15,7 @@ import {
 
 export default async function HomePage() {
   const posts = await getBlogPosts();
-  const featuredSystems = systems.filter((s) => s.featured);
+  const featuredSystems = systems.filter((s) => s.featured).slice(0, 4);
   const systemCount = systems.length;
 
   return (
@@ -168,7 +168,7 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="animate-in">
-            <SystemsCarousel systems={featuredSystems} />
+            <SystemsGrid systems={featuredSystems} />
           </div>
         </div>
       </section>
