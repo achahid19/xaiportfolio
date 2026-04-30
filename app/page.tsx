@@ -345,6 +345,24 @@ export default async function HomePage() {
         </section>
       )}
 
+      {/* ── SYSTEMS TEASER ───────────────────────────────────── */}
+      <section className="section section--alt">
+        <div className="container">
+          <div className="section-head animate-in">
+            <div>
+              <span className="eyebrow">Systems library</span>
+              <h2 className="section-title">Browse what I&apos;ve built</h2>
+            </div>
+            <Link className="button button--primary" href="/systems">
+              View all systems
+            </Link>
+          </div>
+          <p className="muted animate-in" style={{ maxWidth: "60ch", marginTop: "-0.5rem" }}>
+            A searchable catalog of automation systems and AI agents — filterable by tool or business function.
+          </p>
+        </div>
+      </section>
+
       {/* ── CTA ──────────────────────────────────────────────── */}
       <section className="cta-section">
         <div className="container">
