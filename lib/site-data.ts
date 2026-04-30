@@ -111,7 +111,7 @@ export const systems: System[] = [
     featured: true
   },
   {
-    title: "Real-Time Jira Notifications",
+    title: "Priority Ticket Alert Hub",
     problem: "High-priority tickets sit unnoticed for hours — delayed responses compound sprint risk.",
     result: "Critical ticket response time cut from hours to under 5 minutes across Slack, Gmail & Google Chat.",
     impact: "Every hour a critical issue goes unnoticed is a hour of compounding risk. Closing that gap directly protects sprint delivery and stakeholder trust.",
@@ -139,7 +139,7 @@ export const systems: System[] = [
   },
   // ── LIBRARY ───────────────────────────────────────────────────────
   {
-    title: "Blocked Issue Monitor",
+    title: "Sprint Blocker Radar",
     problem: "Blocked sprint issues go unnoticed for days, silently delaying delivery until retrospectives.",
     result: "Blockers surface within 24 hours — before they cascade into sprint delays.",
     impact: "A blocker discovered on day 1 takes 10 minutes to resolve. The same blocker found on day 5 can derail an entire sprint. Catching it early is where the real savings are.",
@@ -147,7 +147,7 @@ export const systems: System[] = [
     tools: ["Jira", "Gmail", "n8n"]
   },
   {
-    title: "n8n Workflow Backup",
+    title: "Daily Automation Backup",
     problem: "n8n has no built-in version control — one misconfiguration could wipe weeks of automation work.",
     result: "100% of automations versioned daily to GitHub — full recovery in under 5 minutes.",
     impact: "Your automation stack is infrastructure. Losing it without a recovery path means rebuilding from scratch — a risk no serious operation should carry.",
@@ -155,7 +155,7 @@ export const systems: System[] = [
     tools: ["n8n", "GitHub"]
   },
   {
-    title: "Blocked Ticket Follow-up",
+    title: "Blocker Accountability Engine",
     problem: "Blocked tickets linger with no owner or resolution plan, draining sprint capacity silently.",
     result: "Every blocker beyond 2 days gets a follow-up subtask and an owner — no ticket stays stuck.",
     impact: "Accountability doesn't happen by default — it has to be built into the system. Forcing an owner onto every blocker turns a cultural problem into a solved process.",
@@ -163,7 +163,7 @@ export const systems: System[] = [
     tools: ["Jira", "n8n"]
   },
   {
-    title: "Calendar Change Detection",
+    title: "Live Issue Change Propagator",
     problem: "Jira updates don't sync to calendar — teams work off stale deadlines and miss rescheduled work.",
     result: "Calendar and Jira stay in sync within seconds of any change — zero stale deadlines.",
     impact: "Stale schedules create invisible misalignment across teams. Eliminating that gap means no more 'I didn't know the deadline moved' — everyone works from the same truth.",
@@ -171,7 +171,7 @@ export const systems: System[] = [
     tools: ["Jira", "Google Calendar", "Gmail", "Postgres", "n8n"]
   },
   {
-    title: "Auto Issue Assignment",
+    title: "Smart Ticket Auto-Assigner",
     problem: "New Jira issues sit unassigned, stalling triage and adding friction to every sprint planning session.",
     result: "Unassigned tickets drop to 0 — every new issue has an owner within seconds of creation.",
     impact: "Unassigned tickets are silent bottlenecks. Removing that friction from triage means sprint planning starts clean and no work slips through the cracks before it's even begun.",
@@ -179,7 +179,7 @@ export const systems: System[] = [
     tools: ["Jira", "n8n"]
   },
   {
-    title: "Due Date Escalation",
+    title: "Deadline Escalation Engine",
     problem: "Approaching deadlines go unnoticed until overdue — managers learn about slippage in status meetings.",
     result: "3-level escalation (reminder → warning → manager alert) ensures no deadline slips without accountability.",
     impact: "Deadline slippage is almost always preventable — the information exists, it just doesn't reach the right person in time. This system closes that gap automatically.",
