@@ -2,9 +2,10 @@ import Link from "next/link";
 import { Github, Linkedin, Mail, Twitter, Workflow, BrainCircuit, Plug, ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
 
-import { profile, projects } from "@/lib/site-data";
+import { profile, systems } from "@/lib/site-data";
 import { getBlogPosts } from "@/lib/blog";
 import { N8N_TEMPLATE_COUNT } from "@/lib/n8n";
+import { SystemsCarousel } from "@/components/systems-carousel";
 
 const socialIcons: Record<string, ReactNode> = {
   GitHub: <Github size={15} strokeWidth={2.2} />,
@@ -37,7 +38,8 @@ const services = [
 export default async function HomePage() {
   const posts = await getBlogPosts();
   const n8nCount = N8N_TEMPLATE_COUNT;
-  const featuredProjects = projects.filter((p) => p.featured);
+  const featuredSystems = systems.filter((s) => s.featured);
+  const systemCount = systems.length;
   const socialLinks = profile.socialLinks.filter(
     (link) =>
       !link.href.includes("your-handle") &&
@@ -74,6 +76,10 @@ export default async function HomePage() {
               <article className="hero-proof-card">
                 <span className="muted-label">Open to</span>
                 <strong>Freelance&nbsp;· CDI</strong>
+              </article>
+              <article className="hero-proof-card hero-proof-card--accent" style={{ borderColor: "var(--accent)" }}>
+                <span className="muted-label">Systems built</span>
+                <strong>{systemCount}<span className="proof-plus">+</span></strong>
               </article>
             </div>
 
@@ -209,7 +215,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── PROJECTS ─────────────────────────────────────────── */}
+      {/* ── SELECTED SYSTEMS ─────────────────────────────────── */}
       <section className="section" id="projects">
         <div className="container">
           <div className="section-head animate-in">
@@ -217,45 +223,12 @@ export default async function HomePage() {
               <span className="eyebrow">Selected work</span>
               <h2 className="section-title">Systems built to deliver results</h2>
             </div>
-            <Link className="button button--secondary" href="/contact">
-              Discuss a similar build
+            <Link className="systems-count-badge" href="/systems">
+              <span className="systems-count-badge__num">{systemCount}</span>
+              systems in the library →
             </Link>
           </div>
-
-          <div className="projects-grid">
-            {featuredProjects.map((project, i) => (
-              <article
-                key={project.slug}
-                className="project-card animate-in"
-                style={{ transitionDelay: `${i * 100}ms` }}
-              >
-                <div className="project-card__header">
-                  <div>
-                    <span className="kicker">{project.role}</span>
-                    <h3 className="project-card__title">{project.title}</h3>
-                  </div>
-                  <span className="chip">Featured</span>
-                </div>
-                <p className="muted" style={{ marginTop: "0.85rem" }}>{project.summary}</p>
-                <p className="muted" style={{ marginTop: "0.5rem" }}>
-                  <strong>Problem:</strong> {project.problem}
-                </p>
-                <p className="muted" style={{ marginTop: "0.3rem" }}>
-                  <strong>Solution:</strong> {project.solution}
-                </p>
-                <ul className="stack-list">
-                  {project.stack.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <div className="project-card__actions">
-                  <Link className="button button--secondary" href="/contact">
-                    Talk about a similar build
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
+          <SystemsCarousel systems={featuredSystems} />
         </div>
       </section>
 
@@ -344,24 +317,6 @@ export default async function HomePage() {
           </div>
         </section>
       )}
-
-      {/* ── SYSTEMS TEASER ───────────────────────────────────── */}
-      <section className="section section--alt">
-        <div className="container">
-          <div className="section-head animate-in">
-            <div>
-              <span className="eyebrow">Systems library</span>
-              <h2 className="section-title">Browse what I&apos;ve built</h2>
-            </div>
-            <Link className="button button--primary" href="/systems">
-              View all systems
-            </Link>
-          </div>
-          <p className="muted animate-in" style={{ maxWidth: "60ch", marginTop: "-0.5rem" }}>
-            A searchable catalog of automation systems and AI agents — filterable by tool or business function.
-          </p>
-        </div>
-      </section>
 
       {/* ── CTA ──────────────────────────────────────────────── */}
       <section className="cta-section">

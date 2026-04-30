@@ -91,29 +91,100 @@ export const projects: Project[] = [
 ];
 
 export const systems: System[] = [
+  // ── FEATURED (carousel on homepage) ──────────────────────────────
   {
     title: "Package Eval Agent",
     problem: "Manual package due diligence eats 30+ min per library and still gets skipped under pressure.",
     result: "Structured go/no-go recommendation delivered to Slack in under 10 seconds.",
+    impact: "One bad dependency can cost a team weeks of refactoring. This agent kills that risk before it hits your codebase — keeping velocity high and your stack clean.",
     category: "AI Agent",
     tools: ["n8n", "Firecrawl", "OpenAI", "Slack"],
-    link: { label: "Case study", href: "#" }
+    featured: true
   },
   {
-    title: "Lead Capture Automation",
-    problem: "Inbound leads were sitting hours in inboxes with no consistent follow-up process.",
-    result: "Response time cut from 4 hours to under 5 minutes with automated personalised outreach.",
-    category: "Lead Gen",
-    tools: ["n8n", "Webhooks", "CRM", "Google Sheets"],
-    link: { label: "Workflow notes", href: "#" }
+    title: "Daily Sprint Briefing",
+    problem: "Teams waste 15–30 min every morning manually reviewing Jira to figure out what's critical.",
+    result: "Full AI sprint health report in the inbox at 8 AM — readable in 30 seconds.",
+    impact: "When every team member starts the day aligned, standups get shorter and priorities stop shifting mid-sprint. That's hours recovered every week, compounding.",
+    category: "AI Agent",
+    tools: ["Jira", "OpenRouter", "Gmail", "Postgres", "n8n"],
+    featured: true
   },
   {
-    title: "Content Research Assistant",
-    problem: "Research for articles and strategy was scattered across tabs, notes, and formats.",
-    result: "Clean briefing pack ready in minutes instead of hours of manual aggregation.",
-    category: "Content",
-    tools: ["n8n", "OpenAI", "Notion", "Markdown"],
-    link: { label: "Project outline", href: "#" }
+    title: "Priority Ticket Alert Hub",
+    problem: "High-priority tickets sit unnoticed for hours — delayed responses compound sprint risk.",
+    result: "Critical ticket response time cut from hours to under 5 minutes across Slack, Gmail & Google Chat.",
+    impact: "Every hour a critical issue goes unnoticed is a hour of compounding risk. Closing that gap directly protects sprint delivery and stakeholder trust.",
+    category: "Incident Alerting",
+    tools: ["Jira", "Slack", "Gmail", "OpenRouter", "n8n"],
+    featured: true
+  },
+  {
+    title: "Jira → Google Calendar Sync",
+    problem: "Jira due dates are invisible in calendar tools — deadlines get missed or duplicated manually.",
+    result: "Every Jira due date becomes a calendar event instantly — no manual duplication, no missed deadlines.",
+    impact: "Missed deadlines don't just slip — they erode client confidence. Keeping every stakeholder working from the same real-time data eliminates that risk entirely.",
+    category: "Calendar Sync",
+    tools: ["Jira", "Google Calendar", "Postgres", "n8n"],
+    featured: true
+  },
+  {
+    title: "Weekly Sprint Report",
+    problem: "Weekly reporting eats 30–60 minutes of manual Jira pulls, metric computation, and formatting.",
+    result: "1 hour of manual reporting eliminated every week — leadership gets full sprint visibility automatically.",
+    impact: "Leadership visibility shouldn't cost an engineer an hour every Monday. Automating it frees senior time for actual work while giving decision-makers better data, faster.",
+    category: "Sprint Reporting",
+    tools: ["Jira", "Postgres", "Gmail", "n8n"],
+    featured: true
+  },
+  // ── LIBRARY ───────────────────────────────────────────────────────
+  {
+    title: "Sprint Blocker Radar",
+    problem: "Blocked sprint issues go unnoticed for days, silently delaying delivery until retrospectives.",
+    result: "Blockers surface within 24 hours — before they cascade into sprint delays.",
+    impact: "A blocker discovered on day 1 takes 10 minutes to resolve. The same blocker found on day 5 can derail an entire sprint. Catching it early is where the real savings are.",
+    category: "Sprint Monitoring",
+    tools: ["Jira", "Gmail", "n8n"]
+  },
+  {
+    title: "Daily Automation Backup",
+    problem: "n8n has no built-in version control — one misconfiguration could wipe weeks of automation work.",
+    result: "100% of automations versioned daily to GitHub — full recovery in under 5 minutes.",
+    impact: "Your automation stack is infrastructure. Losing it without a recovery path means rebuilding from scratch — a risk no serious operation should carry.",
+    category: "DevOps",
+    tools: ["n8n", "GitHub"]
+  },
+  {
+    title: "Blocker Accountability Engine",
+    problem: "Blocked tickets linger with no owner or resolution plan, draining sprint capacity silently.",
+    result: "Every blocker beyond 2 days gets a follow-up subtask and an owner — no ticket stays stuck.",
+    impact: "Accountability doesn't happen by default — it has to be built into the system. Forcing an owner onto every blocker turns a cultural problem into a solved process.",
+    category: "Ticket Management",
+    tools: ["Jira", "n8n"]
+  },
+  {
+    title: "Live Issue Change Propagator",
+    problem: "Jira updates don't sync to calendar — teams work off stale deadlines and miss rescheduled work.",
+    result: "Calendar and Jira stay in sync within seconds of any change — zero stale deadlines.",
+    impact: "Stale schedules create invisible misalignment across teams. Eliminating that gap means no more 'I didn't know the deadline moved' — everyone works from the same truth.",
+    category: "Calendar Sync",
+    tools: ["Jira", "Google Calendar", "Gmail", "Postgres", "n8n"]
+  },
+  {
+    title: "Smart Ticket Auto-Assigner",
+    problem: "New Jira issues sit unassigned, stalling triage and adding friction to every sprint planning session.",
+    result: "Unassigned tickets drop to 0 — every new issue has an owner within seconds of creation.",
+    impact: "Unassigned tickets are silent bottlenecks. Removing that friction from triage means sprint planning starts clean and no work slips through the cracks before it's even begun.",
+    category: "Ticket Management",
+    tools: ["Jira", "n8n"]
+  },
+  {
+    title: "Deadline Escalation Engine",
+    problem: "Approaching deadlines go unnoticed until overdue — managers learn about slippage in status meetings.",
+    result: "3-level escalation (reminder → warning → manager alert) ensures no deadline slips without accountability.",
+    impact: "Deadline slippage is almost always preventable — the information exists, it just doesn't reach the right person in time. This system closes that gap automatically.",
+    category: "Deadline Management",
+    tools: ["Jira", "Gmail", "n8n"]
   }
 ];
 

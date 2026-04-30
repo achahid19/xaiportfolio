@@ -44,11 +44,12 @@ export type BlogPost = BlogPostFrontmatter & {
 
 export type System = {
   title: string;
-  problem: string;   // one line — the pain
-  result: string;    // one line — the win (numbers preferred)
-  category: string;  // e.g. "AI Agent" | "Lead Gen" | "Sales" | "Ops" | "Content" | "Dev"
+  problem: string;
+  result: string;
+  impact?: string;
+  category: string;
   tools: string[];
-  link?: { label: string; href: string };
+  featured?: boolean;
 };
 
 export type ContactSubmission = {
