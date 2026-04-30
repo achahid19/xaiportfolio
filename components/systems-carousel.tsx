@@ -1,111 +1,124 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import type { System } from "@/lib/types";
 
-type Props = { systems: System[] };
+const PER_PAGE = 2;
+
+type Props = {
+  systems: System[];
+};
 
 export function SystemsCarousel({ systems }: Props) {
-  const [index, setIndex] = useState(0);
+  const totalPages = Math.ceil(systems.length / PER_PAGE);
+  const [page, setPage] = useState(0);
+  const [expanded, setExpanded] = useState<string | null>(null);
 
   function prev() {
-    setIndex((i) => Math.max(0, i - 1));
+    setExpanded(null);
+    setPage((p) => (p - 1 + totalPages) % totalPages);
   }
 
   function next() {
-    setIndex((i) => Math.min(systems.length - 1, i + 1));
+    setExpanded(null);
+    setPage((p) => (p + 1) % totalPages);
   }
 
+  const visible = systems.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
+
   return (
-    <div className="sc-root">
-      {/* Track */}
-      <div className="sc-viewport">
-        <ul
-          className="sc-track"
-          style={{ transform: `translateX(calc(-${index} * (var(--sc-card-w) + var(--sc-gap))))` }}
-        >
-          {systems.map((system) => (
-            <li key={system.title} className="sc-card">
-              <div className="sc-card__top">
-                <span className="chip">{system.category}</span>
-                <div className="sc-card__tools">
-                  {system.tools.map((tool) => (
-                    <span key={tool} className="system-tool-pill">{tool}</span>
-                  ))}
+    <div className="carousel">
+      {/* 2-up card row */}
+      <div className="carousel-row">
+        {visible.map((s) => {
+          const isExpanded = expanded === s.id;
+          return (
+            <article
+              key={s.id}
+              className={`carousel-card${isExpanded ? " expanded" : ""}`}
+              onClick={() => setExpanded(isExpanded ? null : s.id)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setExpanded(isExpanded ? null : s.id);
+                }
+              }}
+            >
+              <div className="system-head">
+                <div>
+                  <div className="system-cat mono">{s.category}</div>
+                  <h3>{s.title}</h3>
                 </div>
+                <span className="system-id mono">{s.id}</span>
               </div>
 
-              <h3 className="sc-card__title">{system.title}</h3>
-
-              <dl className="sc-card__meta">
-                <div className="sc-card__row">
-                  <dt>Problem</dt>
-                  <dd>{system.problem}</dd>
+              <div className="system-body">
+                <div className="system-row">
+                  <span className="key mono">Problem</span>
+                  <span className="val">{s.problem}</span>
                 </div>
-                <div className="sc-card__row sc-card__row--result">
-                  <dt>Result</dt>
-                  <dd>{system.result}</dd>
+                <div className="system-row result">
+                  <span className="key mono">Result</span>
+                  <span className="val">{s.result}</span>
                 </div>
-              </dl>
-
-              {system.impact && (
-                <div className="sc-card__impact">
-                  <span className="sc-card__impact-icon" aria-hidden="true">💡</span>
-                  <p>{system.impact}</p>
-                </div>
-              )}
-
-              <div className="sc-card__footer">
-                <Link href="/contact" className="system-card__link">
-                  Talk about a similar build <span aria-hidden="true">→</span>
-                </Link>
+                {isExpanded && s.impact && (
+                  <div className="system-impact">{s.impact}</div>
+                )}
               </div>
-            </li>
-          ))}
-        </ul>
+
+              <div className="tools">
+                {s.tools.map((t) => (
+                  <span key={t} className="tool mono">{t}</span>
+                ))}
+              </div>
+
+              <div className="system-expand mono">
+                {isExpanded ? "− Hide impact" : "+ Read impact"}
+              </div>
+            </article>
+          );
+        })}
       </div>
 
       {/* Controls */}
-      <div className="sc-controls">
-        <div className="sc-arrows">
+      <div className="carousel-controls">
+        <div className="carousel-nav">
           <button
             type="button"
-            className="sc-arrow"
+            className="carousel-btn mono"
             onClick={prev}
-            disabled={index === 0}
-            aria-label="Previous"
+            aria-label="Previous systems"
           >
-            <ArrowLeft size={16} strokeWidth={2.2} />
+            ←
           </button>
+          <span className="carousel-count mono">
+            <span className="accent">{page + 1}</span> / {totalPages}
+          </span>
           <button
             type="button"
-            className="sc-arrow"
+            className="carousel-btn mono"
             onClick={next}
-            disabled={index >= systems.length - 1}
-            aria-label="Next"
+            aria-label="Next systems"
           >
-            <ArrowRight size={16} strokeWidth={2.2} />
+            →
           </button>
         </div>
 
-        <div className="sc-dots">
-          {systems.map((_, i) => (
+        <div className="carousel-dots">
+          {Array.from({ length: totalPages }).map((_, i) => (
             <button
               key={i}
               type="button"
-              className={`sc-dot ${i === index ? "sc-dot--active" : ""}`}
-              onClick={() => setIndex(i)}
-              aria-label={`Go to system ${i + 1}`}
+              className={`carousel-dot${i === page ? " active" : ""}`}
+              onClick={() => { setExpanded(null); setPage(i); }}
+              aria-label={`Page ${i + 1}`}
+              aria-current={i === page}
             />
           ))}
         </div>
-
-        <Link className="button button--secondary sc-all-link" href="/systems">
-          View all systems
-        </Link>
       </div>
     </div>
   );

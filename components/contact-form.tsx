@@ -13,27 +13,28 @@ export function ContactForm() {
   );
 
   return (
-    <form action={formAction} className="form-grid">
+    <form action={formAction} className="contact-form">
       <div className="field">
-        <label htmlFor="name">Name</label>
+        <label className="mono" htmlFor="name">Name</label>
         <input id="name" name="name" placeholder="Your name" required />
       </div>
       <div className="field">
-        <label htmlFor="email">Email</label>
+        <label className="mono" htmlFor="email">Email</label>
         <input
           id="email"
           type="email"
           name="email"
-          placeholder="name@example.com"
+          placeholder="you@company.com"
           required
         />
       </div>
       <div className="field">
-        <label htmlFor="message">Message</label>
+        <label className="mono" htmlFor="message">Describe the workflow / problem</label>
         <textarea
           id="message"
           name="message"
-          placeholder="Tell me what you want to build, automate, or improve."
+          rows={5}
+          placeholder="What's slow today? What would 'fixed' look like?"
           required
         />
       </div>
@@ -48,10 +49,15 @@ export function ContactForm() {
           {state.message}
         </p>
       ) : null}
-      <SubmitButton
-        idleLabel="Send message"
-        pendingLabel="Sending message..."
-      />
+      <div style={{ display: "flex", gap: "12px", alignItems: "center", marginTop: "8px" }}>
+        <SubmitButton
+          idleLabel="Send message →"
+          pendingLabel="Sending..."
+        />
+        <span className="mono" style={{ fontSize: "11.5px", color: "var(--fg-dim)" }}>
+          Avg. reply time · &lt; 24h
+        </span>
+      </div>
     </form>
   );
 }

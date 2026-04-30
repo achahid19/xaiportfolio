@@ -1,141 +1,134 @@
 "use client";
 
-import Link from "next/link";
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import type { System } from "@/lib/types";
 
-type Props = { systems: System[] };
+type Props = {
+  systems: System[];
+  /** Show the filter bar (true on /systems page, false on homepage preview) */
+  showFilters?: boolean;
+};
 
-export function SystemsGrid({ systems }: Props) {
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
-  const [activeTool, setActiveTool] = useState<string | null>(null);
+export function SystemsGrid({ systems, showFilters = false }: Props) {
+  const [filter, setFilter] = useState("All");
+  const [tool, setTool] = useState("All");
+  const [expanded, setExpanded] = useState<string | null>(null);
 
-  const categories = useMemo(
-    () => Array.from(new Set(systems.map((s) => s.category))).sort(),
+  const cats = useMemo(
+    () => ["All", ...Array.from(new Set(systems.map((s) => s.category)))],
     [systems]
   );
 
-  const tools = useMemo(
-    () => Array.from(new Set(systems.flatMap((s) => s.tools))).sort(),
-    [systems]
-  );
+  const tools = useMemo(() => {
+    const all = new Set<string>();
+    systems.forEach((s) => s.tools.forEach((t) => all.add(t)));
+    return ["All", ...Array.from(all).sort()];
+  }, [systems]);
 
   const filtered = useMemo(
     () =>
-      systems.filter((s) => {
-        if (activeCategory && s.category !== activeCategory) return false;
-        if (activeTool && !s.tools.includes(activeTool)) return false;
-        return true;
-      }),
-    [systems, activeCategory, activeTool]
+      systems.filter(
+        (s) =>
+          (filter === "All" || s.category === filter) &&
+          (tool === "All" || s.tools.includes(tool))
+      ),
+    [systems, filter, tool]
   );
 
-  function toggleCategory(cat: string) {
-    setActiveCategory((prev) => (prev === cat ? null : cat));
-    setActiveTool(null);
-  }
-
-  function toggleTool(tool: string) {
-    setActiveTool((prev) => (prev === tool ? null : tool));
-    setActiveCategory(null);
-  }
-
-  function clearAll() {
-    setActiveCategory(null);
-    setActiveTool(null);
-  }
-
-  const hasFilter = activeCategory !== null || activeTool !== null;
-
   return (
-    <div className="systems-layout">
-      {/* ── Filter bar ── */}
-      <div className="systems-filters">
-        <div className="systems-filter-group">
-          <span className="systems-filter-label">Function</span>
-          <div className="systems-chips">
-            {categories.map((cat) => (
+    <div>
+      {showFilters && (
+        <>
+          <div className="filter-bar">
+            <span className="filter-label mono">filter:</span>
+            {cats.map((c) => (
               <button
-                key={cat}
+                key={c}
                 type="button"
-                className={`systems-chip ${activeCategory === cat ? "systems-chip--active" : ""}`}
-                onClick={() => toggleCategory(cat)}
+                className={`filter-pill mono${filter === c ? " active" : ""}`}
+                onClick={() => setFilter(c)}
               >
-                {cat}
+                {c}
+              </button>
+            ))}
+            <span className="filter-count mono">
+              {filtered.length} / {systems.length} systems
+            </span>
+          </div>
+          <div
+            className="filter-bar"
+            style={{ marginTop: "-16px", paddingTop: 0, borderBottom: "none" }}
+          >
+            <span className="filter-label mono">tools:</span>
+            {tools.map((t) => (
+              <button
+                key={t}
+                type="button"
+                className={`filter-pill mono${tool === t ? " active" : ""}`}
+                onClick={() => setTool(t)}
+              >
+                {t}
               </button>
             ))}
           </div>
-        </div>
+        </>
+      )}
 
-        <div className="systems-filter-group">
-          <span className="systems-filter-label">Tool</span>
-          <div className="systems-chips">
-            {tools.map((tool) => (
-              <button
-                key={tool}
-                type="button"
-                className={`systems-chip ${activeTool === tool ? "systems-chip--active" : ""}`}
-                onClick={() => toggleTool(tool)}
-              >
-                {tool}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {hasFilter && (
-          <button type="button" className="systems-clear" onClick={clearAll}>
-            Clear filter
-          </button>
-        )}
-      </div>
-
-      {/* ── Grid ── */}
-      {filtered.length === 0 ? (
-        <p className="systems-empty">No systems match this filter.</p>
-      ) : (
-        <div className="systems-grid">
-          {filtered.map((system) => (
-            <article key={system.title} className="system-card">
-              <div className="system-card__top">
-                <span className="chip">{system.category}</span>
-                <div className="system-card__tools">
-                  {system.tools.map((tool) => (
-                    <span key={tool} className="system-tool-pill">{tool}</span>
-                  ))}
+      <div className="systems-grid">
+        {filtered.map((s) => {
+          const isExpanded = expanded === s.id;
+          return (
+            <article
+              key={s.id}
+              className={`system-card${s.featured ? " featured" : ""}${
+                isExpanded ? " expanded" : ""
+              }`}
+              onClick={() => setExpanded(isExpanded ? null : s.id)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setExpanded(isExpanded ? null : s.id);
+                }
+              }}
+            >
+              <div className="system-head">
+                <div>
+                  <div className="system-cat mono">{s.category}</div>
+                  <h3>{s.title}</h3>
                 </div>
+                <span className="system-id mono">{s.id}</span>
               </div>
 
-              <h3 className="system-card__title">{system.title}</h3>
-
-              <dl className="system-card__meta">
-                <div className="system-card__row">
-                  <dt>Problem</dt>
-                  <dd>{system.problem}</dd>
+              <div className="system-body">
+                <div className="system-row">
+                  <span className="key mono">Problem</span>
+                  <span className="val">{s.problem}</span>
                 </div>
-                <div className="system-card__row system-card__row--result">
-                  <dt>Result</dt>
-                  <dd>{system.result}</dd>
+                <div className="system-row result">
+                  <span className="key mono">Result</span>
+                  <span className="val">{s.result}</span>
                 </div>
-              </dl>
+                {isExpanded && s.impact && (
+                  <div className="system-impact">{s.impact}</div>
+                )}
+              </div>
 
-              {system.impact && (
-                <div className="sc-card__impact">
-                  <span className="sc-card__impact-icon" aria-hidden="true">💡</span>
-                  <p>{system.impact}</p>
-                </div>
-              )}
+              <div className="tools">
+                {s.tools.map((t) => (
+                  <span key={t} className="tool mono">{t}</span>
+                ))}
+              </div>
 
-              <div className="system-card__footer">
-                <Link href="/contact" className="system-card__link">
-                  Talk about a similar build <span aria-hidden="true">→</span>
-                </Link>
+              <div className="system-expand mono">
+                {isExpanded ? "− Hide impact" : "+ Read impact"}
               </div>
             </article>
-          ))}
-        </div>
-      )}
+          );
+        })}
+      </div>
     </div>
   );
 }

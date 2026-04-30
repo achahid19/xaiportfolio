@@ -3,76 +3,61 @@ import Link from "next/link";
 import { getBlogPosts } from "@/lib/blog";
 
 export const metadata = {
-  title: "Blog",
+  title: "Notes"
 };
 
 export default async function BlogPage() {
   const posts = await getBlogPosts();
 
   return (
-    <section className="page-hero section">
-      <div className="container">
-        <div className="page-intro animate-in">
-          <div className="section-head section-head--intro">
-            <div>
-              <span className="eyebrow">Writing</span>
-              <h1 className="section-title" style={{ marginTop: "0.75rem" }}>
-                Notes on AI, automation,<br />and building
-              </h1>
-            </div>
-            <p className="section-copy">
-              Short posts on what I&apos;m learning, building, and thinking
-              about as an AI automation engineer. Practical over theoretical.
-            </p>
-          </div>
+    <>
+      <section className="page-hero">
+        <div className="container">
+          <div className="eyebrow mono">Notes</div>
+          <h1>
+            Writing on AI, automation,
+            <br />
+            <span style={{ color: "var(--fg-mute)" }}>
+              and the operational gap most teams miss.
+            </span>
+          </h1>
+          <p>
+            Field notes from real engagements — what worked, what I threw out,
+            and the patterns worth stealing.
+          </p>
         </div>
+      </section>
 
+      <section className="container" style={{ paddingBottom: "96px" }}>
         {posts.length === 0 ? (
           <div
-            className="panel animate-in"
-            style={{ textAlign: "center", padding: "3rem 2rem" }}
+            className="about-card"
+            style={{ textAlign: "center", padding: "48px 32px" }}
           >
-            <span className="muted-label">Coming soon</span>
-            <p className="muted" style={{ marginTop: "0.75rem" }}>
+            <div className="mono" style={{ fontSize: "11px", color: "var(--fg-dim)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+              Coming soon
+            </div>
+            <p style={{ color: "var(--fg-mute)", marginTop: "12px" }}>
               Posts are being drafted. Check back soon.
             </p>
           </div>
         ) : (
-          <div className={posts.length === 1 ? "grid-1" : "grid-2"}>
-            {posts.map((post, i) => (
-              <article
-                key={post.slug}
-                className="post-card animate-in"
-                style={{ transitionDelay: `${i * 70}ms` }}
-              >
-                <div className="post-card__header">
-                  <div>
-                    <span className="muted-label">{post.date}</span>
-                    <h2
-                      className="post-card__title"
-                      style={{ marginTop: "0.3rem" }}
-                    >
-                      {post.title}
-                    </h2>
-                  </div>
-                  <span className="chip">{post.tags.join(" / ")}</span>
+          <div className="blog-list">
+            {posts.map((p) => (
+              <Link key={p.slug} href={`/blog/${p.slug}`} className="post">
+                <span className="post-date mono">{p.date}</span>
+                <div className="post-body">
+                  <h3>{p.title}</h3>
+                  <p>{p.excerpt}</p>
                 </div>
-                <p className="muted" style={{ marginTop: "0.85rem" }}>
-                  {post.excerpt}
-                </p>
-                <div style={{ marginTop: "1.25rem" }}>
-                  <Link
-                    className="button button--secondary"
-                    href={`/blog/${post.slug}`}
-                  >
-                    Read post
-                  </Link>
-                </div>
-              </article>
+                <span className="post-tag mono">
+                  {p.tags[0] ?? "Note"} →
+                </span>
+              </Link>
             ))}
           </div>
         )}
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

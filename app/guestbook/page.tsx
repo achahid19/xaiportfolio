@@ -10,20 +10,26 @@ export default async function GuestbookPage() {
   const entries = await listApprovedGuestbookEntries();
 
   return (
-    <section className="section page-hero">
-      <div className="container split-grid">
-        <article className="form-card">
-          <span className="eyebrow">Guestbook</span>
-          <h1 className="section-title">Leave a public note</h1>
-          <p className="section-copy">
-            This is a simple public wall for feedback, encouragement, and
-            thoughtful comments.
+    <>
+      <section className="page-hero">
+        <div className="container">
+          <div className="eyebrow mono">Guestbook</div>
+          <h1>Leave a public note</h1>
+          <p>
+            A simple public wall for feedback, encouragement, and collaboration
+            hellos. All notes are reviewed before appearing.
           </p>
-          <GuestbookForm />
-        </article>
+        </div>
+      </section>
 
-        <GuestbookFeed entries={entries} />
-      </div>
-    </section>
+      <section className="container" style={{ paddingBottom: "96px" }}>
+        <div className="gb-grid">
+          <article className="gb-form-card">
+            <GuestbookForm />
+          </article>
+          <GuestbookFeed entries={entries} />
+        </div>
+      </section>
+    </>
   );
 }

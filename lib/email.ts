@@ -17,7 +17,7 @@ function getEmailConfig(): EmailConfig {
   const secure = String(process.env.SMTP_SECURE ?? "true") !== "false";
   const user = process.env.SMTP_USER ?? "";
   const pass = process.env.SMTP_PASS ?? "";
-  const to = process.env.CONTACT_TO_EMAIL ?? "anasks1999@gmail.com";
+  const to = process.env.CONTACT_TO_EMAIL ?? "aixautomation01@gmail.com";
 
   if (!user || !pass) {
     throw new Error("Missing SMTP_USER or SMTP_PASS environment variables.");

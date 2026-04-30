@@ -5,14 +5,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { Magnetic } from "@/components/magnetic";
 import { ThemeToggle } from "@/components/theme-toggle";
 
-const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/systems", label: "Systems" },
-  { href: "/blog", label: "Writing" },
-  { href: "/contact", label: "Contact" }
-];
+const navItems: ReadonlyArray<readonly [string, string]> = [
+  ["/", "Home"],
+  ["/systems", "Systems"],
+  ["/blog", "Notes"],
+  ["/contact", "Contact"]
+] as const;
 
 export function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,90 +31,73 @@ export function SiteHeader() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
-  function isItemActive(href: string) {
-    if (href === "/") {
-      return pathname === "/";
-    }
-
-    if (href === "/blog") {
-      return pathname.startsWith("/blog");
-    }
-
-    if (href === "/systems") {
-      return pathname.startsWith("/systems");
-    }
-
+  function isActive(href: string) {
+    if (href === "/") return pathname === "/";
+    if (href === "/blog") return pathname.startsWith("/blog");
+    if (href === "/systems") return pathname.startsWith("/systems");
     return pathname === href;
   }
 
   return (
     <header className="site-header" ref={headerRef}>
-      <div className="container site-header__inner">
-        <Link className="site-header__brand" href="/" onClick={() => setIsOpen(false)}>
-          <span className="site-header__brand-mark" aria-hidden="true">
-            <Image
-              src="/images/aix_logo_no_bg.png"
-              alt=""
-              width={500}
-              height={500}
-              priority
-              className=""
-              sizes="(max-width: 480px) 44px, (max-width: 900px) 48px, 52px"
-              suppressHydrationWarning
-            />
-          </span>
-          <span className="site-header__brand-copy">
-            <span className="site-header__title">AI x Automation</span>
-            <span className="site-header__tag">Portfolio and writing lab</span>
+      <nav className="nav">
+        <Link className="logo" href="/" onClick={() => setIsOpen(false)}>
+          <Image
+            src="/images/aix_logo_no_bg.png"
+            alt="AIX Automation"
+            width={32}
+            height={32}
+            className="logo-img"
+            priority
+          />
+          <span className="logo-text">
+            AI X Automation
           </span>
         </Link>
 
-        <div className="site-header__mobile-actions">
-          <ThemeToggle />
-          <button
-            type="button"
-            className="site-header__toggle"
-            aria-expanded={isOpen}
-            aria-controls="site-nav"
-            aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-            onClick={() => setIsOpen((open) => !open)}
-          >
-            <span />
-            <span />
-            <span />
-          </button>
-        </div>
-
-        <nav
-          id="site-nav"
-          className={`site-header__nav ${isOpen ? "site-header__nav--open" : ""}`}
-          aria-label="Primary"
+        <button
+          type="button"
+          className="nav-toggle"
+          aria-expanded={isOpen}
+          aria-controls="primary-nav"
+          aria-label={isOpen ? "Close navigation" : "Open navigation"}
+          onClick={() => setIsOpen((open) => !open)}
         >
-          <div className="site-header__links">
-            {navItems.map((item) => (
+          <span />
+          <span />
+          <span />
+        </button>
+
+        <ul
+          id="primary-nav"
+          className={`nav-links${isOpen ? " nav-links--open" : ""}`}
+        >
+          {navItems.map(([href, label]) => (
+            <li key={href}>
               <Link
-                key={item.href}
-                href={item.href}
-                className={isItemActive(item.href) ? "is-active" : undefined}
-                aria-current={isItemActive(item.href) ? "page" : undefined}
+                href={href}
+                className={`mono${isActive(href) ? " active" : ""}`}
                 onClick={() => setIsOpen(false)}
               >
-                {item.label}
+                {label}
               </Link>
-            ))}
-          </div>
-          <div className="site-header__actions">
-            <ThemeToggle />
+            </li>
+          ))}
+        </ul>
+
+        <div className="nav-cta">
+          <ThemeToggle />
+          <Magnetic>
             <Link
-              className="button button--primary site-header__cta"
-              href="/guestbook"
+              className="btn btn-primary btn-sm"
+              href="/contact"
               onClick={() => setIsOpen(false)}
             >
-              Guestbook
+              Book a call →
             </Link>
-          </div>
-        </nav>
-      </div>
+          </Magnetic>
+        </div>
+      </nav>
     </header>
   );
 }

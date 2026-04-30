@@ -39,15 +39,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   return (
-    <section className="section page-hero">
-      <div className="container">
-        <article className="article-wrap">
-          <span className="eyebrow">{post.tags.join(" / ")}</span>
-          <h1 className="article-title">{post.title}</h1>
-          <p className="article-excerpt">{post.excerpt}</p>
-          <div className="meta-row">
-            <span className="chip">{post.date}</span>
+    <>
+      <section className="page-hero">
+        <div className="container">
+          <div className="eyebrow mono">{post.tags.join(" / ")}</div>
+          <h1>{post.title}</h1>
+          <p>{post.excerpt}</p>
+          <div className="mono" style={{ fontSize: "12px", color: "var(--fg-dim)", marginTop: "16px", letterSpacing: "0.04em" }}>
+            {post.date}
           </div>
+        </div>
+      </section>
+
+      <section className="container" style={{ paddingBottom: "96px" }}>
+        <article className="article-wrap">
           <div
             className="prose"
             dangerouslySetInnerHTML={{ __html: post.content }}
@@ -57,12 +62,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <p className="article-cta__text">
               Working on a similar challenge in your business?
             </p>
-            <a href="/contact" className="article-cta__link">
-              Let&rsquo;s talk <span aria-hidden="true">→</span>
+            <a href="/contact" className="article-cta__link mono">
+              Let&rsquo;s talk →
             </a>
           </div>
         </article>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

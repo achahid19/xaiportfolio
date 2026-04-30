@@ -10,19 +10,13 @@ function applyTheme(theme: Theme) {
 }
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("light");
+  // Dark-first default to match SSR bootstrap.
+  const [theme, setTheme] = useState<Theme>("dark");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const stored = window.localStorage.getItem("theme");
-    const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const initialTheme: Theme =
-      stored === "light" || stored === "dark"
-        ? stored
-        : systemDark
-          ? "dark"
-          : "light";
-
+    const initialTheme: Theme = stored === "light" ? "light" : "dark";
     setTheme(initialTheme);
     applyTheme(initialTheme);
     setMounted(true);
@@ -39,17 +33,12 @@ export function ThemeToggle() {
   return (
     <button
       type="button"
-      className="theme-toggle"
+      className="theme-btn"
       onClick={toggleTheme}
       aria-label={mounted ? `Switch to ${nextTheme} mode` : "Toggle theme"}
       title={mounted ? `Switch to ${nextTheme} mode` : "Toggle theme"}
     >
-      <span className="theme-toggle__icon" aria-hidden="true">
-        {theme === "dark" ? "☾" : "◐"}
-      </span>
-      <span className="theme-toggle__label">
-        {mounted ? (theme === "dark" ? "Dark" : "Light") : "Theme"}
-      </span>
+      <span aria-hidden="true">{theme === "dark" ? "◐" : "◑"}</span>
     </button>
   );
 }

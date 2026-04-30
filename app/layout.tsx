@@ -1,11 +1,23 @@
 import type { Metadata } from "next";
+import { Inter, JetBrains_Mono } from "next/font/google";
 
-import { AmbientNetwork } from "@/components/ambient-network";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap"
+});
+
+const jetbrains = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap"
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -42,7 +54,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      data-scroll-behavior="smooth"
+      className={`${inter.variable} ${jetbrains.variable}`}
+    >
       <body suppressHydrationWarning>
         <script
           dangerouslySetInnerHTML={{
@@ -50,10 +67,8 @@ export default function RootLayout({
               (function() {
                 try {
                   var stored = localStorage.getItem("theme");
-                  var systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-                  var theme = stored === "light" || stored === "dark"
-                    ? stored
-                    : (systemDark ? "dark" : "light");
+                  // Dark-first: default to dark unless explicitly set to light.
+                  var theme = stored === "light" ? "light" : "dark";
                   document.documentElement.dataset.theme = theme;
                   document.documentElement.style.colorScheme = theme;
                 } catch (e) {}
@@ -61,8 +76,9 @@ export default function RootLayout({
             `
           }}
         />
+        <div className="bg-grid" aria-hidden="true" />
+        <div className="bg-noise" aria-hidden="true" />
         <div className="site-shell" suppressHydrationWarning>
-          <AmbientNetwork />
           <SiteHeader />
           <main>{children}</main>
           <SiteFooter />

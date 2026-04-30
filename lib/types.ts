@@ -43,6 +43,7 @@ export type BlogPost = BlogPostFrontmatter & {
 };
 
 export type System = {
+  id: string;
   title: string;
   problem: string;
   result: string;
@@ -50,6 +51,27 @@ export type System = {
   category: string;
   tools: string[];
   featured?: boolean;
+};
+
+export type HeroMetric = {
+  v: string;
+  label: string;
+};
+
+export type ProofMetric = {
+  k: string;
+  v: string;
+};
+
+export type Service = {
+  num: string;
+  title: string;
+  desc: string;
+};
+
+export type Testimonial = {
+  quote: string;
+  who: string;
 };
 
 export type ContactSubmission = {
