@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Next.js Dev Server",
+      "runtimeExecutable": "/usr/local/bin/node",
+      "runtimeArgs": ["/Users/macbookair/Documents/vide_coding_first_app/portfolio/node_modules/.bin/next", "dev"],
+      "port": 3000
+    }
+  ]
+}
