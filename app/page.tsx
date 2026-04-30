@@ -62,7 +62,7 @@ export default async function HomePage() {
                 <span className="hero-badge-brand mono">n8n</span>
                 <div className="hero-badge-row">
                   <a
-                    href="https://n8n.io/creators/achahid19/"
+                    href="https://n8n.io/creators/anasks/"
                     target="_blank"
                     rel="noreferrer"
                     className="hero-badge mono"
@@ -74,7 +74,7 @@ export default async function HomePage() {
                     <span className="hero-badge__arrow">↗</span>
                   </a>
                   <a
-                    href="https://academy.n8n.io/"
+                    href="https://community.n8n.io/badges/104/completed-n8n-course-level-1?username=anasks"
                     target="_blank"
                     rel="noreferrer"
                     className="hero-badge mono"
@@ -84,7 +84,7 @@ export default async function HomePage() {
                     <span className="hero-badge__arrow">↗</span>
                   </a>
                   <a
-                    href="https://academy.n8n.io/"
+                    href="https://community.n8n.io/badges/105/completed-n8n-course-level-2?username=anasks"
                     target="_blank"
                     rel="noreferrer"
                     className="hero-badge mono"
