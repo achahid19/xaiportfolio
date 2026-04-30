@@ -105,6 +105,7 @@ export const systems: System[] = [
     title: "Daily Sprint Briefing",
     problem: "Teams waste 15–30 min every morning manually reviewing Jira to figure out what's critical.",
     result: "Full AI sprint health report in the inbox at 8 AM — readable in 30 seconds.",
+    impact: "When every team member starts the day aligned, standups get shorter and priorities stop shifting mid-sprint. That's hours recovered every week, compounding.",
     category: "AI Reporting",
     tools: ["Jira", "OpenRouter", "Gmail", "Postgres", "n8n"],
     featured: true
@@ -113,6 +114,7 @@ export const systems: System[] = [
     title: "Real-Time Jira Notifications",
     problem: "High-priority tickets sit unnoticed for hours — delayed responses compound sprint risk.",
     result: "Critical ticket response time cut from hours to under 5 minutes across Slack, Gmail & Google Chat.",
+    impact: "Every hour a critical issue goes unnoticed is a hour of compounding risk. Closing that gap directly protects sprint delivery and stakeholder trust.",
     category: "Alerting",
     tools: ["Jira", "Slack", "Gmail", "OpenRouter", "n8n"],
     featured: true
@@ -121,6 +123,7 @@ export const systems: System[] = [
     title: "Jira → Google Calendar Sync",
     problem: "Jira due dates are invisible in calendar tools — deadlines get missed or duplicated manually.",
     result: "Every Jira due date becomes a calendar event instantly — no manual duplication, no missed deadlines.",
+    impact: "Missed deadlines don't just slip — they erode client confidence. Keeping every stakeholder working from the same real-time data eliminates that risk entirely.",
     category: "Integration",
     tools: ["Jira", "Google Calendar", "Postgres", "n8n"],
     featured: true
@@ -129,6 +132,7 @@ export const systems: System[] = [
     title: "Weekly Sprint Report",
     problem: "Weekly reporting eats 30–60 minutes of manual Jira pulls, metric computation, and formatting.",
     result: "1 hour of manual reporting eliminated every week — leadership gets full sprint visibility automatically.",
+    impact: "Leadership visibility shouldn't cost an engineer an hour every Monday. Automating it frees senior time for actual work while giving decision-makers better data, faster.",
     category: "Reporting",
     tools: ["Jira", "Postgres", "Gmail", "n8n"],
     featured: true
@@ -138,6 +142,7 @@ export const systems: System[] = [
     title: "Blocked Issue Monitor",
     problem: "Blocked sprint issues go unnoticed for days, silently delaying delivery until retrospectives.",
     result: "Blockers surface within 24 hours — before they cascade into sprint delays.",
+    impact: "A blocker discovered on day 1 takes 10 minutes to resolve. The same blocker found on day 5 can derail an entire sprint. Catching it early is where the real savings are.",
     category: "Monitoring",
     tools: ["Jira", "Gmail", "n8n"]
   },
@@ -145,6 +150,7 @@ export const systems: System[] = [
     title: "n8n Workflow Backup",
     problem: "n8n has no built-in version control — one misconfiguration could wipe weeks of automation work.",
     result: "100% of automations versioned daily to GitHub — full recovery in under 5 minutes.",
+    impact: "Your automation stack is infrastructure. Losing it without a recovery path means rebuilding from scratch — a risk no serious operation should carry.",
     category: "DevOps",
     tools: ["n8n", "GitHub"]
   },
@@ -152,6 +158,7 @@ export const systems: System[] = [
     title: "Blocked Ticket Follow-up",
     problem: "Blocked tickets linger with no owner or resolution plan, draining sprint capacity silently.",
     result: "Every blocker beyond 2 days gets a follow-up subtask and an owner — no ticket stays stuck.",
+    impact: "Accountability doesn't happen by default — it has to be built into the system. Forcing an owner onto every blocker turns a cultural problem into a solved process.",
     category: "Automation",
     tools: ["Jira", "n8n"]
   },
@@ -159,6 +166,7 @@ export const systems: System[] = [
     title: "Calendar Change Detection",
     problem: "Jira updates don't sync to calendar — teams work off stale deadlines and miss rescheduled work.",
     result: "Calendar and Jira stay in sync within seconds of any change — zero stale deadlines.",
+    impact: "Stale schedules create invisible misalignment across teams. Eliminating that gap means no more 'I didn't know the deadline moved' — everyone works from the same truth.",
     category: "Integration",
     tools: ["Jira", "Google Calendar", "Gmail", "Postgres", "n8n"]
   },
@@ -166,6 +174,7 @@ export const systems: System[] = [
     title: "Auto Issue Assignment",
     problem: "New Jira issues sit unassigned, stalling triage and adding friction to every sprint planning session.",
     result: "Unassigned tickets drop to 0 — every new issue has an owner within seconds of creation.",
+    impact: "Unassigned tickets are silent bottlenecks. Removing that friction from triage means sprint planning starts clean and no work slips through the cracks before it's even begun.",
     category: "Automation",
     tools: ["Jira", "n8n"]
   },
@@ -173,6 +182,7 @@ export const systems: System[] = [
     title: "Due Date Escalation",
     problem: "Approaching deadlines go unnoticed until overdue — managers learn about slippage in status meetings.",
     result: "3-level escalation (reminder → warning → manager alert) ensures no deadline slips without accountability.",
+    impact: "Deadline slippage is almost always preventable — the information exists, it just doesn't reach the right person in time. This system closes that gap automatically.",
     category: "Monitoring",
     tools: ["Jira", "Gmail", "n8n"]
   }
