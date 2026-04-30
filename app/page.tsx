@@ -73,7 +73,7 @@ export default async function HomePage() {
               </article>
               <article className="hero-proof-card">
                 <span className="muted-label">Open to</span>
-                <strong>Freelance work</strong>
+                <strong>Freelance&nbsp;· CDI</strong>
               </article>
             </div>
 
