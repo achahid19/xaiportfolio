@@ -34,7 +34,19 @@ export function SystemsCarousel({ systems }: Props) {
         {visible.map((s) => {
           const isExpanded = expanded === s.id;
           return (
-            <article key={s.id} className={`carousel-card${isExpanded ? " expanded" : ""}`}>
+            <article
+              key={s.id}
+              className={`carousel-card${isExpanded ? " expanded" : ""}`}
+              onClick={() => setExpanded(isExpanded ? null : s.id)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setExpanded(isExpanded ? null : s.id);
+                }
+              }}
+            >
               <div className="system-head">
                 <div>
                   <div className="system-cat mono">{s.category}</div>
@@ -63,13 +75,9 @@ export function SystemsCarousel({ systems }: Props) {
                 ))}
               </div>
 
-              <button
-                type="button"
-                className="system-expand mono"
-                onClick={() => setExpanded(isExpanded ? null : s.id)}
-              >
+              <div className="system-expand mono">
                 {isExpanded ? "− Hide impact" : "+ Read impact"}
-              </button>
+              </div>
             </article>
           );
         })}

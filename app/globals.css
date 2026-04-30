@@ -1207,16 +1207,11 @@ h3 {
   background: var(--accent);
 }
 
-.carousel-card .system-expand {
-  background: none;
-  border: none;
+.carousel-card[role="button"] {
   cursor: pointer;
-  padding: 0;
-  text-align: left;
-  width: fit-content;
 }
 
-.carousel-card .system-expand:hover {
+.carousel-card[role="button"]:hover .system-expand {
   color: var(--accent);
 }
 
