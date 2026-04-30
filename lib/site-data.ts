@@ -91,26 +91,81 @@ export const projects: Project[] = [
 ];
 
 export const systems: System[] = [
+  // ── FEATURED (carousel on homepage) ──────────────────────────────
   {
-    title: "Package Eval Agent",
-    problem: "Manual package due diligence eats 30+ min per library and still gets skipped under pressure.",
-    result: "Structured go/no-go recommendation delivered to Slack in under 10 seconds.",
-    category: "AI Agent",
-    tools: ["n8n", "Firecrawl", "OpenAI", "Slack"]
+    title: "Daily Sprint Briefing",
+    problem: "Teams waste 15–30 min every morning manually reviewing Jira to figure out what's critical.",
+    result: "Full AI sprint health report in the inbox at 8 AM — readable in 30 seconds.",
+    category: "AI Reporting",
+    tools: ["Jira", "OpenRouter", "Gmail", "Postgres", "n8n"],
+    featured: true
   },
   {
-    title: "Lead Capture Automation",
-    problem: "Inbound leads were sitting hours in inboxes with no consistent follow-up process.",
-    result: "Response time cut from 4 hours to under 5 minutes with automated personalised outreach.",
-    category: "Lead Gen",
-    tools: ["n8n", "Webhooks", "CRM", "Google Sheets"]
+    title: "Real-Time Jira Notifications",
+    problem: "High-priority tickets sit unnoticed for hours — delayed responses compound sprint risk.",
+    result: "Critical ticket response time cut from hours to under 5 minutes across Slack, Gmail & Google Chat.",
+    category: "Alerting",
+    tools: ["Jira", "Slack", "Gmail", "OpenRouter", "n8n"],
+    featured: true
   },
   {
-    title: "Content Research Assistant",
-    problem: "Research for articles and strategy was scattered across tabs, notes, and formats.",
-    result: "Clean briefing pack ready in minutes instead of hours of manual aggregation.",
-    category: "Content",
-    tools: ["n8n", "OpenAI", "Notion", "Markdown"]
+    title: "Jira → Google Calendar Sync",
+    problem: "Jira due dates are invisible in calendar tools — deadlines get missed or duplicated manually.",
+    result: "Every Jira due date becomes a calendar event instantly — no manual duplication, no missed deadlines.",
+    category: "Integration",
+    tools: ["Jira", "Google Calendar", "Postgres", "n8n"],
+    featured: true
+  },
+  {
+    title: "Weekly Sprint Report",
+    problem: "Weekly reporting eats 30–60 minutes of manual Jira pulls, metric computation, and formatting.",
+    result: "1 hour of manual reporting eliminated every week — leadership gets full sprint visibility automatically.",
+    category: "Reporting",
+    tools: ["Jira", "Postgres", "Gmail", "n8n"],
+    featured: true
+  },
+  // ── LIBRARY ───────────────────────────────────────────────────────
+  {
+    title: "Blocked Issue Monitor",
+    problem: "Blocked sprint issues go unnoticed for days, silently delaying delivery until retrospectives.",
+    result: "Blockers surface within 24 hours — before they cascade into sprint delays.",
+    category: "Monitoring",
+    tools: ["Jira", "Gmail", "n8n"]
+  },
+  {
+    title: "n8n Workflow Backup",
+    problem: "n8n has no built-in version control — one misconfiguration could wipe weeks of automation work.",
+    result: "100% of automations versioned daily to GitHub — full recovery in under 5 minutes.",
+    category: "DevOps",
+    tools: ["n8n", "GitHub"]
+  },
+  {
+    title: "Blocked Ticket Follow-up",
+    problem: "Blocked tickets linger with no owner or resolution plan, draining sprint capacity silently.",
+    result: "Every blocker beyond 2 days gets a follow-up subtask and an owner — no ticket stays stuck.",
+    category: "Automation",
+    tools: ["Jira", "n8n"]
+  },
+  {
+    title: "Calendar Change Detection",
+    problem: "Jira updates don't sync to calendar — teams work off stale deadlines and miss rescheduled work.",
+    result: "Calendar and Jira stay in sync within seconds of any change — zero stale deadlines.",
+    category: "Integration",
+    tools: ["Jira", "Google Calendar", "Gmail", "Postgres", "n8n"]
+  },
+  {
+    title: "Auto Issue Assignment",
+    problem: "New Jira issues sit unassigned, stalling triage and adding friction to every sprint planning session.",
+    result: "Unassigned tickets drop to 0 — every new issue has an owner within seconds of creation.",
+    category: "Automation",
+    tools: ["Jira", "n8n"]
+  },
+  {
+    title: "Due Date Escalation",
+    problem: "Approaching deadlines go unnoticed until overdue — managers learn about slippage in status meetings.",
+    result: "3-level escalation (reminder → warning → manager alert) ensures no deadline slips without accountability.",
+    category: "Monitoring",
+    tools: ["Jira", "Gmail", "n8n"]
   }
 ];
 
