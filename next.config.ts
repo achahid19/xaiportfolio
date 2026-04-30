@@ -1,9 +1,13 @@
 import path from "path";
 import type { NextConfig } from "next";
 
-// When running from a git worktree inside .claude/worktrees/*, resolve
-// node_modules from the real project root three levels up.
-const projectRoot = path.resolve(__dirname, "../../..");
+// Only resolve node_modules from the real project root when running
+// from inside a git worktree (.claude/worktrees/*). On Vercel __dirname
+// is already the project root so we must not apply this override.
+const isWorktree = __dirname.includes(".claude/worktrees");
+const projectRoot = isWorktree
+  ? path.resolve(__dirname, "../../..")
+  : __dirname;
 
 const nextConfig: NextConfig = {
   images: {
@@ -14,9 +18,11 @@ const nextConfig: NextConfig = {
       }
     ]
   },
-  turbopack: {
-    root: projectRoot
-  }
+  ...(isWorktree && {
+    turbopack: {
+      root: projectRoot
+    }
+  })
 };
 
 export default nextConfig;
