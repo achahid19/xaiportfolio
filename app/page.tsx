@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { Magnetic } from "@/components/magnetic";
-import { SystemsGrid } from "@/components/systems-grid";
+import { SystemsCarousel } from "@/components/systems-carousel";
 import { Workflow } from "@/components/workflow";
 import { getBlogPosts } from "@/lib/blog";
 import {
@@ -168,7 +168,7 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="animate-in">
-            <SystemsGrid systems={featuredSystems} />
+            <SystemsCarousel systems={featuredSystems} />
           </div>
         </div>
       </section>

@@ -1168,6 +1168,123 @@ h3 {
 }
 
 /* ============================================================
+   SYSTEMS CAROUSEL (homepage preview)
+   ============================================================ */
+.carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.carousel-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  padding: 32px 36px;
+  position: relative;
+  transition: border-color 0.2s;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.carousel-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+}
+
+.carousel-card .system-expand {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  width: fit-content;
+}
+
+.carousel-card .system-expand:hover {
+  color: var(--accent);
+}
+
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.carousel-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.carousel-btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  background: var(--bg-card);
+  color: var(--fg);
+  font-size: 16px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: border-color 0.18s, background 0.18s, color 0.18s;
+}
+
+.carousel-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.carousel-count {
+  font-size: 13px;
+  color: var(--fg-dim);
+  min-width: 48px;
+  text-align: center;
+}
+
+.carousel-count .accent {
+  color: var(--accent);
+  font-size: 15px;
+}
+
+.carousel-dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.carousel-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.18s, border-color 0.18s, transform 0.18s;
+}
+
+.carousel-dot.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.4);
+}
+
+.carousel-dot:hover:not(.active) {
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+}
+
+/* ============================================================
    ABOUT / PROOF
    ============================================================ */
 .about {
