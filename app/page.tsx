@@ -5,7 +5,6 @@ import { SystemsGrid } from "@/components/systems-grid";
 import { Workflow } from "@/components/workflow";
 import { getBlogPosts } from "@/lib/blog";
 import {
-  heroMetrics,
   profile,
   proofMetrics,
   services,
@@ -52,14 +51,50 @@ export default async function HomePage() {
             </div>
 
             <div className="hero-stats">
-              {heroMetrics.map((m) => (
-                <div key={m.label} className="hero-stat">
-                  <div className="num mono">
-                    <span className="accent">{m.v}</span>
-                  </div>
-                  <div className="label mono">{m.label}</div>
+              <div className="hero-stat">
+                <div className="num mono">
+                  <span className="accent">{systemCount}+</span>
                 </div>
-              ))}
+                <div className="label mono">Systems shipped</div>
+              </div>
+
+              <div className="hero-badges">
+                <span className="hero-badge-brand mono">n8n</span>
+                <div className="hero-badge-row">
+                  <a
+                    href="https://n8n.io/creators/achahid19/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hero-badge mono"
+                  >
+                    <span className="hero-badge__icon">★</span>
+                    Verified Creator
+                    <span className="hero-badge__sep" />
+                    3 templates
+                    <span className="hero-badge__arrow">↗</span>
+                  </a>
+                  <a
+                    href="https://academy.n8n.io/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hero-badge mono"
+                  >
+                    <span className="hero-badge__icon">⏱</span>
+                    Course Level 1
+                    <span className="hero-badge__arrow">↗</span>
+                  </a>
+                  <a
+                    href="https://academy.n8n.io/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hero-badge mono"
+                  >
+                    <span className="hero-badge__icon">⏱</span>
+                    Course Level 2
+                    <span className="hero-badge__arrow">↗</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
 
