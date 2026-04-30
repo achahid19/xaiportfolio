@@ -9,6 +9,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 const navItems = [
   { href: "/", label: "Home" },
+  { href: "/systems", label: "Systems" },
   { href: "/blog", label: "Writing" },
   { href: "/contact", label: "Contact" }
 ];
@@ -36,6 +37,10 @@ export function SiteHeader() {
 
     if (href === "/blog") {
       return pathname.startsWith("/blog");
+    }
+
+    if (href === "/systems") {
+      return pathname.startsWith("/systems");
     }
 
     return pathname === href;
