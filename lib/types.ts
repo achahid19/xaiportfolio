@@ -48,7 +48,6 @@ export type System = {
   result: string;    // one line — the win (numbers preferred)
   category: string;  // e.g. "AI Agent" | "Lead Gen" | "Sales" | "Ops" | "Content" | "Dev"
   tools: string[];
-  link?: { label: string; href: string };
 };
 
 export type ContactSubmission = {

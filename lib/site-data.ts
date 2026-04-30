@@ -96,24 +96,21 @@ export const systems: System[] = [
     problem: "Manual package due diligence eats 30+ min per library and still gets skipped under pressure.",
     result: "Structured go/no-go recommendation delivered to Slack in under 10 seconds.",
     category: "AI Agent",
-    tools: ["n8n", "Firecrawl", "OpenAI", "Slack"],
-    link: { label: "Case study", href: "#" }
+    tools: ["n8n", "Firecrawl", "OpenAI", "Slack"]
   },
   {
     title: "Lead Capture Automation",
     problem: "Inbound leads were sitting hours in inboxes with no consistent follow-up process.",
     result: "Response time cut from 4 hours to under 5 minutes with automated personalised outreach.",
     category: "Lead Gen",
-    tools: ["n8n", "Webhooks", "CRM", "Google Sheets"],
-    link: { label: "Workflow notes", href: "#" }
+    tools: ["n8n", "Webhooks", "CRM", "Google Sheets"]
   },
   {
     title: "Content Research Assistant",
     problem: "Research for articles and strategy was scattered across tabs, notes, and formats.",
     result: "Clean briefing pack ready in minutes instead of hours of manual aggregation.",
     category: "Content",
-    tools: ["n8n", "OpenAI", "Notion", "Markdown"],
-    link: { label: "Project outline", href: "#" }
+    tools: ["n8n", "OpenAI", "Notion", "Markdown"]
   }
 ];
 
