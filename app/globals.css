@@ -1819,19 +1819,115 @@ h3 {
 }
 
 /* ============================================================
-   GUESTBOOK & ADMIN — minimal styles to keep readable
+   GUESTBOOK
    ============================================================ */
-.panel,
-.form-card,
+.gb-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.gb-form-card {
+  border: 1px solid var(--line);
+  background: var(--bg-card);
+  padding: 32px;
+  position: sticky;
+  top: 88px;
+}
+
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Guestbook feed */
+.guestbook-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.guestbook-feed__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line-soft);
+  margin-bottom: 20px;
+}
+
+.guestbook-feed__title {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-top: 4px;
+}
+
+.guestbook-feed__count {
+  font-family: var(--font-mono-stack);
+  font-size: 12px;
+  color: var(--fg-dim);
+}
+
+.guestbook-feed__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .entry-card {
   border: 1px solid var(--line);
   background: var(--bg-card);
-  border-radius: 3px;
+  padding: 20px 22px;
+}
+
+.entry-card__meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.entry-card__meta strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.entry-card__meta span {
+  font-family: var(--font-mono-stack);
+  font-size: 11px;
+  color: var(--fg-dim);
+  flex-shrink: 0;
+}
+
+.guestbook-feed__footer {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.guestbook-feed__hint {
+  font-family: var(--font-mono-stack);
+  font-size: 12px;
+  color: var(--fg-dim);
+}
+
+/* Legacy alias classes — keep admin page rendering */
+.panel,
+.form-card {
+  border: 1px solid var(--line);
+  background: var(--bg-card);
   padding: 28px;
 }
 
 .muted {
   color: var(--fg-mute);
+  font-size: 14px;
+  line-height: 1.55;
 }
 
 .muted-label {
@@ -1850,8 +1946,13 @@ h3 {
   background: var(--bg-elev);
   color: var(--fg-mute);
   border: 1px solid var(--line-soft);
-  border-radius: 2px;
   font-family: var(--font-mono-stack);
+}
+
+.form-hint {
+  font-family: var(--font-mono-stack);
+  font-size: 12px;
+  color: var(--fg-dim);
 }
 
 .button {
@@ -1863,7 +1964,6 @@ h3 {
   font-size: 13px;
   font-weight: 500;
   border: 1px solid var(--line);
-  border-radius: 2px;
   cursor: pointer;
   background: transparent;
   color: var(--fg);
@@ -1885,6 +1985,17 @@ h3 {
 .button--primary:hover {
   color: oklch(0.15 0.01 35);
   filter: brightness(1.05);
+}
+
+.button--secondary {
+  background: transparent;
+  color: var(--fg);
+  border-color: var(--line);
+}
+
+.button--secondary:hover {
+  border-color: var(--accent-line);
+  color: var(--accent);
 }
 
 .button--small {
@@ -2017,6 +2128,15 @@ h3 {
   }
   .post-tag {
     text-align: left;
+  }
+}
+
+@media (max-width: 760px) {
+  .gb-grid {
+    grid-template-columns: 1fr;
+  }
+  .gb-form-card {
+    position: static;
   }
 }
 
