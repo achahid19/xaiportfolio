@@ -35,8 +35,8 @@ const TOOLS: ReadonlyArray<Tool> = [
 ];
 
 const CDN       = "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons";
-const MAX_SCALE = 1.55;   // peak scale at cursor
-const SIGMA     = 100;    // px — spread width of the magnification wave
+const MAX_SCALE = 1.28;   // peak scale at cursor
+const SIGMA     = 90;     // px — spread width of the magnification wave
 
 function gaussian(dist: number) {
   return Math.exp(-(dist * dist) / (2 * SIGMA * SIGMA));
@@ -75,7 +75,7 @@ function ToolItem({ tool, mouseX }: { tool: Tool; mouseX: number | null }) {
    * so neighbours actually push apart — this is what makes it feel like
    * the real dock rather than just an overlapping zoom.
    */
-  const extraMx = `${((scale - 1) * 36).toFixed(1)}px`;
+  const extraMx = `${((scale - 1) * 28).toFixed(1)}px`;
   const easing   = mouseX === null
     ? "transform 0.45s cubic-bezier(0.34,1.56,0.64,1), margin 0.45s cubic-bezier(0.34,1.56,0.64,1)"
     : "transform 0.08s ease-out, margin 0.08s ease-out";
