@@ -63,15 +63,22 @@ function ToolItem({ tool, mouseX }: { tool: Tool; mouseX: number | null }) {
   const liRef   = useRef<HTMLLIElement>(null);
   const maskUrl = tool.slug ? `url(${CDN}/${tool.slug}.svg)` : undefined;
 
-  /* Gaussian factor — 1.0 anywhere inside the item, falls off outside */
-  let g = 0;
+  /* Gaussian factor + highlight */
+  let g        = 0;
+  let isActive = false;
   if (mouseX !== null && liRef.current) {
     const { left, width } = liRef.current.getBoundingClientRect();
-    // Distance from the nearest edge (0 when cursor is inside the item)
-    const dist = mouseX < left ? left - mouseX
+    // Distance from nearest horizontal edge (0 = cursor is inside item bounds)
+    const dist = mouseX < left         ? left - mouseX
                : mouseX > left + width ? mouseX - (left + width)
                : 0;
     g = gaussian(dist);
+    /*
+     * Highlight ONLY when cursor is horizontally inside this item (dist=0).
+     * Scale uses the gaussian so neighbours still magnify — but colour
+     * highlight is exclusive to the item you're actually over.
+     */
+    isActive = dist === 0;
   }
 
   const scale   = 1 + (MAX_SCALE - 1) * g;
@@ -80,14 +87,8 @@ function ToolItem({ tool, mouseX }: { tool: Tool; mouseX: number | null }) {
     ? "transform 0.45s cubic-bezier(0.34,1.56,0.64,1), margin 0.45s cubic-bezier(0.34,1.56,0.64,1)"
     : "transform 0.08s ease-out, margin 0.08s ease-out";
 
-  /*
-   * Highlight driven by g, not CSS :hover — so moving anywhere in the
-   * strip's vertical band (including above/below the text) highlights
-   * the nearest item, giving the full Mac dock feel.
-   */
-  const isActive   = g > 0.65;
-  const logoColor  = isActive ? "var(--accent)"  : "var(--fg-dim)";
-  const textColor  = isActive ? "var(--fg)"      : undefined;
+  const logoColor = isActive ? "var(--accent)" : "var(--fg-dim)";
+  const textColor = isActive ? "var(--fg)"     : undefined;
 
   return (
     <li
