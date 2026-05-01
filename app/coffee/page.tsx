@@ -3,7 +3,7 @@ import { CoffeeWallets } from "@/components/coffee-wallets";
 export const metadata = {
   title: "Buy Me a Coffee",
   description:
-    "If my work helped you, feel free to send a coffee. ETH or SOL accepted."
+    "If my work helped you, feel free to send a coffee. ETH, SOL, BTC or BNB accepted."
 };
 
 export default function CoffeePage() {
@@ -30,9 +30,12 @@ export default function CoffeePage() {
         <div className="coffee-page">
           <div className="coffee-intro">
             <p className="mono coffee-note">
-              ☕ &nbsp;Send any amount — even{" "}
-              <span style={{ color: "var(--accent)" }}>0.001 ETH</span> or{" "}
-              <span style={{ color: "#9945FF" }}>0.01 SOL</span> is appreciated.
+              ☕ &nbsp;Send any amount — even a small tip is appreciated.
+              Supports{" "}
+              <span style={{ color: "#627EEA" }}>ETH</span>,{" "}
+              <span style={{ color: "#9945FF" }}>SOL</span>,{" "}
+              <span style={{ color: "#F7931A" }}>BTC</span>, and{" "}
+              <span style={{ color: "#F0B90B" }}>BNB</span>.{" "}
               No account needed, just a wallet.
             </p>
           </div>
@@ -40,19 +43,7 @@ export default function CoffeePage() {
           <CoffeeWallets />
 
           <div className="coffee-footer-note mono">
-            <p>
-              Not into crypto?{" "}
-              <a
-                href="https://www.buymeacoffee.com/"
-                target="_blank"
-                rel="noreferrer"
-                style={{ color: "var(--accent)" }}
-              >
-                Buy Me a Coffee ↗
-              </a>{" "}
-              also works.
-            </p>
-            <p style={{ color: "var(--fg-mute)", marginTop: "8px" }}>
+            <p style={{ color: "var(--fg-mute)" }}>
               All addresses are verified — double-check before sending.
             </p>
           </div>

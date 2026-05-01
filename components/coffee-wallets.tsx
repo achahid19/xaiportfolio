@@ -44,6 +44,29 @@ const WALLETS: Wallet[] = [
         </linearGradient>
       </defs>
     </svg>`
+  },
+  {
+    chain: "Bitcoin",
+    symbol: "BTC",
+    address: "bc1qhrwflj746j5erj07v72spxdd8dw4dfwmqqjsjx",
+    color: "#F7931A",
+    icon: `<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M23.2 13.8c.4-2.6-1.6-4-4.3-4.9l.9-3.5-2.1-.5-.9 3.4-1.7-.4.9-3.4-2.1-.5-.9 3.5-1.3-.3-2.9-.7-.6 2.3s1.6.4 1.5.4c.9.2 1 .8 1 1.2l-1 4.1c.1 0 .2.1.3.1h-.3l-1.5 5.8c-.1.3-.4.7-1 .6 0 .1-1.5-.4-1.5-.4L7 23.4l2.7.7 1.5.4-.9 3.5 2.1.5.9-3.5 1.7.4-.9 3.5 2.1.5.9-3.5c3.5.7 6.1.4 7.2-2.8.9-2.5-.1-4-1.9-4.9 1.4-.3 2.4-1.2 2.7-3zm-4.8 6.7c-.6 2.5-4.9 1.2-6.3.8l1.1-4.5c1.4.4 5.9 1 5.2 3.7zm.7-6.8c-.6 2.3-4.2 1.1-5.3.8l1-4.1c1.2.3 4.9.8 4.3 3.3z" fill="currentColor"/>
+    </svg>`
+  },
+  {
+    chain: "BNB Chain",
+    symbol: "BNB",
+    address: "0x4e3e742Fe7C890c61d713aa1eB42270FFdBFEbDa",
+    color: "#F0B90B",
+    icon: `<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 4l2.8 2.8-8.2 8.2-2.8-2.8L16 4z" fill="currentColor"/>
+      <path d="M10.4 9.6l2.8 2.8-2.8 2.8-2.8-2.8 2.8-2.8z" fill="currentColor"/>
+      <path d="M21.6 9.6l2.8 2.8-2.8 2.8-2.8-2.8 2.8-2.8z" fill="currentColor"/>
+      <path d="M16 14l2.8 2.8-8.2 8.2L7.8 22 16 14z" fill="currentColor" opacity="0.7"/>
+      <path d="M16 14l5.4 5.4-2.8 2.8L16 19.6l-2.6 2.6-2.8-2.8L16 14z" fill="currentColor"/>
+      <path d="M16 20.4l2.8 2.8L16 26l-2.8-2.8 2.8-2.8z" fill="currentColor"/>
+    </svg>`
   }
 ];
 
