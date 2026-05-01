@@ -962,27 +962,60 @@ h3 {
 .tools-marquee-item {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   font-size: 12.5px;
   color: var(--fg-dim);
   white-space: nowrap;
   padding: 0 4px;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 
 .tools-marquee-item:hover {
   color: var(--fg);
 }
 
-.tools-marquee-icon {
-  font-size: 11px;
-  opacity: 0.6;
+.tools-marquee-item:hover .tools-marquee-logo,
+.tools-marquee-item:hover .tools-marquee-svg-fallback {
+  opacity: 1;
+  filter: brightness(0) invert(1);
+}
+
+/* Brand SVG logos — desaturated to fit the monochrome strip */
+.tools-marquee-logo {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  object-fit: contain;
+  /* Dark theme: turn logos white and dim them */
+  filter: brightness(0) invert(1);
+  opacity: 0.55;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+/* Light theme: turn logos black */
+[data-theme="light"] .tools-marquee-logo {
+  filter: brightness(0);
+  opacity: 0.55;
+}
+
+[data-theme="light"] .tools-marquee-item:hover .tools-marquee-logo {
+  filter: brightness(0);
+  opacity: 1;
+}
+
+/* Fallback geometric icon (for tools not in Simple Icons) */
+.tools-marquee-svg-fallback {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  opacity: 0.4;
+  transition: opacity 0.2s ease;
 }
 
 .tools-marquee-sep {
   margin-left: 16px;
-  opacity: 0.25;
-  font-size: 14px;
+  opacity: 0.2;
+  font-size: 13px;
 }
 
 @keyframes tools-scroll {
