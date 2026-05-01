@@ -42,43 +42,39 @@ function gaussian(dist: number) {
   return Math.exp(-(dist * dist) / (2 * SIGMA * SIGMA));
 }
 
-/* ── Fallback icon ── */
-function FallbackIcon() {
-  return (
-    <svg
-      width="14" height="14" viewBox="0 0 24 24"
-      fill="none" stroke="currentColor"
-      strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
-      className="tools-marquee-svg-fallback" aria-hidden="true"
-    >
-      <path d="M12 2L2 7l10 5 10-5-10-5z" />
-      <path d="M2 17l10 5 10-5" />
-      <path d="M2 12l10 5 10-5" />
-    </svg>
-  );
-}
 
 /* ── Single pill ── */
 function ToolItem({ tool, mouseX }: { tool: Tool; mouseX: number | null }) {
-  const liRef  = useRef<HTMLLIElement>(null);
+  const liRef   = useRef<HTMLLIElement>(null);
   const maskUrl = tool.slug ? `url(${CDN}/${tool.slug}.svg)` : undefined;
 
-  /* Distance-based scale */
-  let scale = 1;
+  /* Gaussian factor + highlight */
+  let g        = 0;
+  let isActive = false;
   if (mouseX !== null && liRef.current) {
     const { left, width } = liRef.current.getBoundingClientRect();
-    scale = 1 + (MAX_SCALE - 1) * gaussian(Math.abs(left + width / 2 - mouseX));
+    // Distance from nearest horizontal edge (0 = cursor is inside item bounds)
+    const dist = mouseX < left         ? left - mouseX
+               : mouseX > left + width ? mouseX - (left + width)
+               : 0;
+    g = gaussian(dist);
+    /*
+     * Highlight ONLY when cursor is horizontally inside this item (dist=0).
+     * Scale uses the gaussian so neighbours still magnify — but colour
+     * highlight is exclusive to the item you're actually over.
+     */
+    isActive = dist === 0;
   }
 
-  /*
-   * Margin trick: add horizontal space proportional to the scale delta
-   * so neighbours actually push apart — this is what makes it feel like
-   * the real dock rather than just an overlapping zoom.
-   */
+  const scale   = 1 + (MAX_SCALE - 1) * g;
   const extraMx = `${((scale - 1) * 28).toFixed(1)}px`;
-  const easing   = mouseX === null
+  const easing  = mouseX === null
     ? "transform 0.45s cubic-bezier(0.34,1.56,0.64,1), margin 0.45s cubic-bezier(0.34,1.56,0.64,1)"
     : "transform 0.08s ease-out, margin 0.08s ease-out";
+
+  const colorTransition = "color 0.12s ease, background-color 0.12s ease";
+  const logoColor = isActive ? "var(--accent)" : "var(--fg-dim)";
+  const textColor = isActive ? "var(--fg)"     : "var(--fg-dim)";
 
   return (
     <li
@@ -86,22 +82,38 @@ function ToolItem({ tool, mouseX }: { tool: Tool; mouseX: number | null }) {
       className="tools-marquee-item mono"
       style={{
         transform      : `scale(${scale.toFixed(3)})`,
-        transformOrigin: "center center",   // ← symmetric: no top-clip
+        transformOrigin: "center center",
         marginLeft     : extraMx,
         marginRight    : extraMx,
         transition     : easing,
+        color          : textColor,
       }}
     >
       {maskUrl ? (
         <span
           className="tools-marquee-logo"
           aria-hidden="true"
-          style={{ WebkitMaskImage: maskUrl, maskImage: maskUrl }}
+          style={{
+            WebkitMaskImage : maskUrl,
+            maskImage        : maskUrl,
+            backgroundColor  : logoColor,
+            transition       : colorTransition,
+          }}
         />
       ) : (
-        <FallbackIcon />
+        <svg
+          width="14" height="14" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor"
+          strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+          aria-hidden="true"
+          style={{ color: logoColor, transition: colorTransition, flexShrink: 0 }}
+        >
+          <path d="M12 2L2 7l10 5 10-5-10-5z" />
+          <path d="M2 17l10 5 10-5" />
+          <path d="M2 12l10 5 10-5" />
+        </svg>
       )}
-      <span>{tool.name}</span>
+      <span style={{ transition: colorTransition }}>{tool.name}</span>
       <span className="tools-marquee-sep" aria-hidden="true">·</span>
     </li>
   );
