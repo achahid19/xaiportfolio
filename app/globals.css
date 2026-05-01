@@ -2610,10 +2610,18 @@ h3 {
   flex-direction: column;
   gap: 12px;
   transition: border-color 0.2s ease;
+  cursor: pointer;
+  user-select: none;
 }
 
 .cw-card:hover {
   border-color: rgba(255, 255, 255, 0.15);
+}
+
+.cw-card:hover .cw-qr-btn,
+.cw-card--open .cw-qr-btn {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
 [data-theme="light"] .cw-card:hover {
@@ -2720,10 +2728,9 @@ h3 {
   flex-shrink: 0;
 }
 
-.cw-qr-btn:hover,
 .cw-qr-btn--open {
-  color: var(--fg);
-  border-color: var(--fg-mute);
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
 /* QR expand */

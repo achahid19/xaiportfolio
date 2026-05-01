@@ -105,7 +105,14 @@ function WalletCard({ wallet }: { wallet: Wallet }) {
   }
 
   return (
-    <div className="cw-card">
+    <div
+      className={`cw-card${qrOpen ? " cw-card--open" : ""}`}
+      onClick={() => setQrOpen((o) => !o)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === "Enter" && setQrOpen((o) => !o)}
+      aria-expanded={qrOpen}
+    >
       {/* Header row */}
       <div className="cw-header">
         <div className="cw-icon" style={{ color: wallet.color }} dangerouslySetInnerHTML={{ __html: wallet.icon }} />
@@ -122,19 +129,14 @@ function WalletCard({ wallet }: { wallet: Wallet }) {
           <button
             type="button"
             className={`cw-copy mono${copied ? " cw-copy--ok" : ""}`}
-            onClick={handleCopy}
+            onClick={(e) => { e.stopPropagation(); handleCopy(); }}
             aria-label="Copy address"
           >
             {copied ? "✓" : "Copy"}
           </button>
-          <button
-            type="button"
-            className={`cw-qr-btn${qrOpen ? " cw-qr-btn--open" : ""}`}
-            onClick={() => setQrOpen((o) => !o)}
-            aria-label="Toggle QR code"
-          >
+          <div className={`cw-qr-btn${qrOpen ? " cw-qr-btn--open" : ""}`} aria-hidden="true">
             <QRIcon />
-          </button>
+          </div>
         </div>
       </div>
 
