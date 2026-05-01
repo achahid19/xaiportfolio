@@ -5,6 +5,7 @@ import { ScrollReveal } from "@/components/scroll-reveal";
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { SiteHeaderBackdrop } from "@/components/site-header-backdrop";
 import "./globals.css";
 
 const inter = Inter({
@@ -82,6 +83,7 @@ export default function RootLayout({
         <div className="bg-grid" aria-hidden="true" />
         <div className="bg-noise" aria-hidden="true" />
         <div className="site-shell" suppressHydrationWarning>
+          <SiteHeaderBackdrop />
           <SiteHeader />
           <main>{children}</main>
           <SiteFooter />
