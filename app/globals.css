@@ -904,11 +904,14 @@ h3 {
   display: flex;
   align-items: center;
   gap: 24px;
-  padding: 20px 0;
+  /* Vertical padding gives scaled items room to grow without clipping */
+  padding: 20px 0 28px;
   border-top: 1px solid var(--line-soft);
   border-bottom: 1px solid var(--line-soft);
   margin-bottom: 16px;
-  overflow: hidden;
+  /* Clip horizontally (marquee) but allow vertical overflow (dock scale) */
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 /* "Built with" label — pinned left, never scrolls */
@@ -958,7 +961,7 @@ h3 {
   animation-play-state: paused;
 }
 
-/* Each tool pill */
+/* Each tool pill — transform is driven by inline style (dock effect) */
 .tools-marquee-item {
   display: inline-flex;
   align-items: center;
@@ -966,8 +969,10 @@ h3 {
   font-size: 12.5px;
   color: var(--fg-dim);
   white-space: nowrap;
-  padding: 0 4px;
-  transition: color 0.2s ease, opacity 0.2s ease;
+  padding: 0 10px;
+  will-change: transform;
+  /* Only colour transitions here; scale transition is inline */
+  transition: color 0.2s ease;
 }
 
 .tools-marquee-item:hover {
