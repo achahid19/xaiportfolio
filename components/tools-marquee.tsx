@@ -63,11 +63,15 @@ function ToolItem({ tool, mouseX }: { tool: Tool; mouseX: number | null }) {
   const liRef   = useRef<HTMLLIElement>(null);
   const maskUrl = tool.slug ? `url(${CDN}/${tool.slug}.svg)` : undefined;
 
-  /* Gaussian factor — 1.0 at cursor, falls off with distance */
+  /* Gaussian factor — 1.0 anywhere inside the item, falls off outside */
   let g = 0;
   if (mouseX !== null && liRef.current) {
     const { left, width } = liRef.current.getBoundingClientRect();
-    g = gaussian(Math.abs(left + width / 2 - mouseX));
+    // Distance from the nearest edge (0 when cursor is inside the item)
+    const dist = mouseX < left ? left - mouseX
+               : mouseX > left + width ? mouseX - (left + width)
+               : 0;
+    g = gaussian(dist);
   }
 
   const scale   = 1 + (MAX_SCALE - 1) * g;
