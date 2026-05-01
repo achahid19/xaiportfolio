@@ -896,31 +896,110 @@ h3 {
 }
 
 /* ============================================================
-   TRUST STRIP
+   TRUST STRIP – MARQUEE
    ============================================================ */
-.logo-row {
+
+/* Outer wrapper: label + scrolling band */
+.tools-marquee-wrap {
   display: flex;
-  flex-wrap: wrap;
-  gap: 32px 48px;
   align-items: center;
-  padding: 24px 0;
+  gap: 24px;
+  padding: 20px 0;
   border-top: 1px solid var(--line-soft);
   border-bottom: 1px solid var(--line-soft);
-  font-size: 13px;
-  color: var(--fg-dim);
   margin-bottom: 16px;
+  overflow: hidden;
 }
 
-.logo-row .lbl {
-  color: var(--fg-mute);
-  margin-right: 16px;
-  font-size: 11px;
+/* "Built with" label — pinned left, never scrolls */
+.tools-marquee-label {
+  flex-shrink: 0;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.09em;
+  color: var(--fg-mute);
+  white-space: nowrap;
+  padding-right: 8px;
+  border-right: 1px solid var(--line-soft);
 }
 
-.logo-row span {
-  opacity: 0.85;
+/* Clipping window */
+.tools-marquee-overflow {
+  flex: 1;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 6%,
+    black 94%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 6%,
+    black 94%,
+    transparent 100%
+  );
+}
+
+/* The scrolling track — two identical lists end-to-end */
+.tools-marquee-track {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: max-content;
+  animation: tools-scroll 32s linear infinite;
+}
+
+/* Pause on hover */
+.tools-marquee-wrap:hover .tools-marquee-track {
+  animation-play-state: paused;
+}
+
+/* Each tool pill */
+.tools-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--fg-dim);
+  white-space: nowrap;
+  padding: 0 4px;
+  transition: color 0.2s ease;
+}
+
+.tools-marquee-item:hover {
+  color: var(--fg);
+}
+
+.tools-marquee-icon {
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+.tools-marquee-sep {
+  margin-left: 16px;
+  opacity: 0.25;
+  font-size: 14px;
+}
+
+@keyframes tools-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .tools-marquee-track {
+    animation: none;
+  }
+  .tools-marquee-overflow {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
 }
 
 /* ============================================================
