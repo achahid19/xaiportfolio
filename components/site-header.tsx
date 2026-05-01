@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { AixLogo } from "@/components/aix-logo";
 import { Magnetic } from "@/components/magnetic";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -42,16 +42,13 @@ export function SiteHeader() {
     <header className="site-header" ref={headerRef}>
       <nav className="nav">
         <Link className="logo" href="/" onClick={() => setIsOpen(false)}>
-          <Image
-            src="/images/aix_logo_no_bg.png"
-            alt="AIX Automation"
-            width={32}
-            height={32}
-            className="logo-img"
-            priority
-          />
-          <span className="logo-text">
-            AI X Automation
+          {/* Desktop: full lockup with subtitle */}
+          <span className="logo-lockup">
+            <AixLogo variant="lockup" />
+          </span>
+          {/* Mobile: icon + wordmark only */}
+          <span className="logo-mark-only">
+            <AixLogo variant="mark" />
           </span>
         </Link>
 

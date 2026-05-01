@@ -307,41 +307,32 @@ h3 {
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--fg);
   text-decoration: none;
-  font-family: var(--font-mono-stack);
-}
-
-.logo-img {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-  /* Keep logo visible in both themes */
-  filter: brightness(1);
-}
-
-[data-theme="dark"] .logo-img {
-  /* Slight brightness boost so it pops on dark bg */
-  filter: brightness(1.15) drop-shadow(0 0 6px var(--accent-soft));
-}
-
-.logo-text {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
   color: var(--fg);
-  font-family: var(--font-mono-stack);
-  text-transform: uppercase;
+  flex-shrink: 0;
 }
 
-.logo small {
-  color: var(--fg-mute);
-  font-weight: 400;
-}
+/* Responsive lockup vs mark */
+.logo-lockup    { display: inline-flex; }
+.logo-mark-only { display: none; }
+
+/* ── AiX SVG logo — dark mode (default) ── */
+.logo-icon-bg      { fill: #161c1a; }
+.logo-accent-fill  { fill: #f08a58; }
+.logo-accent-stroke{ stroke: #f08a58; }
+.logo-accent-ring  { stroke: #f08a58; }
+.logo-text-main    { fill: #eef4ef; }
+.logo-text-sub     { fill: rgba(238,244,239,0.4); }
+.logo-divider      { stroke: rgba(238,244,239,0.12); }
+
+/* ── AiX SVG logo — light mode ── */
+[data-theme="light"] .logo-icon-bg      { fill: rgba(21,21,21,0.06); }
+[data-theme="light"] .logo-accent-fill  { fill: #cc7448; }
+[data-theme="light"] .logo-accent-stroke{ stroke: #cc7448; }
+[data-theme="light"] .logo-accent-ring  { stroke: #cc7448; }
+[data-theme="light"] .logo-text-main    { fill: #151515; }
+[data-theme="light"] .logo-text-sub     { fill: rgba(21,21,21,0.38); }
+[data-theme="light"] .logo-divider      { stroke: rgba(21,21,21,0.1); }
 
 .nav-links {
   display: flex;
@@ -2169,9 +2160,8 @@ h3 {
     position: relative;
   }
 
-  .logo-text {
-    font-size: 11px;
-  }
+  .logo-lockup    { display: none; }
+  .logo-mark-only { display: inline-flex; }
 
   .nav-toggle {
     display: flex;
