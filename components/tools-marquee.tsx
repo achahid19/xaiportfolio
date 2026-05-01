@@ -60,25 +60,30 @@ function FallbackIcon() {
 
 /* ── Single pill ── */
 function ToolItem({ tool, mouseX }: { tool: Tool; mouseX: number | null }) {
-  const liRef  = useRef<HTMLLIElement>(null);
+  const liRef   = useRef<HTMLLIElement>(null);
   const maskUrl = tool.slug ? `url(${CDN}/${tool.slug}.svg)` : undefined;
 
-  /* Distance-based scale */
-  let scale = 1;
+  /* Gaussian factor — 1.0 at cursor, falls off with distance */
+  let g = 0;
   if (mouseX !== null && liRef.current) {
     const { left, width } = liRef.current.getBoundingClientRect();
-    scale = 1 + (MAX_SCALE - 1) * gaussian(Math.abs(left + width / 2 - mouseX));
+    g = gaussian(Math.abs(left + width / 2 - mouseX));
   }
 
-  /*
-   * Margin trick: add horizontal space proportional to the scale delta
-   * so neighbours actually push apart — this is what makes it feel like
-   * the real dock rather than just an overlapping zoom.
-   */
+  const scale   = 1 + (MAX_SCALE - 1) * g;
   const extraMx = `${((scale - 1) * 28).toFixed(1)}px`;
-  const easing   = mouseX === null
+  const easing  = mouseX === null
     ? "transform 0.45s cubic-bezier(0.34,1.56,0.64,1), margin 0.45s cubic-bezier(0.34,1.56,0.64,1)"
     : "transform 0.08s ease-out, margin 0.08s ease-out";
+
+  /*
+   * Highlight driven by g, not CSS :hover — so moving anywhere in the
+   * strip's vertical band (including above/below the text) highlights
+   * the nearest item, giving the full Mac dock feel.
+   */
+  const isActive   = g > 0.65;
+  const logoColor  = isActive ? "var(--accent)"  : "var(--fg-dim)";
+  const textColor  = isActive ? "var(--fg)"      : undefined;
 
   return (
     <li
@@ -86,17 +91,23 @@ function ToolItem({ tool, mouseX }: { tool: Tool; mouseX: number | null }) {
       className="tools-marquee-item mono"
       style={{
         transform      : `scale(${scale.toFixed(3)})`,
-        transformOrigin: "center center",   // ← symmetric: no top-clip
+        transformOrigin: "center center",
         marginLeft     : extraMx,
         marginRight    : extraMx,
         transition     : easing,
+        color          : textColor,
       }}
     >
       {maskUrl ? (
         <span
           className="tools-marquee-logo"
           aria-hidden="true"
-          style={{ WebkitMaskImage: maskUrl, maskImage: maskUrl }}
+          style={{
+            WebkitMaskImage : maskUrl,
+            maskImage        : maskUrl,
+            backgroundColor  : logoColor,
+            transition       : "background-color 0.12s ease",
+          }}
         />
       ) : (
         <FallbackIcon />
