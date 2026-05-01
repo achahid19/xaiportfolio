@@ -315,6 +315,12 @@ h3 {
  * and backdrop-filter renders on every browser.
  * z-index 49: just below the sticky nav content (z-index 50).
  */
+/*
+ * Always-on backdrop-filter — never transition from "none".
+ * Chrome won't composite a blur that starts as "none" on some GPU configs.
+ * Keeping blur active from first paint and toggling only opacity means
+ * Chrome sets up the compositing layer once and never drops it.
+ */
 .site-header-backdrop {
   position: fixed;
   top: 0;
@@ -323,28 +329,26 @@ h3 {
   height: 65px;
   z-index: 49;
   pointer-events: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  background-color: transparent;
-  border-bottom: 1px solid transparent;
-  transition: backdrop-filter 0.35s ease, -webkit-backdrop-filter 0.35s ease,
-              background-color 0.35s ease, border-color 0.35s ease;
-}
-
-.site-header-backdrop--active {
+  /* Blur is ALWAYS on — opacity controls visibility */
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   background-color: rgba(17, 17, 22, 0.75);
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  opacity: 0;
+  transition: opacity 0.35s ease;
 }
 
-[data-theme="light"] .site-header-backdrop--active {
+.site-header-backdrop--active {
+  opacity: 1;
+}
+
+[data-theme="light"] .site-header-backdrop {
   background-color: rgba(250, 248, 245, 0.82);
   border-bottom: 1px solid rgba(0, 0, 0, 0.07);
 }
 
 @media (max-width: 700px) {
-  .site-header-backdrop { height: 56px; }
+  .site-header-backdrop { height: 60px; }
 }
 
 .nav {
