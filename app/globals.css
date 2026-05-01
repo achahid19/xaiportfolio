@@ -295,61 +295,25 @@ h3 {
   position: sticky;
   top: 0;
   z-index: 50;
+  background-color: transparent;
   border-bottom: 1px solid transparent;
-  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .site-header--scrolled {
+  background-color: rgba(13, 13, 18, 0.96);
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 1px 40px rgba(0, 0, 0, 0.5);
 }
 
 [data-theme="light"] .site-header--scrolled {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+  background-color: rgba(252, 250, 247, 0.97);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 24px rgba(0, 0, 0, 0.08);
 }
 
-/*
- * Standalone fixed blur backdrop — sits in layout.tsx with no
- * transformed/composited ancestors so Chrome always GPU-promotes it
- * and backdrop-filter renders on every browser.
- * z-index 49: just below the sticky nav content (z-index 50).
- */
-/*
- * Always-on backdrop-filter — never transition from "none".
- * Chrome won't composite a blur that starts as "none" on some GPU configs.
- * Keeping blur active from first paint and toggling only opacity means
- * Chrome sets up the compositing layer once and never drops it.
- */
-.site-header-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 65px;
-  z-index: 49;
-  pointer-events: none;
-  /* Blur is ALWAYS on — opacity controls visibility */
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  background-color: rgba(17, 17, 22, 0.75);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-
-.site-header-backdrop--active {
-  opacity: 1;
-}
-
-[data-theme="light"] .site-header-backdrop {
-  background-color: rgba(250, 248, 245, 0.82);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
-}
-
-@media (max-width: 700px) {
-  .site-header-backdrop { height: 60px; }
-}
+/* Backdrop component no longer needed — kept as no-op for safety */
+.site-header-backdrop { display: none; }
 
 .nav {
   max-width: 1280px;
