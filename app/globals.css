@@ -974,42 +974,42 @@ h3 {
   color: var(--fg);
 }
 
-.tools-marquee-item:hover .tools-marquee-logo,
-.tools-marquee-item:hover .tools-marquee-svg-fallback {
-  opacity: 1;
-  filter: brightness(0) invert(1);
-}
-
-/* Brand SVG logos — desaturated to fit the monochrome strip */
+/* Brand logos — SVG used as a CSS mask, background-color controls the tint */
 .tools-marquee-logo {
+  display: inline-block;
   width: 16px;
   height: 16px;
   flex-shrink: 0;
-  object-fit: contain;
-  /* Dark theme: turn logos white and dim them */
-  filter: brightness(0) invert(1);
+  background-color: var(--fg-dim);
   opacity: 0.55;
-  transition: opacity 0.2s ease, filter 0.2s ease;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
 }
 
-/* Light theme: turn logos black */
-[data-theme="light"] .tools-marquee-logo {
-  filter: brightness(0);
-  opacity: 0.55;
-}
-
-[data-theme="light"] .tools-marquee-item:hover .tools-marquee-logo {
-  filter: brightness(0);
+/* On hover: accent orange, full opacity */
+.tools-marquee-item:hover .tools-marquee-logo {
+  background-color: var(--accent);
   opacity: 1;
 }
 
-/* Fallback geometric icon (for tools not in Simple Icons) */
+/* Fallback geometric icon */
 .tools-marquee-svg-fallback {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
+  color: var(--fg-dim);
   opacity: 0.4;
-  transition: opacity 0.2s ease;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.tools-marquee-item:hover .tools-marquee-svg-fallback {
+  color: var(--accent);
+  opacity: 1;
 }
 
 .tools-marquee-sep {

@@ -1,14 +1,14 @@
 "use client";
 
 /**
- * Simple Icons CDN: https://cdn.simpleicons.org/{slug}
- * SVGs are CC0 licensed. We apply CSS filter to match site theme.
- * For tools not in Simple Icons we render a compact SVG fallback.
+ * Brand logos via Simple Icons on jsDelivr (CC0).
+ * Each logo is rendered as a CSS mask so we control its color
+ * with background-color — dim by default, var(--accent) on hover.
  */
 
 interface Tool {
   name: string;
-  /** simple-icons slug, or undefined to use the text fallback */
+  /** simple-icons slug, or undefined for the geometric fallback */
   slug?: string;
 }
 
@@ -31,15 +31,14 @@ const TOOLS: ReadonlyArray<Tool> = [
   { name: "Webhooks",        slug: undefined },
 ];
 
-/** jsDelivr serves simple-icons npm package files with proper CORS headers */
 const CDN = "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons";
 
-/** Generic plug icon for tools not in simple-icons */
+/** Fallback for tools not in Simple Icons */
 function FallbackIcon() {
   return (
     <svg
-      width="16"
-      height="16"
+      width="14"
+      height="14"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -57,20 +56,19 @@ function FallbackIcon() {
 }
 
 function ToolItem({ tool }: { tool: Tool }) {
+  const maskUrl = tool.slug
+    ? `url(${CDN}/${tool.slug}.svg)`
+    : undefined;
+
   return (
     <li className="tools-marquee-item mono">
-      {tool.slug ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={`${CDN}/${tool.slug}.svg`}
-          alt=""
-          aria-hidden="true"
-          width={16}
-          height={16}
+      {maskUrl ? (
+        <span
           className="tools-marquee-logo"
-          loading="lazy"
-          onError={(e) => {
-            (e.currentTarget as HTMLImageElement).style.display = "none";
+          aria-hidden="true"
+          style={{
+            WebkitMaskImage: maskUrl,
+            maskImage: maskUrl,
           }}
         />
       ) : (
