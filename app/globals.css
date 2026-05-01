@@ -1053,11 +1053,13 @@ h3 {
   flex-direction: column;
   gap: 14px;
   position: relative;
-  transition: background 0.2s;
+  border-left: 2px solid transparent;
+  transition: background 0.2s, border-color 0.2s;
 }
 
 .service:hover {
-  background: var(--bg-elev);
+  background: color-mix(in oklch, var(--accent) 6%, var(--bg));
+  border-left-color: var(--accent);
 }
 
 .service-num {
