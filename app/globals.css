@@ -295,40 +295,8 @@ h3 {
   position: sticky;
   top: 0;
   z-index: 50;
-  /*
-   * transform: translateZ(0) serves two purposes:
-   * 1. Forces a GPU compositing layer on the header.
-   * 2. Makes position:fixed children contained within the header's
-   *    visual area (CSS spec: transforms create a new containing block
-   *    for fixed descendants). This is how .site-header-blur stays
-   *    clipped to the nav height even though it's position:fixed.
-   */
-  transform: translateZ(0);
   border-bottom: 1px solid transparent;
   transition: border-color 0.35s ease, box-shadow 0.35s ease;
-}
-
-/*
- * The actual blur + background lives on a position:fixed child.
- * Chrome/Brave have a longstanding bug: backdrop-filter on position:sticky
- * elements is not composited correctly. position:fixed elements always get
- * their own GPU compositing layer, so the blur renders reliably.
- */
-.site-header-blur {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  background-color: transparent;
-  transition: backdrop-filter 0.35s ease, background-color 0.35s ease;
-}
-
-.site-header--scrolled .site-header-blur {
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  background-color: rgba(17, 17, 22, 0.75);
 }
 
 .site-header--scrolled {
@@ -336,13 +304,51 @@ h3 {
   box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4);
 }
 
-[data-theme="light"] .site-header--scrolled .site-header-blur {
-  background-color: rgba(250, 248, 245, 0.82);
-}
-
 [data-theme="light"] .site-header--scrolled {
   border-bottom: 1px solid rgba(0, 0, 0, 0.07);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+}
+
+/*
+ * Standalone fixed blur backdrop — sits in layout.tsx with no
+ * transformed/composited ancestors so Chrome always GPU-promotes it
+ * and backdrop-filter renders on every browser.
+ * z-index 49: just below the sticky nav content (z-index 50).
+ */
+/*
+ * Always-on backdrop-filter — never transition from "none".
+ * Chrome won't composite a blur that starts as "none" on some GPU configs.
+ * Keeping blur active from first paint and toggling only opacity means
+ * Chrome sets up the compositing layer once and never drops it.
+ */
+.site-header-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 65px;
+  z-index: 49;
+  pointer-events: none;
+  /* Blur is ALWAYS on — opacity controls visibility */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background-color: rgba(17, 17, 22, 0.75);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.site-header-backdrop--active {
+  opacity: 1;
+}
+
+[data-theme="light"] .site-header-backdrop {
+  background-color: rgba(250, 248, 245, 0.82);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+@media (max-width: 700px) {
+  .site-header-backdrop { height: 60px; }
 }
 
 .nav {

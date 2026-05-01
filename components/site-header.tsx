@@ -50,11 +50,6 @@ export function SiteHeader() {
 
   return (
     <header className={`site-header${scrolled ? " site-header--scrolled" : ""}`} ref={headerRef}>
-      {/* Fixed blur layer — position:fixed gets its own GPU layer in Chrome,
-          fixing the backdrop-filter bug on position:sticky elements.
-          transform:translateZ(0) on the parent makes this fixed child
-          contained within the header's visual area. */}
-      <div className="site-header-blur" aria-hidden="true" />
       <nav className="nav">
         <Link className="logo" href="/" onClick={() => setIsOpen(false)}>
           {/* Desktop: full lockup with subtitle */}
