@@ -178,7 +178,6 @@ ol {
 .site-shell {
   min-height: 100vh;
   position: relative;
-  isolation: isolate;
   display: flex;
   flex-direction: column;
 }
@@ -288,23 +287,39 @@ h3 {
   position: sticky;
   top: 0;
   z-index: 50;
-  background-color: transparent;
   border-bottom: 1px solid transparent;
-  transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* Blur layer as pseudo-element — avoids stacking context issues */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background-color: transparent;
+  transition: background-color 0.35s ease;
+  pointer-events: none;
 }
 
 .site-header--scrolled {
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  background-color: rgba(17, 17, 22, 0.78);
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4);
 }
 
+.site-header--scrolled::before {
+  background-color: rgba(17, 17, 22, 0.78);
+}
+
 [data-theme="light"] .site-header--scrolled {
-  background-color: rgba(250, 248, 245, 0.85);
   border-bottom: 1px solid rgba(0, 0, 0, 0.07);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .site-header--scrolled::before {
+  background-color: rgba(250, 248, 245, 0.85);
 }
 
 .nav {
