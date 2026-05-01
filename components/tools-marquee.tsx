@@ -3,9 +3,11 @@
 import { useCallback, useRef, useState } from "react";
 
 /**
- * Brand logos via Simple Icons on jsDelivr (CC0).
- * Dock-style magnification: items near the cursor scale up with a
- * gaussian spread, exactly like the macOS dock.
+ * Tools marquee with macOS-dock magnification.
+ *
+ * Two fixes vs. the broken first attempt:
+ *  1. transformOrigin "center center" → item grows symmetrically, no top-clip.
+ *  2. Proportional horizontal margin → neighbours physically push apart.
  */
 
 interface Tool {
@@ -32,17 +34,15 @@ const TOOLS: ReadonlyArray<Tool> = [
   { name: "Webhooks",        slug: undefined },
 ];
 
-const CDN  = "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons";
-
-/** Gaussian curve — controls how wide the magnification spreads */
-const MAX_SCALE = 1.65;
-const SIGMA     = 90; // px — wider = neighbours scale more
+const CDN       = "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons";
+const MAX_SCALE = 1.55;   // peak scale at cursor
+const SIGMA     = 100;    // px — spread width of the magnification wave
 
 function gaussian(dist: number) {
   return Math.exp(-(dist * dist) / (2 * SIGMA * SIGMA));
 }
 
-/* ── Fallback icon for tools not in Simple Icons ── */
+/* ── Fallback icon ── */
 function FallbackIcon() {
   return (
     <svg
@@ -58,36 +58,38 @@ function FallbackIcon() {
   );
 }
 
-/* ── Single tool pill ── */
-function ToolItem({
-  tool,
-  mouseX,
-}: {
-  tool: Tool;
-  mouseX: number | null;
-}) {
-  const liRef = useRef<HTMLLIElement>(null);
+/* ── Single pill ── */
+function ToolItem({ tool, mouseX }: { tool: Tool; mouseX: number | null }) {
+  const liRef  = useRef<HTMLLIElement>(null);
   const maskUrl = tool.slug ? `url(${CDN}/${tool.slug}.svg)` : undefined;
 
-  /* Compute scale from cursor distance */
+  /* Distance-based scale */
   let scale = 1;
   if (mouseX !== null && liRef.current) {
     const { left, width } = liRef.current.getBoundingClientRect();
-    const center = left + width / 2;
-    scale = 1 + (MAX_SCALE - 1) * gaussian(Math.abs(center - mouseX));
+    scale = 1 + (MAX_SCALE - 1) * gaussian(Math.abs(left + width / 2 - mouseX));
   }
+
+  /*
+   * Margin trick: add horizontal space proportional to the scale delta
+   * so neighbours actually push apart — this is what makes it feel like
+   * the real dock rather than just an overlapping zoom.
+   */
+  const extraMx = `${((scale - 1) * 36).toFixed(1)}px`;
+  const easing   = mouseX === null
+    ? "transform 0.45s cubic-bezier(0.34,1.56,0.64,1), margin 0.45s cubic-bezier(0.34,1.56,0.64,1)"
+    : "transform 0.08s ease-out, margin 0.08s ease-out";
 
   return (
     <li
       ref={liRef}
       className="tools-marquee-item mono"
       style={{
-        transform: `scale(${scale.toFixed(3)})`,
-        transformOrigin: "center bottom",
-        /* Fast in, slow out — feels like the real dock */
-        transition: mouseX === null
-          ? "transform 0.4s cubic-bezier(0.34,1.56,0.64,1)"
-          : "transform 0.08s ease-out",
+        transform      : `scale(${scale.toFixed(3)})`,
+        transformOrigin: "center center",   // ← symmetric: no top-clip
+        marginLeft     : extraMx,
+        marginRight    : extraMx,
+        transition     : easing,
       }}
     >
       {maskUrl ? (
@@ -105,33 +107,20 @@ function ToolItem({
   );
 }
 
-/* ── Marquee wrapper ── */
+/* ── Marquee ── */
 export function ToolsMarquee() {
   const [mouseX, setMouseX] = useState<number | null>(null);
 
-  const onMouseMove = useCallback((e: React.MouseEvent) => {
-    setMouseX(e.clientX);
-  }, []);
-
-  const onMouseLeave = useCallback(() => {
-    setMouseX(null);
-  }, []);
+  const onMove  = useCallback((e: React.MouseEvent) => setMouseX(e.clientX), []);
+  const onLeave = useCallback(() => setMouseX(null), []);
 
   return (
-    <div
-      className="tools-marquee-wrap"
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-    >
+    <div className="tools-marquee-wrap" onMouseMove={onMove} onMouseLeave={onLeave}>
       <span className="tools-marquee-label mono">Built with</span>
       <div className="tools-marquee-overflow" aria-hidden="true">
         <ul className="tools-marquee-track">
           {[...TOOLS, ...TOOLS].map((tool, i) => (
-            <ToolItem
-              key={`${tool.name}-${i}`}
-              tool={tool}
-              mouseX={mouseX}
-            />
+            <ToolItem key={`${tool.name}-${i}`} tool={tool} mouseX={mouseX} />
           ))}
         </ul>
       </div>
