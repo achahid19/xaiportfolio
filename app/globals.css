@@ -288,9 +288,15 @@ h3 {
   position: sticky;
   top: 0;
   z-index: 50;
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  background: color-mix(in oklch, var(--bg) 75%, transparent);
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.site-header--scrolled {
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  background: color-mix(in oklch, var(--bg) 80%, transparent);
   border-bottom: 1px solid var(--line-soft);
 }
 

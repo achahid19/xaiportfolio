@@ -17,8 +17,18 @@ const navItems: ReadonlyArray<readonly [string, string]> = [
 
 export function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 12);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -39,7 +49,7 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="site-header" ref={headerRef}>
+    <header className={`site-header${scrolled ? " site-header--scrolled" : ""}`} ref={headerRef}>
       <nav className="nav">
         <Link className="logo" href="/" onClick={() => setIsOpen(false)}>
           {/* Desktop: full lockup with subtitle */}
