@@ -904,7 +904,12 @@ h3 {
   display: flex;
   align-items: center;
   gap: 24px;
-  padding: 20px 0;
+  /*
+   * Extra vertical padding absorbs symmetric scale growth (center-center
+   * origin), so items never clip against the border or overflow.
+   * overflow: hidden keeps the horizontal marquee clip.
+   */
+  padding: 28px 0;
   border-top: 1px solid var(--line-soft);
   border-bottom: 1px solid var(--line-soft);
   margin-bottom: 16px;
@@ -923,22 +928,27 @@ h3 {
   border-right: 1px solid var(--line-soft);
 }
 
-/* Clipping window */
+/*
+ * Clipping + fade window.
+ * overflow: visible lets the dock scaling show above/below the track
+ * line — the wrap's overflow: hidden handles the outer clip.
+ * mask-image still applies to overflowing children in the same context.
+ */
 .tools-marquee-overflow {
   flex: 1;
-  overflow: hidden;
+  overflow: visible;
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 6%,
-    black 94%,
+    black 8%,
+    black 92%,
     transparent 100%
   );
   mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 6%,
-    black 94%,
+    black 8%,
+    black 92%,
     transparent 100%
   );
 }
@@ -958,7 +968,7 @@ h3 {
   animation-play-state: paused;
 }
 
-/* Each tool pill */
+/* Each tool pill — transform is driven by inline style (dock effect) */
 .tools-marquee-item {
   display: inline-flex;
   align-items: center;
@@ -966,8 +976,10 @@ h3 {
   font-size: 12.5px;
   color: var(--fg-dim);
   white-space: nowrap;
-  padding: 0 4px;
-  transition: color 0.2s ease, opacity 0.2s ease;
+  padding: 0 10px;
+  will-change: transform;
+  /* Only colour transitions here; scale transition is inline */
+  transition: color 0.2s ease;
 }
 
 .tools-marquee-item:hover {
