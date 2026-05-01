@@ -287,39 +287,26 @@ h3 {
   position: sticky;
   top: 0;
   z-index: 50;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.35s ease, box-shadow 0.35s ease;
-}
-
-/* Blur layer as pseudo-element — avoids stacking context issues */
-.site-header::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
   background-color: transparent;
-  transition: background-color 0.35s ease;
-  pointer-events: none;
+  border-bottom: 1px solid transparent;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  will-change: backdrop-filter, background-color;
+  transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease;
 }
 
 .site-header--scrolled {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background-color: rgba(17, 17, 22, 0.75);
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4);
 }
 
-.site-header--scrolled::before {
-  background-color: rgba(17, 17, 22, 0.78);
-}
-
 [data-theme="light"] .site-header--scrolled {
+  background-color: rgba(250, 248, 245, 0.82);
   border-bottom: 1px solid rgba(0, 0, 0, 0.07);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
-}
-
-[data-theme="light"] .site-header--scrolled::before {
-  background-color: rgba(250, 248, 245, 0.85);
 }
 
 .nav {
@@ -330,6 +317,8 @@ h3 {
   align-items: center;
   justify-content: space-between;
   gap: 32px;
+  position: relative;
+  z-index: 1;
 }
 
 .logo {
