@@ -42,21 +42,6 @@ function gaussian(dist: number) {
   return Math.exp(-(dist * dist) / (2 * SIGMA * SIGMA));
 }
 
-/* ── Fallback icon ── */
-function FallbackIcon() {
-  return (
-    <svg
-      width="14" height="14" viewBox="0 0 24 24"
-      fill="none" stroke="currentColor"
-      strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
-      className="tools-marquee-svg-fallback" aria-hidden="true"
-    >
-      <path d="M12 2L2 7l10 5 10-5-10-5z" />
-      <path d="M2 17l10 5 10-5" />
-      <path d="M2 12l10 5 10-5" />
-    </svg>
-  );
-}
 
 /* ── Single pill ── */
 function ToolItem({ tool, mouseX }: { tool: Tool; mouseX: number | null }) {
@@ -87,8 +72,9 @@ function ToolItem({ tool, mouseX }: { tool: Tool; mouseX: number | null }) {
     ? "transform 0.45s cubic-bezier(0.34,1.56,0.64,1), margin 0.45s cubic-bezier(0.34,1.56,0.64,1)"
     : "transform 0.08s ease-out, margin 0.08s ease-out";
 
+  const colorTransition = "color 0.12s ease, background-color 0.12s ease";
   const logoColor = isActive ? "var(--accent)" : "var(--fg-dim)";
-  const textColor = isActive ? "var(--fg)"     : undefined;
+  const textColor = isActive ? "var(--fg)"     : "var(--fg-dim)";
 
   return (
     <li
@@ -111,13 +97,23 @@ function ToolItem({ tool, mouseX }: { tool: Tool; mouseX: number | null }) {
             WebkitMaskImage : maskUrl,
             maskImage        : maskUrl,
             backgroundColor  : logoColor,
-            transition       : "background-color 0.12s ease",
+            transition       : colorTransition,
           }}
         />
       ) : (
-        <FallbackIcon />
+        <svg
+          width="14" height="14" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor"
+          strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+          aria-hidden="true"
+          style={{ color: logoColor, transition: colorTransition, flexShrink: 0 }}
+        >
+          <path d="M12 2L2 7l10 5 10-5-10-5z" />
+          <path d="M2 17l10 5 10-5" />
+          <path d="M2 12l10 5 10-5" />
+        </svg>
       )}
-      <span>{tool.name}</span>
+      <span style={{ transition: colorTransition }}>{tool.name}</span>
       <span className="tools-marquee-sep" aria-hidden="true">·</span>
     </li>
   );
