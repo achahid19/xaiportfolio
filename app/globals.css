@@ -104,7 +104,15 @@ body {
   margin: 0;
   min-width: 320px;
   position: relative;
-  overflow-x: hidden;
+  /*
+   * overflow-x: clip instead of hidden.
+   * Chrome/Brave block backdrop-filter on any element whose ancestor has
+   * overflow: hidden (because it creates a scroll container that breaks
+   * GPU compositing). Safari is unaffected — that's why blur worked there.
+   * overflow: clip prevents horizontal scroll without creating a scroll
+   * container, so Chrome allows backdrop-filter through it.
+   */
+  overflow-x: clip;
   min-height: 100vh;
 }
 
