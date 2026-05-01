@@ -63,7 +63,6 @@ const WALLETS: Wallet[] = [
       <path d="M16 4l2.8 2.8-8.2 8.2-2.8-2.8L16 4z" fill="currentColor"/>
       <path d="M10.4 9.6l2.8 2.8-2.8 2.8-2.8-2.8 2.8-2.8z" fill="currentColor"/>
       <path d="M21.6 9.6l2.8 2.8-2.8 2.8-2.8-2.8 2.8-2.8z" fill="currentColor"/>
-      <path d="M16 14l2.8 2.8-8.2 8.2L7.8 22 16 14z" fill="currentColor" opacity="0.7"/>
       <path d="M16 14l5.4 5.4-2.8 2.8L16 19.6l-2.6 2.6-2.8-2.8L16 14z" fill="currentColor"/>
       <path d="M16 20.4l2.8 2.8L16 26l-2.8-2.8 2.8-2.8z" fill="currentColor"/>
     </svg>`
@@ -71,71 +70,80 @@ const WALLETS: Wallet[] = [
 ];
 
 function truncate(address: string) {
-  if (address.length <= 16) return address;
-  return `${address.slice(0, 8)}...${address.slice(-6)}`;
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+}
+
+function QRIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <rect x="1" y="1" width="5" height="5" rx="0.5" stroke="currentColor" strokeWidth="1.2" fill="none"/>
+      <rect x="8" y="1" width="5" height="5" rx="0.5" stroke="currentColor" strokeWidth="1.2" fill="none"/>
+      <rect x="1" y="8" width="5" height="5" rx="0.5" stroke="currentColor" strokeWidth="1.2" fill="none"/>
+      <rect x="2.5" y="2.5" width="2" height="2" fill="currentColor"/>
+      <rect x="9.5" y="2.5" width="2" height="2" fill="currentColor"/>
+      <rect x="2.5" y="9.5" width="2" height="2" fill="currentColor"/>
+      <rect x="8" y="8" width="1.5" height="1.5" fill="currentColor"/>
+      <rect x="10.5" y="8" width="1.5" height="1.5" fill="currentColor"/>
+      <rect x="8" y="10.5" width="1.5" height="1.5" fill="currentColor"/>
+      <rect x="10.5" y="10.5" width="1.5" height="1.5" fill="currentColor"/>
+    </svg>
+  );
 }
 
 function WalletCard({ wallet }: { wallet: Wallet }) {
   const [copied, setCopied] = useState(false);
   const [qrOpen, setQrOpen] = useState(false);
 
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=ffffff&bgcolor=0d0d12&data=${encodeURIComponent(wallet.address)}`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&color=ffffff&bgcolor=0d0d12&data=${encodeURIComponent(wallet.address)}`;
 
   async function handleCopy() {
     try {
       await navigator.clipboard.writeText(wallet.address);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // fallback
-    }
+    } catch {}
   }
 
   return (
-    <div className="coffee-card">
-      <div className="coffee-card-header">
-        <div
-          className="coffee-chain-icon"
-          style={{ color: wallet.color }}
-          dangerouslySetInnerHTML={{ __html: wallet.icon }}
-        />
-        <div>
-          <div className="coffee-chain-name">{wallet.chain}</div>
-          <div className="coffee-chain-symbol mono">{wallet.symbol}</div>
+    <div className="cw-card">
+      {/* Header row */}
+      <div className="cw-header">
+        <div className="cw-icon" style={{ color: wallet.color }} dangerouslySetInnerHTML={{ __html: wallet.icon }} />
+        <div className="cw-meta">
+          <span className="cw-chain">{wallet.chain}</span>
+          <span className="cw-symbol mono">{wallet.symbol}</span>
         </div>
       </div>
 
-      <div className="coffee-address-row">
-        <code className="coffee-address mono">{truncate(wallet.address)}</code>
-        <button
-          type="button"
-          className={`coffee-copy-btn mono${copied ? " coffee-copy-btn--copied" : ""}`}
-          onClick={handleCopy}
-          aria-label={copied ? "Copied!" : "Copy address"}
-        >
-          {copied ? "✓ Copied" : "Copy"}
-        </button>
+      {/* Address row */}
+      <div className="cw-row">
+        <code className="cw-addr mono">{truncate(wallet.address)}</code>
+        <div className="cw-actions">
+          <button
+            type="button"
+            className={`cw-copy mono${copied ? " cw-copy--ok" : ""}`}
+            onClick={handleCopy}
+            aria-label="Copy address"
+          >
+            {copied ? "✓" : "Copy"}
+          </button>
+          <button
+            type="button"
+            className={`cw-qr-btn${qrOpen ? " cw-qr-btn--open" : ""}`}
+            onClick={() => setQrOpen((o) => !o)}
+            aria-label="Toggle QR code"
+          >
+            <QRIcon />
+          </button>
+        </div>
       </div>
 
-      <div className="coffee-full-address mono">{wallet.address}</div>
-
-      <button
-        type="button"
-        className="coffee-qr-toggle mono"
-        onClick={() => setQrOpen((o) => !o)}
-      >
-        {qrOpen ? "Hide QR code ↑" : "Show QR code ↓"}
-      </button>
-
+      {/* QR code */}
       {qrOpen && (
-        <div className="coffee-qr">
+        <div className="cw-qr">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={qrUrl}
-            alt={`QR code for ${wallet.chain} address`}
-            width={160}
-            height={160}
-          />
+          <img src={qrUrl} alt={`${wallet.chain} QR`} width={140} height={140} />
+          <code className="cw-full-addr mono">{wallet.address}</code>
         </div>
       )}
     </div>
@@ -144,7 +152,7 @@ function WalletCard({ wallet }: { wallet: Wallet }) {
 
 export function CoffeeWallets() {
   return (
-    <div className="coffee-wallets">
+    <div className="cw-grid">
       {WALLETS.map((wallet) => (
         <WalletCard key={wallet.chain} wallet={wallet} />
       ))}

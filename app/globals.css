@@ -2571,11 +2571,11 @@ h3 {
 /* ─── Coffee / Support page ──────────────────────────────────────────── */
 
 .coffee-page {
-  max-width: 680px;
+  max-width: 760px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 32px;
 }
 
 .coffee-intro {
@@ -2583,160 +2583,185 @@ h3 {
 }
 
 .coffee-note {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--fg-mute);
   background: var(--bg-elev);
   border: 1px solid var(--line);
   border-radius: 6px;
-  padding: 16px 20px;
+  padding: 12px 18px;
   margin: 0;
   line-height: 1.7;
 }
 
-.coffee-wallets {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+/* 2-column grid */
+.cw-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
-.coffee-card {
+/* Card */
+.cw-card {
   background: var(--bg-elev);
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 24px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   transition: border-color 0.2s ease;
 }
 
-.coffee-card:hover {
-  border-color: var(--accent);
+.cw-card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
-.coffee-card-header {
+[data-theme="light"] .cw-card:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Header */
+.cw-header {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
 }
 
-.coffee-chain-icon {
-  width: 40px;
-  height: 40px;
+.cw-icon {
+  width: 28px;
+  height: 28px;
   flex-shrink: 0;
 }
 
-.coffee-chain-icon svg {
+.cw-icon svg {
   width: 100%;
   height: 100%;
 }
 
-.coffee-chain-name {
-  font-size: 17px;
+.cw-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.cw-chain {
+  font-size: 13px;
   font-weight: 600;
   color: var(--fg);
   line-height: 1.2;
 }
 
-.coffee-chain-symbol {
-  font-size: 12px;
+.cw-symbol {
+  font-size: 11px;
   color: var(--fg-mute);
-  margin-top: 2px;
 }
 
-.coffee-address-row {
+/* Address row */
+.cw-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   background: var(--bg);
   border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 12px 16px;
+  border-radius: 5px;
+  padding: 8px 10px;
 }
 
-.coffee-address {
-  font-size: 13px;
-  color: var(--fg);
+.cw-addr {
+  font-size: 12px;
+  color: var(--fg-dim);
   flex: 1;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
-.coffee-copy-btn {
-  font-size: 12px;
+.cw-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.cw-copy {
+  font-size: 11px;
   color: var(--fg-mute);
   background: none;
   border: 1px solid var(--line);
   border-radius: 4px;
-  padding: 4px 10px;
+  padding: 3px 8px;
   cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
   white-space: nowrap;
-  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
-  flex-shrink: 0;
 }
 
-.coffee-copy-btn:hover {
+.cw-copy:hover {
   color: var(--fg);
   border-color: var(--fg-mute);
 }
 
-.coffee-copy-btn--copied {
+.cw-copy--ok {
   color: var(--accent) !important;
   border-color: var(--accent) !important;
 }
 
-.coffee-full-address {
-  font-size: 11px;
+.cw-qr-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--fg-mute);
+  transition: color 0.15s ease, border-color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.cw-qr-btn:hover,
+.cw-qr-btn--open {
+  color: var(--fg);
+  border-color: var(--fg-mute);
+}
+
+/* QR expand */
+.cw-qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.cw-qr img {
+  border-radius: 6px;
+  border: 1px solid var(--line);
+}
+
+.cw-full-addr {
+  font-size: 10px;
   color: var(--fg-mute);
   word-break: break-all;
+  text-align: center;
   line-height: 1.6;
   opacity: 0.7;
 }
 
-.coffee-qr-toggle {
-  font-size: 12px;
-  color: var(--fg-mute);
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  text-align: left;
-  transition: color 0.15s ease;
-}
-
-.coffee-qr-toggle:hover {
-  color: var(--accent);
-}
-
-.coffee-qr {
-  display: flex;
-  justify-content: center;
-  padding-top: 8px;
-}
-
-.coffee-qr img {
-  border-radius: 8px;
-  border: 1px solid var(--line);
-}
-
+/* Footer note */
 .coffee-footer-note {
   text-align: center;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--fg-mute);
-  padding-top: 8px;
 }
 
 .coffee-footer-note p {
   margin: 0;
 }
 
-@media (max-width: 480px) {
-  .coffee-card {
-    padding: 18px;
-  }
-
-  .coffee-address {
-    font-size: 12px;
+@media (max-width: 600px) {
+  .cw-grid {
+    grid-template-columns: 1fr;
   }
 }
