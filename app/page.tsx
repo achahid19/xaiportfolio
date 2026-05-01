@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { Magnetic } from "@/components/magnetic";
 import { SystemsCarousel } from "@/components/systems-carousel";
+import { ToolsMarquee } from "@/components/tools-marquee";
 import { Workflow } from "@/components/workflow";
 import { getBlogPosts } from "@/lib/blog";
 import {
@@ -9,8 +10,7 @@ import {
   proofMetrics,
   services,
   systems,
-  testimonials,
-  trustTools
+  testimonials
 } from "@/lib/site-data";
 
 export default async function HomePage() {
@@ -106,15 +106,7 @@ export default async function HomePage() {
 
       {/* ── TRUST STRIP ─────────────────────────────────────── */}
       <section className="container animate-in" style={{ paddingBottom: "32px" }}>
-        <div className="logo-row mono">
-          <span className="lbl">Built with</span>
-          {trustTools.map((t, i) => (
-            <span key={t}>
-              {i > 0 && "· "}
-              {t}
-            </span>
-          ))}
-        </div>
+        <ToolsMarquee />
       </section>
 
       {/* ── SERVICES ────────────────────────────────────────── */}
