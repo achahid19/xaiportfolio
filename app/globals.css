@@ -288,23 +288,23 @@ h3 {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: transparent;
+  background-color: transparent;
   border-bottom: 1px solid transparent;
-  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+  transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
 .site-header--scrolled {
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  /* Dark mode — semi-transparent dark bg */
-  background: oklch(0.13 0.005 250 / 0.85);
-  border-bottom: 1px solid var(--line-soft);
-  box-shadow: 0 1px 32px rgba(0, 0, 0, 0.35);
+  background-color: rgba(17, 17, 22, 0.78);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="light"] .site-header--scrolled {
-  background: oklch(0.98 0.003 80 / 0.88);
-  box-shadow: 0 1px 24px rgba(0, 0, 0, 0.08);
+  background-color: rgba(250, 248, 245, 0.85);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
 }
 
 .nav {
