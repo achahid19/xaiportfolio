@@ -31,7 +31,8 @@ const TOOLS: ReadonlyArray<Tool> = [
   { name: "Webhooks",        slug: undefined },
 ];
 
-const CDN = "https://cdn.simpleicons.org";
+/** jsDelivr serves simple-icons npm package files with proper CORS headers */
+const CDN = "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons";
 
 /** Generic plug icon for tools not in simple-icons */
 function FallbackIcon() {
@@ -61,13 +62,16 @@ function ToolItem({ tool }: { tool: Tool }) {
       {tool.slug ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={`${CDN}/${tool.slug}`}
+          src={`${CDN}/${tool.slug}.svg`}
           alt=""
           aria-hidden="true"
           width={16}
           height={16}
           className="tools-marquee-logo"
           loading="lazy"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).style.display = "none";
+          }}
         />
       ) : (
         <FallbackIcon />
