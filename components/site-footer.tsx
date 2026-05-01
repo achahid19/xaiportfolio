@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 
+import { AixLogo } from "@/components/aix-logo";
 import { profile } from "@/lib/site-data";
 
 export function SiteFooter() {
@@ -18,16 +18,7 @@ export function SiteFooter() {
       <div className="footer-grid">
         <div>
           <Link className="logo" href="/">
-            <Image
-              src="/images/aix_logo_no_bg.png"
-              alt="AIX Automation"
-              width={32}
-              height={32}
-              className="logo-img"
-            />
-            <span className="logo-text">
-              AI X Automation
-            </span>
+            <AixLogo variant="mark" />
           </Link>
           <p className="footer-tag mono">
             AI agents &amp; workflow automation, shipped.

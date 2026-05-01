@@ -307,41 +307,26 @@ h3 {
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--fg);
   text-decoration: none;
-  font-family: var(--font-mono-stack);
-}
-
-.logo-img {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-  /* Keep logo visible in both themes */
-  filter: brightness(1);
-}
-
-[data-theme="dark"] .logo-img {
-  /* Slight brightness boost so it pops on dark bg */
-  filter: brightness(1.15) drop-shadow(0 0 6px var(--accent-soft));
-}
-
-.logo-text {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
   color: var(--fg);
-  font-family: var(--font-mono-stack);
-  text-transform: uppercase;
+  flex-shrink: 0;
 }
 
-.logo small {
-  color: var(--fg-mute);
-  font-weight: 400;
-}
+/* Responsive lockup vs mark */
+.logo-lockup    { display: inline-flex; }
+.logo-mark-only { display: none; }
+
+/* ── AiX SVG logo — all colours from site CSS tokens ── */
+.logo-icon-bg          { fill: var(--bg-elev); }
+.logo-accent-border    { stroke: var(--accent-line); }
+.logo-accent-fill      { fill: var(--accent); }
+.logo-accent-stroke    { stroke: var(--accent); }
+.logo-accent-ring      { stroke: var(--accent); }
+.logo-accent-soft-fill { fill: var(--accent-soft); }
+.logo-accent-muted-stroke { stroke: var(--accent-line); }
+.logo-text-main        { fill: var(--fg); }
+.logo-text-sub         { fill: var(--fg-dim); }
+.logo-divider          { stroke: var(--line); }
 
 .nav-links {
   display: flex;
@@ -2169,9 +2154,8 @@ h3 {
     position: relative;
   }
 
-  .logo-text {
-    font-size: 11px;
-  }
+  .logo-lockup    { display: none; }
+  .logo-mark-only { display: inline-flex; }
 
   .nav-toggle {
     display: flex;
