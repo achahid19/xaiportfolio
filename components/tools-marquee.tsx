@@ -3,13 +3,11 @@
 import { useCallback, useRef, useState } from "react";
 
 /**
- * Tools marquee — spotlight + lift effect.
+ * Tools marquee with macOS-dock magnification.
  *
- * Instead of scaling the whole pill (which makes text look huge),
- * we apply three layered effects driven by a gaussian curve:
- *   1. Item lifts up (translateY)
- *   2. Distant items dim (opacity)
- *   3. Icon scales slightly — text size never changes
+ * Two fixes vs. the broken first attempt:
+ *  1. transformOrigin "center center" → item grows symmetrically, no top-clip.
+ *  2. Proportional horizontal margin → neighbours physically push apart.
  */
 
 interface Tool {
@@ -36,23 +34,22 @@ const TOOLS: ReadonlyArray<Tool> = [
   { name: "Webhooks",        slug: undefined },
 ];
 
-const CDN      = "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons";
-const MAX_LIFT = 7;    // px upward at cursor
-const MAX_ICON = 0.4;  // icon grows by up to 40% (1.0 → 1.4)
-const SIGMA    = 88;   // px — spread of the spotlight
+const CDN       = "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons";
+const MAX_SCALE = 1.55;   // peak scale at cursor
+const SIGMA     = 100;    // px — spread width of the magnification wave
 
 function gaussian(dist: number) {
   return Math.exp(-(dist * dist) / (2 * SIGMA * SIGMA));
 }
 
-function FallbackIcon({ scale }: { scale: number }) {
+/* ── Fallback icon ── */
+function FallbackIcon() {
   return (
     <svg
       width="14" height="14" viewBox="0 0 24 24"
       fill="none" stroke="currentColor"
       strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
       className="tools-marquee-svg-fallback" aria-hidden="true"
-      style={{ transform: `scale(${scale.toFixed(3)})` }}
     >
       <path d="M12 2L2 7l10 5 10-5-10-5z" />
       <path d="M2 17l10 5 10-5" />
@@ -61,54 +58,48 @@ function FallbackIcon({ scale }: { scale: number }) {
   );
 }
 
+/* ── Single pill ── */
 function ToolItem({ tool, mouseX }: { tool: Tool; mouseX: number | null }) {
   const liRef  = useRef<HTMLLIElement>(null);
   const maskUrl = tool.slug ? `url(${CDN}/${tool.slug}.svg)` : undefined;
 
-  // Gaussian factor: 1 at cursor, falls off with distance
-  let g = 0;
+  /* Distance-based scale */
+  let scale = 1;
   if (mouseX !== null && liRef.current) {
     const { left, width } = liRef.current.getBoundingClientRect();
-    g = gaussian(Math.abs(left + width / 2 - mouseX));
+    scale = 1 + (MAX_SCALE - 1) * gaussian(Math.abs(left + width / 2 - mouseX));
   }
 
-  const isHovering = mouseX !== null;
-  const lift       = -(MAX_LIFT * g);
-  const iconScale  = 1 + MAX_ICON * g;
-  // Spotlight: full opacity at cursor, dim everything else while hovering
-  const opacity    = isHovering ? 0.18 + 0.82 * g : 0.55;
-
-  const motionTransition = isHovering
-    ? "transform 0.1s ease-out"
-    : "transform 0.45s cubic-bezier(0.34,1.56,0.64,1)";
-
-  const opacityTransition = isHovering
-    ? "opacity 0.12s ease-out"
-    : "opacity 0.35s ease";
+  /*
+   * Margin trick: add horizontal space proportional to the scale delta
+   * so neighbours actually push apart — this is what makes it feel like
+   * the real dock rather than just an overlapping zoom.
+   */
+  const extraMx = `${((scale - 1) * 36).toFixed(1)}px`;
+  const easing   = mouseX === null
+    ? "transform 0.45s cubic-bezier(0.34,1.56,0.64,1), margin 0.45s cubic-bezier(0.34,1.56,0.64,1)"
+    : "transform 0.08s ease-out, margin 0.08s ease-out";
 
   return (
     <li
       ref={liRef}
       className="tools-marquee-item mono"
       style={{
-        transform : `translateY(${lift.toFixed(2)}px)`,
-        opacity   : opacity.toFixed(3),
-        transition: `${motionTransition}, ${opacityTransition}`,
+        transform      : `scale(${scale.toFixed(3)})`,
+        transformOrigin: "center center",   // ← symmetric: no top-clip
+        marginLeft     : extraMx,
+        marginRight    : extraMx,
+        transition     : easing,
       }}
     >
       {maskUrl ? (
         <span
           className="tools-marquee-logo"
           aria-hidden="true"
-          style={{
-            WebkitMaskImage: maskUrl,
-            maskImage       : maskUrl,
-            transform       : `scale(${iconScale.toFixed(3)})`,
-            transition      : motionTransition,
-          }}
+          style={{ WebkitMaskImage: maskUrl, maskImage: maskUrl }}
         />
       ) : (
-        <FallbackIcon scale={iconScale} />
+        <FallbackIcon />
       )}
       <span>{tool.name}</span>
       <span className="tools-marquee-sep" aria-hidden="true">·</span>
@@ -116,6 +107,7 @@ function ToolItem({ tool, mouseX }: { tool: Tool; mouseX: number | null }) {
   );
 }
 
+/* ── Marquee ── */
 export function ToolsMarquee() {
   const [mouseX, setMouseX] = useState<number | null>(null);
 
