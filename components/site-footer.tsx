@@ -34,7 +34,7 @@ export function SiteFooter() {
           <Link href="/blog">Notes</Link>
           <Link href="/contact">Contact</Link>
           <Link href="/guestbook">Guestbook</Link>
-          <Link href="/coffee">Buy me a coffee ☕</Link>
+          <Link href="/coffee">Buy me a coffee</Link>
         </div>
 
         <div className="footer-col">
