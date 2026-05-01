@@ -24,9 +24,12 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://aixautomation.tech"
   ),
   icons: {
-    icon: "/images/aix_logo_no_bg.png",
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/images/aix_logo_no_bg.png", type: "image/png" }
+    ],
     apple: "/images/aix_logo_no_bg.png",
-    shortcut: "/images/aix_logo_no_bg.png"
+    shortcut: "/icon.svg"
   },
   title: {
     default: "Anas Chahid Ksabi | AI Agent & Workflow Automation Engineer",
