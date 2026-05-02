@@ -127,7 +127,7 @@ export function FlowBreaker() {
     sw:{ j1:0, j2t:0, j2b:0 },
     swBounce:{}, destFlash:{},
     score:0, best:0, lives:3, combo:1, level:1,
-    spawnT:0, spawnInt:2800, baseSpd:0.00025,
+    spawnT:0, spawnInt:4200, baseSpd:0.00014,
     screenFlash:0, screenFlashOk:false,
     started:false, over:false,
   });
@@ -253,8 +253,8 @@ export function FlowBreaker() {
       const newLvl = Math.floor(delivered/7)+1;
       if (newLvl !== g.level) {
         g.level = newLvl;
-        g.spawnInt  = Math.max(700, 2800-(newLvl-1)*160);
-        g.baseSpd   = 0.00025+(newLvl-1)*0.000032;
+        g.spawnInt  = Math.max(700, 4200-(newLvl-1)*400);
+        g.baseSpd   = 0.00014+(newLvl-1)*0.000035;
         setUiLevel(newLvl);
       }
 
@@ -290,7 +290,7 @@ export function FlowBreaker() {
       pkts:[], pars:[], pops:[],
       sw:{ j1:0, j2t:0, j2b:0 }, swBounce:{}, destFlash:{},
       score:0, lives:3, combo:1, level:1,
-      spawnT:0, spawnInt:2800, baseSpd:0.00025,
+      spawnT:0, spawnInt:4200, baseSpd:0.00014,
       screenFlash:0, over:false, started:true,
     });
     setPhase("play"); setUiScore(0); setUiLives(3); setUiCombo(1); setUiLevel(1);
