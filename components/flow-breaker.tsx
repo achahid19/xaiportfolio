@@ -473,9 +473,10 @@ function drawIdle(ctx: CanvasRenderingContext2D, W: number, H: number, time: num
 
 // ─── Main draw ───────────────────────────────────────────────────────────────
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function draw(
   ctx: CanvasRenderingContext2D,
-  g: ReturnType<typeof (() => ({} as any))>,
+  g: any,
   W: number, H: number,
   time: number,
   dashOffset: number
