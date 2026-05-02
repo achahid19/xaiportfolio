@@ -2928,9 +2928,11 @@ h3 {
 
 .fb-hud-center {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 80px;
+  gap: 4px;
+  min-width: 100px;
 }
 
 .fb-score-label {
@@ -3027,4 +3029,55 @@ h3 {
   color: var(--fg-mute);
   opacity: 0.6;
   margin: 0;
+}
+
+.fb-level-badge {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--fg-mute);
+  text-transform: uppercase;
+}
+
+.fb-combo {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--accent);
+  text-shadow: 0 0 20px var(--accent);
+  animation: fb-combo-pop 0.18s ease;
+}
+
+@keyframes fb-combo-pop {
+  0%   { transform: scale(1.6); }
+  100% { transform: scale(1); }
+}
+
+.fb-hearts {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+  margin-bottom: 4px;
+}
+
+.fb-heart {
+  font-size: 16px;
+  color: #ff4d6d;
+  text-shadow: 0 0 8px rgba(255,77,109,0.6);
+  transition: opacity 0.2s;
+}
+
+.fb-heart--lost {
+  opacity: 0.18;
+  text-shadow: none;
+}
+
+.fb-legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.fb-legend-item {
+  font-size: 11px;
+  letter-spacing: 0.06em;
 }

@@ -2,460 +2,365 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// ─── Types ──────────────────────────────────────────────────────────────────
+// ─── Palette ─────────────────────────────────────────────────────────────────
 
-type NodeType = "trigger" | "action" | "condition" | "webhook" | "mega";
+const PAL = {
+  RED:    "#E06C4D",
+  BLUE:   "#4D9DE0",
+  GREEN:  "#14F195",
+  PURPLE: "#9945FF",
+} as const;
 
-interface GNode {
-  id: number;
-  x: number; y: number;
-  vx: number; vy: number;
-  type: NodeType;
-  pressure: number;     // 0→1 ages up over ~25s
-  state: "idle" | "active" | "dying";
-  activeTimer: number;  // ms left in active flash
-  dyingTimer: number;   // ms left in death anim
-  chainDelay: number;   // ms until chain-triggered
-  scale: number;        // for spawn pop-in
-}
-
-interface Particle {
-  x: number; y: number;
-  vx: number; vy: number;
-  life: number; maxLife: number;
-  color: string; size: number;
-  shape: "square" | "diamond";
-}
-
-interface Trail {
-  x1: number; y1: number;
-  x2: number; y2: number;
-  t: number;
-  color: string;
-  targetId: number;
-  chainScore: number;
-}
-
-// ─── Constants ───────────────────────────────────────────────────────────────
-
-const COLORS: Record<NodeType, string> = {
-  trigger:   "#E06C4D",
-  action:    "#4D9DE0",
-  condition: "#9945FF",
-  webhook:   "#14F195",
-  mega:      "#FFD700",
-};
-
-const LABELS: Record<NodeType, string> = {
-  trigger:   "Trigger",
-  action:    "Action",
-  condition: "If / Else",
-  webhook:   "Webhook",
-  mega:      "MEGA NODE",
-};
-
-const ICONS: Record<NodeType, string> = {
-  trigger:   "⚡",
-  action:    "⚙",
-  condition: "◆",
-  webhook:   "↗",
-  mega:      "★",
-};
-
-const NW = 96; const NH = 46; // node width / height
-const CONN_DIST    = 170;
-const MAX_NODES    = 11;
-const PRESSURE_MS  = 28000;
-const ACTIVE_MS    = 280;
-const DIE_MS       = 480;
-const TRAIL_SPEED  = 0.0028;
-const MEGA_INTERVAL = 18000;
-
-let _uid = 0;
+type CK = keyof typeof PAL;
+const CKS: CK[] = ["RED","BLUE","GREEN","PURPLE"];
 
 function rgb(hex: string) {
   return `${parseInt(hex.slice(1,3),16)},${parseInt(hex.slice(3,5),16)},${parseInt(hex.slice(5,7),16)}`;
 }
 
-function spawnNode(w: number, h: number, mega = false): GNode {
-  const types: NodeType[] = ["trigger","action","condition","webhook"];
-  const pad = 60;
+// ─── Pipeline layout (relative 0-1 coords) ───────────────────────────────────
+
+interface ND { id: string; rx: number; ry: number; type: "source"|"junction"|"dest"; ck?: CK; label?: string }
+interface SD { id: string; from: string; to: string; cp1rx: number; cp1ry: number; cp2rx: number; cp2ry: number; swId?: string; swSt?: 0|1 }
+
+const NODES: ND[] = [
+  { id:"src",  rx:0.07, ry:0.50, type:"source" },
+  { id:"j1",   rx:0.37, ry:0.50, type:"junction" },
+  { id:"j2t",  rx:0.64, ry:0.25, type:"junction" },
+  { id:"j2b",  rx:0.64, ry:0.75, type:"junction" },
+  { id:"dR",   rx:0.92, ry:0.12, type:"dest", ck:"RED",    label:"Trigger"   },
+  { id:"dB",   rx:0.92, ry:0.38, type:"dest", ck:"BLUE",   label:"Action"    },
+  { id:"dG",   rx:0.92, ry:0.62, type:"dest", ck:"GREEN",  label:"Webhook"   },
+  { id:"dP",   rx:0.92, ry:0.88, type:"dest", ck:"PURPLE", label:"Condition" },
+];
+
+const SEGS: SD[] = [
+  { id:"src-j1",  from:"src",  to:"j1",  cp1rx:0.18, cp1ry:0.50, cp2rx:0.27, cp2ry:0.50 },
+  { id:"j1-j2t",  from:"j1",   to:"j2t", cp1rx:0.47, cp1ry:0.50, cp2rx:0.54, cp2ry:0.25, swId:"j1",  swSt:0 },
+  { id:"j1-j2b",  from:"j1",   to:"j2b", cp1rx:0.47, cp1ry:0.50, cp2rx:0.54, cp2ry:0.75, swId:"j1",  swSt:1 },
+  { id:"j2t-dR",  from:"j2t",  to:"dR",  cp1rx:0.75, cp1ry:0.25, cp2rx:0.83, cp2ry:0.12, swId:"j2t", swSt:0 },
+  { id:"j2t-dB",  from:"j2t",  to:"dB",  cp1rx:0.75, cp1ry:0.25, cp2rx:0.83, cp2ry:0.38, swId:"j2t", swSt:1 },
+  { id:"j2b-dG",  from:"j2b",  to:"dG",  cp1rx:0.75, cp1ry:0.75, cp2rx:0.83, cp2ry:0.62, swId:"j2b", swSt:0 },
+  { id:"j2b-dP",  from:"j2b",  to:"dP",  cp1rx:0.75, cp1ry:0.75, cp2rx:0.83, cp2ry:0.88, swId:"j2b", swSt:1 },
+];
+
+const DEST_CK: Record<string,CK> = { dR:"RED", dB:"BLUE", dG:"GREEN", dP:"PURPLE" };
+
+// ─── Math ────────────────────────────────────────────────────────────────────
+
+function bz(t: number, p0: number, p1: number, p2: number, p3: number) {
+  const m = 1-t;
+  return m*m*m*p0 + 3*m*m*t*p1 + 3*m*t*t*p2 + t*t*t*p3;
+}
+
+function segPt(seg: SD, t: number, W: number, H: number) {
+  const f = NODES.find(n => n.id === seg.from)!;
+  const e = NODES.find(n => n.id === seg.to)!;
   return {
-    id: _uid++,
-    x: pad + Math.random() * (w - pad * 2),
-    y: pad + Math.random() * (h - pad * 2),
-    vx: (Math.random() - 0.5) * 0.55,
-    vy: (Math.random() - 0.5) * 0.55,
-    type: mega ? "mega" : types[Math.floor(Math.random() * 4)],
-    pressure: 0,
-    state: "idle",
-    activeTimer: 0,
-    dyingTimer: 0,
-    chainDelay: 0,
-    scale: 0.01,
+    x: bz(t, f.rx*W, seg.cp1rx*W, seg.cp2rx*W, e.rx*W),
+    y: bz(t, f.ry*H, seg.cp1ry*H, seg.cp2ry*H, e.ry*H),
   };
 }
 
-function rr(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+function nextSeg(fromId: string, sw: Record<string,0|1>): string|null {
+  const cs = SEGS.filter(s => s.from === fromId);
+  if (!cs.length) return null;
+  if (cs.length === 1) return cs[0].id;
+  return cs.find(s => s.swSt === sw[fromId])?.id ?? null;
+}
+
+// ─── Types ───────────────────────────────────────────────────────────────────
+
+interface Pkt {
+  id: number; ck: CK; destId: string;
+  segId: string; t: number; speed: number;
+  state: "alive"|"die"; dieT: number;
+  trail: {x:number;y:number}[];
+}
+interface Par { x:number;y:number;vx:number;vy:number;life:number;color:string;size:number }
+interface Pop { x:number;y:number;text:string;life:number;color:string;vy:number }
+
+interface GS {
+  pkts: Pkt[]; pars: Par[]; pops: Pop[];
+  sw: Record<string,0|1>;
+  swBounce: Record<string,number>;
+  destFlash: Record<string,{t:number;ok:boolean}>;
+  score: number; best: number;
+  lives: number; combo: number; level: number;
+  spawnT: number; spawnInt: number; baseSpd: number;
+  screenFlash: number; screenFlashOk: boolean;
+  started: boolean; over: boolean;
+}
+
+let _pid = 0;
+
+function mkPkt(gs: GS): Pkt {
+  const ck = CKS[Math.floor(Math.random()*4)];
+  const dm: Record<CK,string> = {RED:"dR",BLUE:"dB",GREEN:"dG",PURPLE:"dP"};
+  return { id:_pid++, ck, destId:dm[ck], segId:"src-j1", t:0, speed:gs.baseSpd, state:"alive", dieT:0, trail:[] };
+}
+
+function addPars(gs: GS, x: number, y: number, color: string, n: number) {
+  for (let i = 0; i < n; i++) {
+    const a = Math.PI*2*i/n + Math.random()*0.4;
+    const s = 2+Math.random()*4;
+    gs.pars.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,color,size:2+Math.random()*3});
+  }
+}
+
+function rr(ctx: CanvasRenderingContext2D, x:number,y:number,w:number,h:number,r:number) {
   ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.lineTo(x + w - r, y);
-  ctx.arcTo(x + w, y, x + w, y + r, r);
-  ctx.lineTo(x + w, y + h - r);
-  ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
-  ctx.lineTo(x + r, y + h);
-  ctx.arcTo(x, y + h, x, y + h - r, r);
-  ctx.lineTo(x, y + r);
-  ctx.arcTo(x, y, x + r, y, r);
+  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.arcTo(x+w,y,x+w,y+r,r);
+  ctx.lineTo(x+w,y+h-r); ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+  ctx.lineTo(x+r,y+h); ctx.arcTo(x,y+h,x,y+h-r,r);
+  ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r);
   ctx.closePath();
 }
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export function FlowBreaker() {
-  const canvasRef   = useRef<HTMLCanvasElement>(null);
-  const wrapRef     = useRef<HTMLDivElement>(null);
-  const gameRef     = useRef({
-    nodes:       [] as GNode[],
-    particles:   [] as Particle[],
-    trails:      [] as Trail[],
-    score:       0,
-    bestScore:   0,
-    multiplier:  1,
-    multTimer:   0,
-    lastTime:    0,
-    megaTimer:   0,
-    spawnTimer:  0,
-    started:     false,
-    tiltX:       0,
-    tiltY:       0,
-    newBest:     false,
-    newBestTimer: 0,
-    flashScore:  0,
-    flashTimer:  0,
+  const cvs  = useRef<HTMLCanvasElement>(null);
+  const wrap  = useRef<HTMLDivElement>(null);
+  const gs    = useRef<GS>({
+    pkts:[], pars:[], pops:[],
+    sw:{ j1:0, j2t:0, j2b:0 },
+    swBounce:{}, destFlash:{},
+    score:0, best:0, lives:3, combo:1, level:1,
+    spawnT:0, spawnInt:2800, baseSpd:0.00025,
+    screenFlash:0, screenFlashOk:false,
+    started:false, over:false,
   });
 
-  const [uiScore,      setUiScore]      = useState(0);
-  const [uiBest,       setUiBest]       = useState(0);
-  const [uiMult,       setUiMult]       = useState(1);
-  const [started,      setStarted]      = useState(false);
-  const [newBestFlash, setNewBestFlash] = useState(false);
+  const [uiScore, setUiScore]   = useState(0);
+  const [uiBest,  setUiBest]    = useState(0);
+  const [uiLives, setUiLives]   = useState(3);
+  const [uiCombo, setUiCombo]   = useState(1);
+  const [uiLevel, setUiLevel]   = useState(1);
+  const [phase,   setPhase]     = useState<"idle"|"play"|"over">("idle");
 
-  // Load best score
   useEffect(() => {
-    const saved = parseInt(localStorage.getItem("flowbreaker-best") ?? "0", 10);
-    gameRef.current.bestScore = saved;
-    setUiBest(saved);
+    const b = parseInt(localStorage.getItem("pr-best") ?? "0", 10);
+    gs.current.best = b; setUiBest(b);
   }, []);
 
-  // Mouse tilt
+  // 3D tilt
   useEffect(() => {
-    function onMove(e: MouseEvent) {
-      const el = wrapRef.current;
-      if (!el) return;
-      const { left, top, width, height } = el.getBoundingClientRect();
-      const cx = (e.clientX - left) / width  - 0.5;
-      const cy = (e.clientY - top)  / height - 0.5;
-      gameRef.current.tiltX = cy * -10;
-      gameRef.current.tiltY = cx *  10;
-    }
-    function onLeave() {
-      gameRef.current.tiltX = 0;
-      gameRef.current.tiltY = 0;
-    }
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseleave", onLeave);
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseleave", onLeave);
-    };
-  }, []);
-
-  // Apply tilt via rAF
-  useEffect(() => {
-    let raf = 0;
-    let rx = 0, ry = 0;
+    let rx = 0, ry = 0, raf = 0;
     function tick() {
-      const g = gameRef.current;
-      rx += (g.tiltX - rx) * 0.06;
-      ry += (g.tiltY - ry) * 0.06;
-      if (wrapRef.current) {
-        wrapRef.current.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-      }
+      if (wrap.current) wrap.current.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg)`;
       raf = requestAnimationFrame(tick);
     }
+    function onMove(e: MouseEvent) {
+      const el = wrap.current; if (!el) return;
+      const {left,top,width,height} = el.getBoundingClientRect();
+      rx += (((e.clientY-top)/height-0.5)*-7 - rx)*0.08;
+      ry += (((e.clientX-left)/width-0.5)*7   - ry)*0.08;
+    }
+    window.addEventListener("mousemove", onMove);
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    return () => { window.removeEventListener("mousemove", onMove); cancelAnimationFrame(raf); };
   }, []);
 
-  // Click handler
+  // Click switches
   function handleClick(e: React.MouseEvent<HTMLCanvasElement>) {
-    const g = gameRef.current;
-    if (!g.started) return;
-    const rect = canvasRef.current!.getBoundingClientRect();
-    const mx = e.clientX - rect.left;
-    const my = e.clientY - rect.top;
-
-    let hit: GNode | null = null;
-    let bestDist = Infinity;
-    for (const n of g.nodes) {
-      if (n.state !== "idle") continue;
-      const dx = mx - n.x, dy = my - n.y;
-      const d = Math.sqrt(dx*dx + dy*dy);
-      if (d < Math.max(NW, NH) * 0.7 && d < bestDist) {
-        bestDist = d;
-        hit = n;
+    const g = gs.current; if (!g.started || g.over) return;
+    const c = cvs.current!; const r = c.getBoundingClientRect();
+    const mx = (e.clientX-r.left)*(c.width/r.width);
+    const my = (e.clientY-r.top)*(c.height/r.height);
+    const W = c.width, H = c.height;
+    for (const n of NODES) {
+      if (n.type !== "junction") continue;
+      const dx = mx-n.rx*W, dy = my-n.ry*H;
+      if (Math.sqrt(dx*dx+dy*dy) < 46) {
+        g.sw[n.id] = g.sw[n.id] === 0 ? 1 : 0;
+        g.swBounce[n.id] = 1;
       }
     }
-    if (!hit) return;
-
-    triggerNode(hit, g.multiplier);
   }
 
-  function triggerNode(node: GNode, mult: number) {
-    const g = gameRef.current;
-    if (node.state !== "idle") return;
-
-    node.state = "active";
-    node.activeTimer = ACTIVE_MS;
-
-    const pts = node.isMega ? 500 : 10;
-    const gained = Math.floor(pts * mult);
-    g.score += gained;
-    g.flashScore  = gained;
-    g.flashTimer  = 900;
-    g.multiplier  = Math.min(10, mult + (node.isMega ? 2 : 0.5));
-    g.multTimer   = 1800;
-
-    // Particles
-    const color = COLORS[node.type];
-    const count = node.isMega ? 28 : 14;
-    for (let i = 0; i < count; i++) {
-      const angle = (Math.PI * 2 * i) / count + Math.random() * 0.3;
-      const speed = 2 + Math.random() * (node.isMega ? 5 : 3);
-      g.particles.push({
-        x: node.x, y: node.y,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        life: 1, maxLife: 1,
-        color, size: 3 + Math.random() * (node.isMega ? 6 : 3),
-        shape: Math.random() > 0.5 ? "square" : "diamond",
-      });
-    }
-
-    // If mega — chain everything
-    if (node.isMega) {
-      for (const n of g.nodes) {
-        if (n.id !== node.id && n.state === "idle") {
-          n.chainDelay = 200 + Math.random() * 600;
-        }
-      }
-    } else {
-      // Chain connected nodes
-      for (const n of g.nodes) {
-        if (n.id === node.id || n.state !== "idle") continue;
-        const dx = n.x - node.x, dy = n.y - node.y;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < CONN_DIST) {
-          const delay = 200 + (dist / CONN_DIST) * 400;
-          if (n.chainDelay <= 0) n.chainDelay = delay;
-          g.trails.push({
-            x1: node.x, y1: node.y,
-            x2: n.x,    y2: n.y,
-            t: 0, color: COLORS[node.type],
-            targetId: n.id,
-            chainScore: Math.floor(10 * (g.multiplier + 0.5)),
-          });
-        }
-      }
-    }
-
-    // Update best score
-    if (g.score > g.bestScore) {
-      g.bestScore  = g.score;
-      g.newBest    = true;
-      g.newBestTimer = 2000;
-      localStorage.setItem("flowbreaker-best", String(g.score));
-      setUiBest(g.score);
-      setNewBestFlash(true);
-      setTimeout(() => setNewBestFlash(false), 2000);
-    }
-
-    setUiScore(g.score);
-    setUiMult(Math.round(g.multiplier * 10) / 10);
-  }
-
-  // Main game loop
+  // Game loop
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d")!;
-    let raf = 0;
-    let dashOffset = 0;
+    const c = cvs.current!; const ctx = c.getContext("2d")!;
+    let raf = 0, last = 0;
 
-    function resize() {
-      const parent = canvas.parentElement!;
-      canvas.width  = parent.clientWidth;
-      canvas.height = parent.clientHeight;
-    }
+    function resize() { const p=c.parentElement!; c.width=p.clientWidth; c.height=p.clientHeight; }
     resize();
-    const ro = new ResizeObserver(resize);
-    ro.observe(canvas.parentElement!);
+    const ro = new ResizeObserver(resize); ro.observe(c.parentElement!);
 
-    function loop(time: number) {
-      const g = gameRef.current;
-      const dt = Math.min(time - (g.lastTime || time), 50);
-      g.lastTime = time;
-      const W = canvas.width, H = canvas.height;
+    function loop(now: number) {
+      const g = gs.current;
+      const dt = Math.min(now-(last||now), 50); last = now;
+      const W=c.width, H=c.height;
 
-      if (!g.started) { drawIdle(ctx, W, H, time, dashOffset); raf = requestAnimationFrame(loop); return; }
+      if (!g.started) { drawBg(ctx,W,H,now); raf=requestAnimationFrame(loop); return; }
 
-      dashOffset += dt * 0.04;
-
-      // ── Spawn ──
-      g.spawnTimer += dt;
-      if (g.spawnTimer > 2200 && g.nodes.length < MAX_NODES) {
-        g.spawnTimer = 0;
-        g.nodes.push(spawnNode(W, H));
-      }
-      g.megaTimer += dt;
-      if (g.megaTimer > MEGA_INTERVAL && !g.nodes.some(n => n.type === "mega")) {
-        g.megaTimer = 0;
-        g.nodes.push(spawnNode(W, H, true));
+      // Spawn
+      if (!g.over) {
+        g.spawnT += dt;
+        if (g.spawnT >= g.spawnInt) { g.spawnT=0; g.pkts.push(mkPkt(g)); }
       }
 
-      // ── Update nodes ──
-      for (const n of g.nodes) {
-        if (n.scale < 1) n.scale = Math.min(1, n.scale + dt * 0.004);
+      // Update packets
+      for (const p of g.pkts) {
+        if (p.state === "die") { p.dieT -= dt; continue; }
+        p.t += p.speed * dt;
 
-        if (n.state === "idle") {
-          n.x += n.vx; n.y += n.vy;
-          const pad = NW * 0.6;
-          if (n.x < pad || n.x > W - pad) n.vx *= -1;
-          if (n.y < pad || n.y > H - pad) n.vy *= -1;
-          n.pressure = Math.min(1, n.pressure + dt / PRESSURE_MS);
-          if (n.chainDelay > 0) {
-            n.chainDelay -= dt;
-            if (n.chainDelay <= 0) { n.chainDelay = 0; triggerNode(n, g.multiplier); }
+        // Trail
+        const seg = SEGS.find(s => s.id === p.segId)!;
+        const pos = segPt(seg, Math.min(p.t,1), W, H);
+        p.trail.push({x:pos.x, y:pos.y});
+        if (p.trail.length > 12) p.trail.shift();
+
+        if (p.t >= 1) {
+          const toNd = NODES.find(n => n.id === seg.to)!;
+          if (toNd.type === "dest") {
+            const ok = seg.to === p.destId;
+            if (ok) {
+              const gained = 10 * g.combo;
+              g.score += gained;
+              g.combo = Math.min(12, g.combo+1);
+              g.destFlash[seg.to] = {t:700,ok:true};
+              addPars(g, toNd.rx*W, toNd.ry*H, PAL[toNd.ck!], 14);
+              g.pops.push({x:toNd.rx*W, y:toNd.ry*H-24, text:`+${gained}`, life:1, color:PAL[toNd.ck!], vy:-1.2});
+              if (g.score > g.best) {
+                g.best = g.score;
+                localStorage.setItem("pr-best", String(g.score));
+                setUiBest(g.score);
+              }
+            } else {
+              g.lives--;
+              g.combo = 1;
+              g.screenFlash = 500; g.screenFlashOk = false;
+              g.destFlash[seg.to] = {t:600,ok:false};
+              addPars(g, toNd.rx*W, toNd.ry*H, "#ff3333", 18);
+              g.pops.push({x:toNd.rx*W, y:toNd.ry*H-24, text:"WRONG!", life:1, color:"#ff3333", vy:-1.2});
+              if (g.lives <= 0) { g.over=true; setPhase("over"); }
+              setUiLives(g.lives); setUiCombo(1);
+            }
+            p.state="die"; p.dieT=350;
+          } else if (toNd.type === "junction") {
+            const nx = nextSeg(toNd.id, g.sw);
+            if (nx) { p.segId=nx; p.t=0; p.trail=[]; }
+            else { p.state="die"; p.dieT=200; }
           }
-        } else if (n.state === "active") {
-          n.activeTimer -= dt;
-          if (n.activeTimer <= 0) { n.state = "dying"; n.dyingTimer = DIE_MS; }
-        } else if (n.state === "dying") {
-          n.dyingTimer -= dt;
         }
       }
-      g.nodes = g.nodes.filter(n => !(n.state === "dying" && n.dyingTimer <= 0));
+      g.pkts = g.pkts.filter(p => !(p.state==="die" && p.dieT<=0));
 
-      // ── Multiplier decay ──
-      if (g.multiplier > 1) {
-        g.multTimer -= dt;
-        if (g.multTimer <= 0) {
-          g.multiplier = Math.max(1, g.multiplier - 0.5);
-          g.multTimer = 800;
-          setUiMult(Math.round(g.multiplier * 10) / 10);
-        }
+      // Difficulty
+      const delivered = Math.floor(g.score/10);
+      const newLvl = Math.floor(delivered/7)+1;
+      if (newLvl !== g.level) {
+        g.level = newLvl;
+        g.spawnInt  = Math.max(700, 2800-(newLvl-1)*160);
+        g.baseSpd   = 0.00025+(newLvl-1)*0.000032;
+        setUiLevel(newLvl);
       }
 
-      // ── Trails ──
-      for (const tr of g.trails) {
-        tr.t += TRAIL_SPEED * dt;
-        if (tr.t >= 1) {
-          const tNode = g.nodes.find(n => n.id === tr.targetId);
-          if (tNode && tNode.state === "idle") triggerNode(tNode, g.multiplier);
-        }
+      // Decay
+      for (const k of Object.keys(g.swBounce)) g.swBounce[k] = Math.max(0, g.swBounce[k]-dt*0.007);
+      for (const k of Object.keys(g.destFlash)) {
+        g.destFlash[k].t = Math.max(0, g.destFlash[k].t-dt);
+        if (g.destFlash[k].t<=0) delete g.destFlash[k];
       }
-      g.trails = g.trails.filter(tr => tr.t < 1);
+      g.screenFlash = Math.max(0, g.screenFlash-dt);
 
-      // ── Particles ──
-      for (const p of g.particles) {
-        p.x += p.vx; p.y += p.vy;
-        p.vx *= 0.94; p.vy *= 0.94;
-        p.vy += 0.06;
-        p.life -= dt / (p.maxLife * 700);
-      }
-      g.particles = g.particles.filter(p => p.life > 0);
+      for (const p of g.pars) { p.x+=p.vx; p.y+=p.vy; p.vx*=0.91; p.vy*=0.91; p.vy+=0.05; p.life-=dt/550; }
+      g.pars = g.pars.filter(p=>p.life>0);
+      for (const p of g.pops) { p.y+=p.vy; p.life-=dt/900; }
+      g.pops = g.pops.filter(p=>p.life>0);
 
-      // ── Draw ──
-      draw(ctx, g, W, H, time, dashOffset);
-
-      // ── UI sync (throttled) ──
-      if (Math.floor(time / 100) !== Math.floor((time - dt) / 100)) {
-        setUiScore(g.score);
-        setUiMult(Math.round(g.multiplier * 10) / 10);
+      // Sync UI (throttled)
+      if (Math.floor(now/80) !== Math.floor((now-dt)/80)) {
+        setUiScore(g.score); setUiCombo(g.combo);
       }
 
+      drawScene(ctx, g, W, H, now);
       raf = requestAnimationFrame(loop);
     }
-
     raf = requestAnimationFrame(loop);
     return () => { cancelAnimationFrame(raf); ro.disconnect(); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function startGame() {
-    const g = gameRef.current;
-    const canvas = canvasRef.current!;
-    g.started = true;
-    g.score = 0; g.multiplier = 1; g.multTimer = 0;
-    g.nodes = []; g.particles = []; g.trails = [];
-    g.megaTimer = 0; g.spawnTimer = 0;
-    // Initial nodes
-    for (let i = 0; i < 5; i++) g.nodes.push(spawnNode(canvas.width, canvas.height));
-    setStarted(true);
-    setUiScore(0);
-    setUiMult(1);
+    const g = gs.current;
+    Object.assign(g, {
+      pkts:[], pars:[], pops:[],
+      sw:{ j1:0, j2t:0, j2b:0 }, swBounce:{}, destFlash:{},
+      score:0, lives:3, combo:1, level:1,
+      spawnT:0, spawnInt:2800, baseSpd:0.00025,
+      screenFlash:0, over:false, started:true,
+    });
+    setPhase("play"); setUiScore(0); setUiLives(3); setUiCombo(1); setUiLevel(1);
   }
+
+  const isPlay = phase === "play";
+  const isOver = phase === "over";
 
   return (
     <div className="fb-root">
-      <div className="fb-tilt-wrap" ref={wrapRef}>
-        {/* Canvas */}
-        <canvas
-          ref={canvasRef}
-          className="fb-canvas"
-          onClick={handleClick}
-          style={{ cursor: started ? "crosshair" : "default" }}
-        />
+      <div className="fb-tilt-wrap" ref={wrap}>
+        <canvas ref={cvs} className="fb-canvas" onClick={handleClick}
+          style={{cursor: isPlay ? "crosshair" : "default"}} />
 
         {/* HUD */}
-        {started && (
+        {isPlay && (
           <div className="fb-hud">
             <div className="fb-hud-left">
-              <div className="fb-score-label mono">Score</div>
-              <div className="fb-score-value mono">{uiScore.toLocaleString()}</div>
+              <span className="fb-score-label mono">Score</span>
+              <span className="fb-score-value mono">{uiScore.toLocaleString()}</span>
             </div>
-            <div className={`fb-hud-center${newBestFlash ? " fb-hud-center--flash" : ""}`}>
-              {uiMult > 1 && (
-                <div className="fb-multiplier mono">×{uiMult.toFixed(1)}</div>
-              )}
+            <div className="fb-hud-center">
+              <span className="fb-level-badge mono">LVL {uiLevel}</span>
+              {uiCombo > 1 && <span className="fb-combo mono">×{uiCombo}</span>}
             </div>
             <div className="fb-hud-right">
-              <div className="fb-score-label mono">Best</div>
-              <div className={`fb-score-value mono${newBestFlash ? " fb-best--new" : ""}`}>
-                {uiBest.toLocaleString()}
+              <div className="fb-hearts">
+                {[0,1,2].map(i=>(
+                  <span key={i} className={`fb-heart${i<uiLives?"":" fb-heart--lost"}`}>♥</span>
+                ))}
               </div>
+              <span className="fb-score-label mono">Best</span>
+              <span className="fb-score-value mono">{uiBest.toLocaleString()}</span>
             </div>
           </div>
         )}
 
-        {/* Start screen */}
-        {!started && (
+        {/* Start / Game Over overlay */}
+        {(phase==="idle" || phase==="over") && (
           <div className="fb-start">
             <div className="fb-start-inner">
-              <div className="eyebrow mono">Playground</div>
-              <h2 className="fb-start-title">Flow Breaker</h2>
-              <p className="fb-start-desc mono">
-                Click nodes to execute them. Trigger chain reactions.<br />
-                Hit the <span style={{ color: "#FFD700" }}>★ MEGA</span> node to nuke everything.
-              </p>
-              {uiBest > 0 && (
-                <div className="fb-start-best mono">Best score: <strong>{uiBest.toLocaleString()}</strong></div>
+              {isOver ? (
+                <>
+                  <div className="eyebrow mono" style={{color:"#ff4444"}}>Pipeline Crashed</div>
+                  <div className="fb-score-value mono" style={{fontSize:52,color:"var(--accent)",marginTop:8}}>{uiScore.toLocaleString()}</div>
+                  {uiScore > 0 && uiScore >= uiBest && <div className="fb-start-best mono">🏆 New best!</div>}
+                </>
+              ) : (
+                <>
+                  <div className="eyebrow mono">Playground</div>
+                  <h2 className="fb-start-title">Pipeline Rush</h2>
+                  <p className="fb-start-desc mono">
+                    Colored packets travel the pipe.<br/>
+                    Click <span style={{color:"#ffcc44"}}>switches</span> to route them to the right destination.<br/>
+                    3 wrong routes = game over.
+                  </p>
+                  <div className="fb-legend">
+                    {CKS.map(ck=>(
+                      <span key={ck} className="fb-legend-item mono" style={{color:PAL[ck]}}>
+                        ● {ck}
+                      </span>
+                    ))}
+                  </div>
+                  {uiBest>0 && <div className="fb-start-best mono">Best: <strong>{uiBest.toLocaleString()}</strong></div>}
+                </>
               )}
               <button className="btn btn-primary fb-start-btn" onClick={startGame}>
-                Start playing →
+                {isOver ? "Try again →" : "Start →"}
               </button>
-              <p className="fb-start-hint mono">Your best score is saved automatically</p>
+              {!isOver && <p className="fb-start-hint mono">Best score saved automatically</p>}
             </div>
           </div>
         )}
@@ -464,175 +369,231 @@ export function FlowBreaker() {
   );
 }
 
-// ─── Draw idle (pre-game) ────────────────────────────────────────────────────
+// ─── Draw ─────────────────────────────────────────────────────────────────────
 
-function drawIdle(ctx: CanvasRenderingContext2D, W: number, H: number, time: number, dashOffset: number) {
-  ctx.clearRect(0, 0, W, H);
-  drawGrid(ctx, W, H, time);
-}
-
-// ─── Main draw ───────────────────────────────────────────────────────────────
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function draw(
-  ctx: CanvasRenderingContext2D,
-  g: any,
-  W: number, H: number,
-  time: number,
-  dashOffset: number
-) {
-  ctx.clearRect(0, 0, W, H);
-  drawGrid(ctx, W, H, time);
-
-  // Connections
-  ctx.save();
-  for (let i = 0; i < g.nodes.length; i++) {
-    const a = g.nodes[i] as GNode;
-    if (a.state === "dying") continue;
-    for (let j = i + 1; j < g.nodes.length; j++) {
-      const b = g.nodes[j] as GNode;
-      if (b.state === "dying") continue;
-      const dx = b.x - a.x, dy = b.y - a.y;
-      const dist = Math.sqrt(dx*dx + dy*dy);
-      if (dist > CONN_DIST) continue;
-      const alpha = (1 - dist / CONN_DIST) * 0.35;
-      ctx.setLineDash([4, 6]);
-      ctx.lineDashOffset = -dashOffset;
-      ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(a.x, a.y);
-      ctx.lineTo(b.x, b.y);
-      ctx.stroke();
-    }
-  }
-  ctx.setLineDash([]);
-  ctx.restore();
-
-  // Trails
-  for (const tr of g.trails as Trail[]) {
-    const px = tr.x1 + (tr.x2 - tr.x1) * tr.t;
-    const py = tr.y1 + (tr.y2 - tr.y1) * tr.t;
-    ctx.save();
-    ctx.shadowBlur = 12;
-    ctx.shadowColor = tr.color;
-    ctx.beginPath();
-    ctx.arc(px, py, 4, 0, Math.PI * 2);
-    ctx.fillStyle = tr.color;
-    ctx.fill();
-    ctx.restore();
-    // Trail line behind it
-    ctx.beginPath();
-    ctx.moveTo(tr.x1, tr.y1);
-    ctx.lineTo(px, py);
-    ctx.strokeStyle = `rgba(${rgb(tr.color)},${0.3 * (1 - tr.t)})`;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-  }
-
-  // Particles
-  for (const p of g.particles as Particle[]) {
-    ctx.save();
-    ctx.globalAlpha = Math.max(0, p.life);
-    ctx.fillStyle = p.color;
-    ctx.shadowBlur = 6;
-    ctx.shadowColor = p.color;
-    if (p.shape === "diamond") {
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(Math.PI / 4);
-      ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
-      ctx.restore();
-    } else {
-      ctx.fillRect(p.x - p.size/2, p.y - p.size/2, p.size, p.size);
-    }
-    ctx.restore();
-  }
-
-  // Nodes
-  for (const n of g.nodes as GNode[]) {
-    drawNode(ctx, n, time);
-  }
-}
-
-function drawGrid(ctx: CanvasRenderingContext2D, W: number, H: number, time: number) {
-  const step = 40;
-  const pulse = Math.sin(time * 0.0005) * 0.015 + 0.04;
-  ctx.strokeStyle = `rgba(255,255,255,${pulse})`;
-  ctx.lineWidth = 0.5;
-  for (let x = 0; x < W; x += step) {
-    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
-  }
-  for (let y = 0; y < H; y += step) {
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-  }
-}
-
-function drawNode(ctx: CanvasRenderingContext2D, n: GNode, time: number) {
-  const color  = COLORS[n.type];
-  const s      = n.scale;
-  const isDying = n.state === "dying";
-  const isActive = n.state === "active";
-  const dyingPct = isDying ? n.dyingTimer / DIE_MS : 1;
-  const alpha  = isDying ? dyingPct : 1;
-  const pulseFq = 0.002 + n.pressure * 0.006;
-  const pulseAmt = isActive ? 1 : (Math.sin(time * pulseFq) * 0.5 + 0.5) * n.pressure;
-  const glowSize = 10 + pulseAmt * 25 + (isActive ? 30 : 0) + (n.type === "mega" ? 20 : 0);
-  const scaleX = isDying ? dyingPct * s : s;
-  const scaleY = isDying ? dyingPct * s : s;
-
-  ctx.save();
-  ctx.globalAlpha = alpha;
-  ctx.translate(n.x, n.y);
-  ctx.scale(scaleX, scaleY);
-
-  const x = -NW / 2, y = -NH / 2;
-
-  // Glow
-  ctx.shadowBlur  = glowSize;
-  ctx.shadowColor = color;
-
-  // Background
-  rr(ctx, x, y, NW, NH, 7);
-  ctx.fillStyle = isActive
-    ? `rgba(${rgb(color)},0.25)`
-    : `rgba(13,13,18,0.88)`;
-  ctx.fill();
-
-  // Border
-  const borderAlpha = 0.35 + pulseAmt * 0.65 + (isActive ? 0.4 : 0);
-  ctx.strokeStyle = `rgba(${rgb(color)},${Math.min(1, borderAlpha)})`;
-  ctx.lineWidth   = n.type === "mega" ? 2 : 1.5;
-  rr(ctx, x, y, NW, NH, 7);
+function drawBg(ctx: CanvasRenderingContext2D, W:number, H:number, t:number) {
+  ctx.fillStyle="#08080f"; ctx.fillRect(0,0,W,H);
+  const step=38, a=Math.sin(t*0.0004)*0.012+0.028;
+  ctx.strokeStyle=`rgba(255,255,255,${a})`; ctx.lineWidth=0.5;
+  ctx.beginPath();
+  for(let x=0;x<W;x+=step){ctx.moveTo(x,0);ctx.lineTo(x,H);}
+  for(let y=0;y<H;y+=step){ctx.moveTo(0,y);ctx.lineTo(W,y);}
   ctx.stroke();
+}
 
-  ctx.shadowBlur = 0;
+function drawScene(ctx: CanvasRenderingContext2D, g:GS, W:number, H:number, t:number) {
+  drawBg(ctx,W,H,t);
 
-  // Icon
-  ctx.font = n.type === "mega" ? "bold 15px sans-serif" : "13px sans-serif";
-  ctx.fillStyle   = color;
-  ctx.textAlign   = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillText(ICONS[n.type], x + 16, 1);
-
-  // Label
-  ctx.font = n.type === "mega"
-    ? "bold 10px var(--font-mono-stack, monospace)"
-    : "10px var(--font-mono-stack, monospace)";
-  ctx.fillStyle   = `rgba(255,255,255,${0.55 + n.pressure * 0.45})`;
-  ctx.textAlign   = "left";
-  ctx.textBaseline = "middle";
-  ctx.fillText(LABELS[n.type], x + 28, 1);
-
-  // Pressure bar
-  if (n.type !== "mega" && n.pressure > 0.1) {
-    const bw = NW - 20, bh = 2.5;
-    const bx = x + 10, by = NH / 2 - 7;
-    ctx.fillStyle = "rgba(255,255,255,0.1)";
-    ctx.fillRect(bx, by, bw, bh);
-    ctx.fillStyle = color;
-    ctx.fillRect(bx, by, bw * n.pressure, bh);
+  // Screen flash
+  if (g.screenFlash>0) {
+    const a = (g.screenFlash/500)*0.18;
+    ctx.fillStyle = g.screenFlashOk ? `rgba(20,241,149,${a})` : `rgba(255,50,50,${a})`;
+    ctx.fillRect(0,0,W,H);
   }
 
+  drawPipes(ctx,g,W,H,t);
+  drawDests(ctx,g,W,H,t);
+  drawSource(ctx,W,H,t);
+  drawSwitches(ctx,g,W,H,t);
+  drawPkts(ctx,g,W,H);
+  drawPars(ctx,g);
+  drawPops(ctx,g);
+
+  // Hint: show incoming packet color label near source
+  const incoming = g.pkts.find(p=>p.state==="alive" && p.segId==="src-j1");
+  if (incoming) {
+    const src = NODES.find(n=>n.id==="src")!;
+    const x=src.rx*W, y=src.ry*H;
+    ctx.save();
+    ctx.font="bold 11px var(--font-mono-stack,monospace)";
+    ctx.fillStyle=PAL[incoming.ck];
+    ctx.textAlign="center";
+    ctx.shadowBlur=10; ctx.shadowColor=PAL[incoming.ck];
+    ctx.fillText("▲ "+incoming.ck, x, y-30);
+    ctx.restore();
+  }
+}
+
+function drawPipes(ctx: CanvasRenderingContext2D, g:GS, W:number, H:number, t:number) {
+  for (const seg of SEGS) {
+    const active = seg.swId === undefined ? true : g.sw[seg.swId]===seg.swSt;
+    const toNd = NODES.find(n=>n.id===seg.to)!;
+
+    // Pick a color for the pipe based on where it leads
+    let pipeColor = "#aaaaaa";
+    if (toNd.type==="dest" && toNd.ck) pipeColor = PAL[toNd.ck];
+    else if (toNd.id==="j2t") pipeColor = "#8888ff";
+    else if (toNd.id==="j2b") pipeColor = "#88ff88";
+
+    const alpha = active ? 0.55 : 0.12;
+    const lw    = active ? 3    : 1.5;
+    const glow  = active ? 10   : 0;
+
+    const fromNd = NODES.find(n=>n.id===seg.from)!;
+    ctx.save();
+    ctx.shadowBlur=glow; ctx.shadowColor=pipeColor;
+    ctx.strokeStyle=`rgba(${rgb(pipeColor)},${alpha})`;
+    ctx.lineWidth=lw;
+    ctx.beginPath();
+    ctx.moveTo(fromNd.rx*W, fromNd.ry*H);
+    ctx.bezierCurveTo(seg.cp1rx*W,seg.cp1ry*H, seg.cp2rx*W,seg.cp2ry*H, toNd.rx*W,toNd.ry*H);
+    ctx.stroke();
+    ctx.restore();
+
+    // Animated flow dots on active pipes
+    if (active) {
+      for (let i=0;i<2;i++) {
+        const ft = ((t*0.00032 + i*0.5) % 1);
+        const pos = segPt(seg,ft,W,H);
+        ctx.save();
+        ctx.globalAlpha=0.5;
+        ctx.fillStyle=pipeColor;
+        ctx.shadowBlur=8; ctx.shadowColor=pipeColor;
+        ctx.beginPath(); ctx.arc(pos.x,pos.y,2.5,0,Math.PI*2); ctx.fill();
+        ctx.restore();
+      }
+    }
+  }
+}
+
+function drawDests(ctx: CanvasRenderingContext2D, g:GS, W:number, H:number, t:number) {
+  for (const n of NODES) {
+    if (n.type!=="dest") continue;
+    const x=n.rx*W, y=n.ry*H, color=PAL[n.ck!];
+    const fl=g.destFlash[n.id];
+    const fa=fl ? (fl.t/700) : 0;
+    const pulse=Math.sin(t*0.002)*0.25+0.75;
+
+    ctx.save();
+    ctx.shadowBlur=8+pulse*6+fa*28; ctx.shadowColor=color;
+    const bw=84,bh=32;
+    rr(ctx,x-bw/2,y-bh/2,bw,bh,6);
+    ctx.fillStyle=`rgba(${rgb(color)},${0.07+fa*0.22})`; ctx.fill();
+    ctx.strokeStyle=`rgba(${rgb(color)},${0.45+fa*0.55})`; ctx.lineWidth=1.5+fa; ctx.stroke();
+    ctx.shadowBlur=0;
+    ctx.fillStyle=`rgba(255,255,255,${0.65+fa*0.35})`;
+    ctx.font=`${fa>0.3?"bold ":""}10px var(--font-mono-stack,monospace)`;
+    ctx.textAlign="center"; ctx.textBaseline="middle";
+    ctx.fillText(n.label??n.id, x, y);
+    ctx.restore();
+
+    // Color dot indicator
+    ctx.save();
+    ctx.fillStyle=color; ctx.shadowBlur=6; ctx.shadowColor=color;
+    ctx.beginPath(); ctx.arc(x-bw/2+10,y,4,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+  }
+}
+
+function drawSource(ctx: CanvasRenderingContext2D, W:number, H:number, t:number) {
+  const n=NODES.find(nd=>nd.id==="src")!;
+  const x=n.rx*W, y=n.ry*H;
+  const p=Math.sin(t*0.003)*0.3+0.7;
+  ctx.save();
+  ctx.shadowBlur=14+p*8; ctx.shadowColor="rgba(255,255,255,0.5)";
+  ctx.strokeStyle=`rgba(255,255,255,${0.4+p*0.3})`; ctx.fillStyle="rgba(255,255,255,0.06)";
+  ctx.lineWidth=2;
+  ctx.beginPath(); ctx.arc(x,y,20,0,Math.PI*2); ctx.fill(); ctx.stroke();
+  ctx.shadowBlur=0;
+  ctx.fillStyle="rgba(255,255,255,0.8)";
+  ctx.font="10px var(--font-mono-stack,monospace)";
+  ctx.textAlign="center"; ctx.textBaseline="middle";
+  ctx.fillText("SRC",x,y);
   ctx.restore();
+}
+
+function drawSwitches(ctx: CanvasRenderingContext2D, g:GS, W:number, H:number, t:number) {
+  for (const n of NODES) {
+    if (n.type!=="junction") continue;
+    const x=n.rx*W, y=n.ry*H;
+    const state=g.sw[n.id];
+    const bounce=g.swBounce[n.id]??0;
+    const sc=1+bounce*0.35;
+    const pulse=Math.sin(t*0.0025)*0.3+0.7;
+
+    ctx.save();
+    ctx.translate(x,y); ctx.scale(sc,sc);
+
+    // Background ring
+    ctx.shadowBlur=12+pulse*8; ctx.shadowColor="rgba(255,200,80,0.6)";
+    ctx.fillStyle="rgba(13,13,18,0.92)";
+    ctx.strokeStyle=`rgba(255,200,80,${0.45+pulse*0.3})`; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(0,0,24,0,Math.PI*2); ctx.fill(); ctx.stroke();
+
+    // Direction arrow
+    ctx.shadowBlur=8; ctx.shadowColor="rgba(255,200,80,0.8)";
+    ctx.fillStyle="rgba(255,200,80,0.95)";
+    ctx.font="bold 18px sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
+    ctx.fillText(state===0?"↗":"↘",0,1);
+
+    // "SWITCH" label below
+    ctx.shadowBlur=0; ctx.fillStyle="rgba(255,255,255,0.28)";
+    ctx.font="8px var(--font-mono-stack,monospace)";
+    ctx.fillText("SWITCH",0,36);
+
+    ctx.restore();
+  }
+}
+
+function drawPkts(ctx: CanvasRenderingContext2D, g:GS, W:number, H:number) {
+  for (const p of g.pkts) {
+    const seg=SEGS.find(s=>s.id===p.segId); if(!seg) continue;
+    const pos=segPt(seg,Math.min(p.t,1),W,H);
+    const color=PAL[p.ck];
+    const alpha=p.state==="alive"?1:Math.max(0,p.dieT/350);
+
+    // Trail
+    if (p.trail.length>1) {
+      ctx.save();
+      for(let i=1;i<p.trail.length;i++){
+        const a=(i/p.trail.length)*0.35*alpha;
+        ctx.strokeStyle=`rgba(${rgb(color)},${a})`;
+        ctx.lineWidth=3*(i/p.trail.length);
+        ctx.lineCap="round";
+        ctx.beginPath(); ctx.moveTo(p.trail[i-1].x,p.trail[i-1].y); ctx.lineTo(p.trail[i].x,p.trail[i].y); ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    ctx.save();
+    ctx.globalAlpha=alpha;
+    ctx.shadowBlur=20; ctx.shadowColor=color;
+
+    // Outer ring
+    ctx.strokeStyle=`rgba(${rgb(color)},0.45)`; ctx.lineWidth=2.5;
+    ctx.beginPath(); ctx.arc(pos.x,pos.y,16,0,Math.PI*2); ctx.stroke();
+
+    // Inner fill
+    ctx.fillStyle=color;
+    ctx.beginPath(); ctx.arc(pos.x,pos.y,10,0,Math.PI*2); ctx.fill();
+
+    // Letter
+    ctx.shadowBlur=0; ctx.fillStyle="rgba(0,0,0,0.85)";
+    ctx.font="bold 9px var(--font-mono-stack,monospace)";
+    ctx.textAlign="center"; ctx.textBaseline="middle";
+    ctx.fillText(p.ck[0],pos.x,pos.y);
+    ctx.restore();
+  }
+}
+
+function drawPars(ctx: CanvasRenderingContext2D, g:GS) {
+  for (const p of g.pars) {
+    ctx.save();
+    ctx.globalAlpha=Math.max(0,p.life);
+    ctx.fillStyle=p.color; ctx.shadowBlur=5; ctx.shadowColor=p.color;
+    ctx.fillRect(p.x-p.size/2,p.y-p.size/2,p.size,p.size);
+    ctx.restore();
+  }
+}
+
+function drawPops(ctx: CanvasRenderingContext2D, g:GS) {
+  for (const p of g.pops) {
+    ctx.save();
+    ctx.globalAlpha=Math.max(0,p.life);
+    ctx.fillStyle=p.color; ctx.shadowBlur=10; ctx.shadowColor=p.color;
+    ctx.font="bold 14px var(--font-mono-stack,monospace)";
+    ctx.textAlign="center";
+    ctx.fillText(p.text,p.x,p.y);
+    ctx.restore();
+  }
 }
