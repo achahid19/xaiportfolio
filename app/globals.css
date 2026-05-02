@@ -3081,3 +3081,35 @@ h3 {
   font-size: 11px;
   letter-spacing: 0.06em;
 }
+
+/* Upcoming packet queue strip */
+.fb-queue {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(8,8,15,0.72);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 5px 14px;
+  pointer-events: none;
+}
+
+.fb-queue-label {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  margin-right: 2px;
+}
+
+.fb-queue-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
