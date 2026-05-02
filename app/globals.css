@@ -606,6 +606,10 @@ h3 {
   gap: 7px;
 }
 
+.resume-dl__icon {
+  flex-shrink: 0;
+}
+
 .resume-dl__chevron {
   transition: transform 0.2s ease;
   flex-shrink: 0;
@@ -2358,6 +2362,11 @@ h3 {
 
   .logo-lockup    { display: inline-flex; }
   .logo-mark-only { display: none; }
+
+  /* Resume button: icon only on mobile */
+  .resume-dl__label,
+  .resume-dl__chevron { display: none; }
+  .resume-dl__trigger { gap: 0; padding-left: 8px; padding-right: 8px; }
 
   .nav-toggle {
     display: flex;

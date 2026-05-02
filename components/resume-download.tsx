@@ -25,12 +25,26 @@ export function ResumeDownload({ size }: { size?: "sm" }) {
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-haspopup="listbox"
+        aria-label="Download Resume"
       >
-        Download Resume
+        {/* Download icon — always visible */}
+        <svg
+          className="resume-dl__icon"
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path d="M7 1v8M4 6l3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M2 11h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        </svg>
+        {/* Text — hidden on mobile */}
+        <span className="resume-dl__label">Resume</span>
         <svg
           className={`resume-dl__chevron${open ? " resume-dl__chevron--open" : ""}`}
-          width="12"
-          height="12"
+          width="11"
+          height="11"
           viewBox="0 0 12 12"
           fill="none"
           aria-hidden="true"
