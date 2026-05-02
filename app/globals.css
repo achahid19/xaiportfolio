@@ -2356,8 +2356,8 @@ h3 {
     position: relative;
   }
 
-  .logo-lockup    { display: none; }
-  .logo-mark-only { display: inline-flex; }
+  .logo-lockup    { display: inline-flex; }
+  .logo-mark-only { display: none; }
 
   .nav-toggle {
     display: flex;
