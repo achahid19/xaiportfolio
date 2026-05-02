@@ -106,7 +106,7 @@ export async function submitGuestbookAction(
     await createGuestbookEntry({
       ...parsed.data,
       createdAt: new Date().toISOString(),
-      approved: true
+      approved: false
     });
   } catch (error) {
     console.error("Failed to save guestbook entry", error);
@@ -119,10 +119,11 @@ export async function submitGuestbookAction(
   }
 
   revalidatePath("/guestbook");
+  revalidatePath("/admin/guestbook");
 
   return {
     status: "success",
-    message: "Your note is now visible in the guestbook."
+    message: "Thanks! Your note is pending review and will appear once approved."
   };
 }
 

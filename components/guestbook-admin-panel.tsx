@@ -61,7 +61,7 @@ export function GuestbookAdminPanel({ entries }: GuestbookAdminPanelProps) {
           <strong>{approvedCount}</strong>
         </div>
         <div className="admin-stat">
-          <span className="muted-label">Hidden</span>
+          <span className="muted-label">Pending</span>
           <strong>{hiddenCount}</strong>
         </div>
       </div>
@@ -90,10 +90,10 @@ export function GuestbookAdminPanel({ entries }: GuestbookAdminPanelProps) {
                       className={`admin-entry__status ${
                         entry.approved
                           ? "admin-entry__status--visible"
-                          : "admin-entry__status--hidden"
+                          : "admin-entry__status--pending"
                       }`}
                     >
-                      {entry.approved ? "Visible" : "Hidden"}
+                      {entry.approved ? "Visible" : "Pending"}
                     </span>
                   </div>
                 </div>
