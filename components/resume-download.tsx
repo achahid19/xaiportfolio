@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export function ResumeDownload() {
+export function ResumeDownload({ size }: { size?: "sm" }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -21,7 +21,7 @@ export function ResumeDownload() {
     <div className="resume-dl" ref={ref}>
       <button
         type="button"
-        className="btn btn-secondary resume-dl__trigger"
+        className={`btn btn-secondary resume-dl__trigger${size === "sm" ? " btn-sm" : ""}`}
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-haspopup="listbox"
