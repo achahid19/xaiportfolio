@@ -32,6 +32,9 @@ const TOOLS: ReadonlyArray<Tool> = [
   { name: "Jira",            slug: "jira" },
   { name: "Notion",          slug: "notion" },
   { name: "Webhooks",        slug: undefined },
+  { name: "Airtable",        slug: "airtable" },
+  { name: "CRMs",            slug: undefined },
+  { name: "AI Agents",       slug: undefined },
 ];
 
 const CDN       = "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons";
