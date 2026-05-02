@@ -592,6 +592,76 @@ h3 {
   gap: 12px;
   flex-wrap: wrap;
   margin-bottom: 48px;
+  align-items: center;
+}
+
+/* ─── Resume download button ───────────────────────────────── */
+.resume-dl {
+  position: relative;
+}
+
+.resume-dl__trigger {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.resume-dl__icon {
+  flex-shrink: 0;
+}
+
+.resume-dl__chevron {
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.resume-dl__chevron--open {
+  transform: rotate(180deg);
+}
+
+.resume-dl__menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  left: auto;
+  min-width: 160px;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  z-index: 20;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.resume-dl__option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--fg-dim);
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.resume-dl__option:hover {
+  background: var(--bg-raised, rgba(255,255,255,0.05));
+  color: var(--fg);
+}
+
+.resume-dl__flag {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.resume-dl__arrow {
+  margin-left: auto;
+  color: var(--fg-mute);
+  font-size: 12px;
+}
+
+.resume-dl__option:hover .resume-dl__arrow {
+  color: var(--accent);
 }
 
 .hero-stats {
@@ -2290,8 +2360,13 @@ h3 {
     position: relative;
   }
 
-  .logo-lockup    { display: none; }
-  .logo-mark-only { display: inline-flex; }
+  .logo-lockup    { display: inline-flex; }
+  .logo-mark-only { display: none; }
+
+  /* Resume button: icon only on mobile */
+  .resume-dl__label,
+  .resume-dl__chevron { display: none; }
+  .resume-dl__trigger { gap: 0; padding-left: 8px; padding-right: 8px; }
 
   .nav-toggle {
     display: flex;

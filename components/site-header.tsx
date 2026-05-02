@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { AixLogo } from "@/components/aix-logo";
 import { Magnetic } from "@/components/magnetic";
+import { ResumeDownload } from "@/components/resume-download";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const navItems: ReadonlyArray<readonly [string, string]> = [
@@ -94,6 +95,7 @@ export function SiteHeader() {
 
         <div className="nav-cta">
           <ThemeToggle />
+          <ResumeDownload size="sm" />
           <Magnetic>
             <Link
               className="btn btn-primary btn-sm"
