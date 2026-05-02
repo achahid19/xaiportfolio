@@ -2881,6 +2881,48 @@ h3 {
   overflow: hidden;
 }
 
+.playground-desktop { display: block; height: 100%; }
+.playground-mobile-gate { display: none; }
+
+@media (max-width: 768px) {
+  .playground-desktop { display: none; }
+
+  .playground-mobile-gate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 2rem;
+  }
+
+  .playground-mobile-gate__inner {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .playground-mobile-gate__icon {
+    font-size: 48px;
+    line-height: 1;
+  }
+
+  .playground-mobile-gate__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .playground-mobile-gate__desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 280px;
+    margin: 0;
+  }
+}
+
 .fb-root {
   width: 100%;
   height: 100%;
