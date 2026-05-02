@@ -35,7 +35,7 @@ const TOOLS: ReadonlyArray<Tool> = [
   { name: "Webhooks",        icon: "M14 2a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-2.8-2H8.5A4.5 4.5 0 0 0 4 10.5 4.5 4.5 0 0 0 8.5 15H9a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 1.2-2.4A6.5 6.5 0 0 1 2 10.5 6.5 6.5 0 0 1 8.5 4h2.7A3 3 0 0 1 14 2z" },
   { name: "Airtable",        slug: "airtable" },
   { name: "CRMs",            slug: "hubspot" },
-  { name: "AI Agents",       slug: "langchain" },
+  { name: "AI Agents",       icon: "M9 3h6M12 3v2M7 5h10a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2M9.5 9h2v2h-2zM12.5 9h2v2h-2zM9.5 13h5" },
 ];
 
 const CDN       = "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons";
