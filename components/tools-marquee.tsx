@@ -13,6 +13,7 @@ import { useCallback, useRef, useState } from "react";
 interface Tool {
   name: string;
   slug?: string;
+  icon?: string; // custom SVG path(s) for tools not in Simple Icons
 }
 
 const TOOLS: ReadonlyArray<Tool> = [
@@ -20,8 +21,8 @@ const TOOLS: ReadonlyArray<Tool> = [
   { name: "Make",            slug: "make" },
   { name: "OpenAI",          slug: "openai" },
   { name: "Anthropic",       slug: "anthropic" },
-  { name: "Firecrawl",       slug: undefined },
-  { name: "OpenRouter",      slug: undefined },
+  { name: "Firecrawl",       icon: "M12 2c0 0-4 4-4 8a4 4 0 0 0 8 0c0-1.5-.5-3-1.5-4C14 8 13 10 12 10s-1-1.5-1-2.5C11 5.5 12 2 12 2zM9 14c0 2 1.3 3.5 3 3.5S15 16 15 14" },
+  { name: "OpenRouter",      slug: "openrouter" },
   { name: "PostgreSQL",      slug: "postgresql" },
   { name: "Vercel",          slug: "vercel" },
   { name: "GitHub",          slug: "github" },
@@ -31,10 +32,10 @@ const TOOLS: ReadonlyArray<Tool> = [
   { name: "Google Calendar", slug: "googlecalendar" },
   { name: "Jira",            slug: "jira" },
   { name: "Notion",          slug: "notion" },
-  { name: "Webhooks",        slug: undefined },
+  { name: "Webhooks",        icon: "M14 2a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-2.8-2H8.5A4.5 4.5 0 0 0 4 10.5 4.5 4.5 0 0 0 8.5 15H9a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 1.2-2.4A6.5 6.5 0 0 1 2 10.5 6.5 6.5 0 0 1 8.5 4h2.7A3 3 0 0 1 14 2z" },
   { name: "Airtable",        slug: "airtable" },
-  { name: "CRMs",            slug: undefined },
-  { name: "AI Agents",       slug: undefined },
+  { name: "CRMs",            slug: "hubspot" },
+  { name: "AI Agents",       slug: "langchain" },
 ];
 
 const CDN       = "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons";
@@ -49,7 +50,8 @@ function gaussian(dist: number) {
 /* ── Single pill ── */
 function ToolItem({ tool, mouseX }: { tool: Tool; mouseX: number | null }) {
   const liRef   = useRef<HTMLLIElement>(null);
-  const maskUrl = tool.slug ? `url(${CDN}/${tool.slug}.svg)` : undefined;
+  const maskUrl  = tool.slug ? `url(${CDN}/${tool.slug}.svg)` : undefined;
+  const iconPath = tool.icon;
 
   /* Gaussian factor + highlight */
   let g        = 0;
@@ -103,6 +105,16 @@ function ToolItem({ tool, mouseX }: { tool: Tool; mouseX: number | null }) {
             transition       : colorTransition,
           }}
         />
+      ) : iconPath ? (
+        <svg
+          width="14" height="14" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor"
+          strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+          aria-hidden="true"
+          style={{ color: logoColor, transition: colorTransition, flexShrink: 0 }}
+        >
+          <path d={iconPath} />
+        </svg>
       ) : (
         <svg
           width="14" height="14" viewBox="0 0 24 24"
