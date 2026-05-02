@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import { Magnetic } from "@/components/magnetic";
-import { ResumeDownload } from "@/components/resume-download";
 import { SystemsCarousel } from "@/components/systems-carousel";
 import { ToolsMarquee } from "@/components/tools-marquee";
 import { Workflow } from "@/components/workflow";
@@ -49,7 +48,6 @@ export default async function HomePage() {
               <Link className="btn btn-secondary" href="/systems">
                 See {systemCount} systems shipped
               </Link>
-              <ResumeDownload />
             </div>
 
             <div className="hero-stats">
