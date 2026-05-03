@@ -3749,3 +3749,186 @@ h3 {
 }
 .nh-best-tag strong { color: #F0C040; }
 .nh-start-btn { margin-top: 6px; }
+.nh-hint {
+  font-size: 11px; color: rgba(255,255,255,.3); letter-spacing: .06em; margin: 0;
+}
+/* Best score shown in corner during play */
+.nh-best-corner {
+  position: absolute;
+  top: 14px; right: 18px;
+  font-size: 11px; color: rgba(255,255,255,.28);
+  pointer-events: none;
+}
+.nh-best-corner strong { color: #F0C040; }
+
+/* ═══════════════════════════════════════════════════
+   F1 STUDIO  (Three.js interactive showcase)
+═══════════════════════════════════════════════════ */
+.f1-page {
+  height: calc(100vh - var(--header-h, 64px));
+  overflow: hidden;
+  background: #070710;
+}
+
+.f1-root {
+  position: relative;
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: #070710;
+}
+
+.f1-canvas-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+/* ── Annotation dots ── */
+.f1-ann {
+  position: absolute;
+  display: none;          /* shown by JS */
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  z-index: 10;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  transition: opacity .2s;
+}
+.ann-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #4D9DE0;
+  box-shadow: 0 0 10px #4D9DE0;
+  border: 1.5px solid rgba(255,255,255,.45);
+  flex-shrink: 0;
+  transition: background .2s, box-shadow .2s;
+}
+.ann-dot--active {
+  background: #FF6D5A;
+  box-shadow: 0 0 12px #FF6D5A;
+}
+.f1-ann-label {
+  font-size: 10px;
+  color: rgba(255,255,255,.7);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 6px rgba(0,0,0,.95);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ── Info panel ── */
+.f1-info-panel {
+  position: absolute;
+  bottom: 82px; right: 22px;
+  width: 265px;
+  background: rgba(7,7,16,.90);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(77,157,224,.35);
+  border-radius: 10px;
+  padding: 14px 16px;
+  z-index: 20;
+  animation: f1-panel-in .18s ease;
+}
+@keyframes f1-panel-in {
+  from { opacity:0; transform:translateY(6px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.f1-info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 9px;
+}
+.f1-info-title {
+  font-size: 10px;
+  color: #4D9DE0;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.f1-info-close {
+  background: none; border: none;
+  color: rgba(255,255,255,.35);
+  cursor: pointer; font-size: 13px; line-height: 1;
+  padding: 0;
+  transition: color .15s;
+}
+.f1-info-close:hover { color: rgba(255,255,255,.7); }
+.f1-info-body {
+  margin: 0;
+  font-size: 11.5px;
+  color: rgba(255,255,255,.5);
+  line-height: 1.7;
+}
+
+/* ── Light controls ── */
+.f1-controls {
+  position: absolute;
+  bottom: 22px; right: 22px;
+  width: 225px;
+  background: rgba(7,7,16,.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 10px;
+  padding: 14px 16px;
+  z-index: 20;
+}
+.f1-ctrl-row { margin-bottom: 12px; }
+.f1-ctrl-row:last-child { margin-bottom: 0; }
+.f1-ctrl-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.f1-ctrl-name {
+  font-size: 9px;
+  color: rgba(255,255,255,.32);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+.f1-ctrl-val {
+  font-size: 9px;
+  color: #4D9DE0;
+}
+.f1-slider {
+  width: 100%;
+  accent-color: #4D9DE0;
+  cursor: pointer;
+  height: 3px;
+}
+
+/* ── Bottom hint ── */
+.f1-hint {
+  position: absolute;
+  bottom: 22px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.18);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* ── Car branding top-left ── */
+.f1-brand {
+  position: absolute;
+  top: 18px; left: 22px;
+  z-index: 10;
+  pointer-events: none;
+}
+.f1-brand-name {
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .16em;
+  color: #FF6D5A;
+  text-shadow: 0 0 20px rgba(255,109,90,.5);
+}
+.f1-brand-sub {
+  display: block;
+  font-size: 9px;
+  color: rgba(255,255,255,.3);
+  letter-spacing: .12em;
+  margin-top: 3px;
+}
