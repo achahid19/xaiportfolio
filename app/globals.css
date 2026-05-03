@@ -3155,3 +3155,192 @@ h3 {
   display: inline-block;
   flex-shrink: 0;
 }
+
+/* ─── Workflow Speedrun ────────────────────────────────────────────────────── */
+
+.ws-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #0d0d12;
+  overflow: hidden;
+}
+
+.ws-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* HUD */
+.ws-hud {
+  position: absolute;
+  top: 14px;
+  left: 0; right: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 20px;
+  pointer-events: none;
+  gap: 12px;
+}
+
+.ws-hud-left,
+.ws-hud-center,
+.ws-hud-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ws-hud-center { align-items: center; }
+.ws-hud-right  { align-items: flex-end; }
+
+.ws-hud-label {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.3);
+  text-transform: uppercase;
+}
+
+.ws-hud-val {
+  font-size: 15px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.85);
+  line-height: 1;
+}
+
+.ws-hud-name {
+  font-size: 10px;
+  color: rgba(255,255,255,0.4);
+}
+
+.ws-hud-time {
+  font-size: 22px;
+  font-weight: 700;
+  color: #FF6D5A;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.ws-hud-best {
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+}
+
+.ws-hud-errors {
+  font-size: 12px;
+  color: #ff4444;
+}
+
+/* Level end flash */
+.ws-levelup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: ws-lvlup 1.4s ease forwards;
+}
+
+.ws-levelup-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: #14F195;
+  text-shadow: 0 0 20px rgba(20,241,149,0.7);
+  white-space: nowrap;
+}
+
+@keyframes ws-lvlup {
+  0%   { opacity: 0; transform: translate(-50%,-50%) scale(0.8); }
+  20%  { opacity: 1; transform: translate(-50%,-50%) scale(1.05); }
+  70%  { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%,-60%) scale(1); }
+}
+
+/* Overlay (start / end) */
+.ws-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8,8,15,0.82);
+  backdrop-filter: blur(6px);
+}
+
+.ws-overlay-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  max-width: 480px;
+  padding: 0 24px;
+}
+
+.ws-overlay-title {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.ws-overlay-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.ws-overlay-score {
+  font-size: 52px;
+  font-weight: 800;
+  color: #FF6D5A;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.ws-overlay-perfect {
+  font-size: 13px;
+  color: #14F195;
+  letter-spacing: 0.08em;
+}
+
+.ws-overlay-errors {
+  font-size: 13px;
+  color: #ff4444;
+}
+
+.ws-overlay-best {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+}
+
+.ws-overlay-best strong {
+  color: #F0C040;
+}
+
+.ws-level-times {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ws-level-time {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 4px 10px;
+}
+
+.ws-start-btn { margin-top: 6px; }
+
+.ws-overlay-hint {
+  font-size: 11px;
+  color: rgba(255,255,255,0.25);
+  margin: 0;
+}
