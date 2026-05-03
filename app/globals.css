@@ -3581,3 +3581,171 @@ h3 {
 .nf-best-badge  { font-size: 12px; color: rgba(255,255,255,.4); }
 .nf-best-badge strong { color: #F0C040; }
 .nf-start-btn { margin-top: 4px; }
+
+/* ───────────────────────────────────────────────────
+   DATA BREACH  (Angry Birds / slingshot n8n game)
+─────────────────────────────────────────────────── */
+.db-wrap {
+  position: relative;
+  width: 900px;
+  height: 560px;
+  background: #0d0d12;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.06);
+  box-shadow: 0 0 60px rgba(0,0,0,.7);
+  user-select: none;
+}
+.db-wrap canvas {
+  display: block;
+}
+
+/* HUD bar */
+.db-hud {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 18px;
+  background: rgba(8,8,15,.82);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  pointer-events: none;
+}
+.db-hud__title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255,255,255,.3);
+  text-transform: uppercase;
+}
+.db-hud__score {
+  font-size: 18px;
+  font-weight: 800;
+  color: #FF6D5A;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.db-hud__level {
+  font-size: 12px;
+  color: rgba(255,255,255,.45);
+  font-variant-numeric: tabular-nums;
+}
+.db-hud__best {
+  margin-left: auto;
+  font-size: 11px;
+  color: rgba(255,255,255,.28);
+}
+.db-hud__best strong {
+  color: #F0C040;
+}
+
+/* Ammo rack (bottom left) */
+.db-ammo {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  pointer-events: none;
+}
+.db-ammo__node {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  border: 1.5px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.6);
+  text-transform: uppercase;
+}
+.db-ammo__node.active {
+  border-color: rgba(255,255,255,.55);
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(255,255,255,.15);
+}
+.db-ammo__node.used {
+  opacity: 0.25;
+  border-style: dashed;
+}
+
+/* Ability hint */
+.db-ability-hint {
+  position: absolute;
+  bottom: 60px;
+  left: 14px;
+  font-size: 10px;
+  color: rgba(255,255,255,.3);
+  pointer-events: none;
+  letter-spacing: .04em;
+}
+.db-ability-hint strong {
+  color: rgba(255,255,255,.6);
+}
+
+/* Overlay (start / level-up / game over) */
+.db-overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(8,8,15,.85);
+  backdrop-filter: blur(6px);
+  z-index: 10;
+}
+.db-overlay-inner {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 14px; text-align: center; max-width: 460px; padding: 0 28px;
+}
+.db-title {
+  font-size: clamp(1.8rem,3.5vw,2.6rem);
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -.02em;
+}
+.db-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,.45);
+  line-height: 1.7;
+  margin: 0;
+}
+.db-final-score {
+  font-size: 56px;
+  font-weight: 800;
+  color: #FF6D5A;
+  line-height: 1;
+}
+.db-best-badge {
+  font-size: 12px;
+  color: rgba(255,255,255,.4);
+}
+.db-best-badge strong {
+  color: #F0C040;
+}
+.db-start-btn { margin-top: 4px; }
+
+/* Ability flash label (shown briefly when ability fires) */
+.db-flash-label {
+  position: absolute;
+  top: 54px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: #fff;
+  text-shadow: 0 0 18px rgba(255,200,80,.9);
+  pointer-events: none;
+  animation: db-flash-in .18s ease;
+}
+@keyframes db-flash-in {
+  from { opacity: 0; transform: translateX(-50%) scale(.8); }
+  to   { opacity: 1; transform: translateX(-50%) scale(1); }
+}
