@@ -3344,3 +3344,165 @@ h3 {
   color: rgba(255,255,255,0.25);
   margin: 0;
 }
+
+/* ─── Node Smash ───────────────────────────────────────────────────────────── */
+
+.ns-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #0d0d12;
+  overflow: hidden;
+}
+
+.ns-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ns-hud {
+  position: absolute;
+  top: 14px;
+  left: 0; right: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 20px;
+  pointer-events: none;
+}
+
+.ns-hud-left, .ns-hud-right { display: flex; flex-direction: column; gap: 2px; }
+.ns-hud-center { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.ns-hud-right  { align-items: flex-end; }
+
+.ns-hud-label {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+
+.ns-hud-score {
+  font-size: 20px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  line-height: 1;
+}
+
+.ns-hud-best {
+  font-size: 10px;
+  color: rgba(255,255,255,0.28);
+}
+
+.ns-level {
+  font-size: 13px;
+  font-weight: 700;
+  color: #FF6D5A;
+  letter-spacing: 0.08em;
+}
+
+.ns-combo {
+  font-size: 18px;
+  font-weight: 800;
+  color: #F0C040;
+  line-height: 1;
+  text-shadow: 0 0 14px rgba(240,192,64,0.7);
+  animation: ns-combo-pop 0.15s ease;
+}
+
+@keyframes ns-combo-pop {
+  0%   { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
+.ns-hearts { display: flex; gap: 5px; }
+.ns-heart  { font-size: 16px; color: #FF6D5A; text-shadow: 0 0 8px rgba(255,109,90,0.6); }
+.ns-heart--lost { color: rgba(255,255,255,0.12); text-shadow: none; }
+
+/* Launch hint */
+.ns-launch-hint {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  pointer-events: none;
+  letter-spacing: 0.08em;
+  animation: ns-blink 1.2s ease-in-out infinite;
+}
+
+@keyframes ns-blink {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 0.8; }
+}
+
+/* Level up */
+.ns-levelup-banner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.ns-levelup-text {
+  font-size: 32px;
+  font-weight: 800;
+  color: #14F195;
+  text-shadow: 0 0 30px rgba(20,241,149,0.8);
+  letter-spacing: 0.06em;
+}
+
+/* Overlay */
+.ns-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8,8,15,0.82);
+  backdrop-filter: blur(6px);
+}
+
+.ns-overlay-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  max-width: 400px;
+  padding: 0 24px;
+}
+
+.ns-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.ns-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.ns-final-score {
+  font-size: 56px;
+  font-weight: 800;
+  color: #FF6D5A;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.ns-best-badge {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+}
+
+.ns-best-badge strong { color: #F0C040; }
+.ns-start-btn { margin-top: 4px; }
