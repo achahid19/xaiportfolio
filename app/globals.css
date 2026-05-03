@@ -3506,3 +3506,78 @@ h3 {
 
 .ns-best-badge strong { color: #F0C040; }
 .ns-start-btn { margin-top: 4px; }
+
+/* ─── Node Flow (Candy Crush) ─────────────────────────────────────────────── */
+.nf-root {
+  position: relative;
+  width: 100%; height: 100%;
+  background: #0d0d12;
+  overflow: hidden;
+}
+.nf-canvas { display: block; width: 100%; height: 100%; }
+
+.nf-hud {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: rgba(8,8,14,0.7);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  pointer-events: none;
+  gap: 12px;
+}
+.nf-hud-left, .nf-hud-right { display: flex; flex-direction: column; gap: 2px; min-width: 120px; }
+.nf-hud-right { align-items: flex-end; }
+.nf-hud-center { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+
+.nf-hud-label { font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.28); }
+.nf-hud-score { font-size: 20px; font-weight: 700; color: rgba(255,255,255,.9); line-height: 1; }
+.nf-hud-best  { font-size: 10px; color: rgba(255,255,255,.25); }
+.nf-level     { font-size: 13px; font-weight: 700; color: #FF6D5A; letter-spacing: .08em; }
+.nf-target    { font-size: 10px; color: rgba(255,255,255,.3); }
+
+.nf-progress-bar {
+  width: 180px; max-width: 40vw; height: 4px;
+  background: rgba(255,255,255,.08);
+  border-radius: 2px; overflow: hidden;
+}
+.nf-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF6D5A, #F0C040);
+  border-radius: 2px;
+  transition: width .3s ease;
+  box-shadow: 0 0 6px rgba(255,109,90,.5);
+}
+.nf-node-key { display: flex; gap: 6px; align-items: center; }
+.nf-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+.nf-levelup {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.nf-levelup-text {
+  font-size: 32px; font-weight: 800; color: #14F195;
+  text-shadow: 0 0 30px rgba(20,241,149,.8);
+  letter-spacing: .06em;
+}
+
+.nf-overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(8,8,15,.84);
+  backdrop-filter: blur(6px);
+}
+.nf-overlay-inner {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 14px; text-align: center; max-width: 440px; padding: 0 24px;
+}
+.nf-title { font-size: clamp(1.8rem,4vw,2.6rem); font-weight: 800; margin: 0; letter-spacing: -.02em; }
+.nf-desc  { font-size: 13px; color: rgba(255,255,255,.45); line-height: 1.7; margin: 0; }
+.nf-final-score { font-size: 56px; font-weight: 800; color: #FF6D5A; line-height: 1; }
+.nf-best-badge  { font-size: 12px; color: rgba(255,255,255,.4); }
+.nf-best-badge strong { color: #F0C040; }
+.nf-start-btn { margin-top: 4px; }
