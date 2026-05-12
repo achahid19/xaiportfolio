@@ -3932,3 +3932,19 @@ h3 {
   letter-spacing: .12em;
   margin-top: 3px;
 }
+
+/* ── Node Type game ─────────────────────────────────────────────────────────── */
+.nt-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #030c10;
+}
+.nt-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+  outline: none;
+}
