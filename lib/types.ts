@@ -49,6 +49,7 @@ export type System = {
   result: string;
   impact?: string;
   category: string;
+  tags?: string[];
   tools: string[];
   featured?: boolean;
 };
@@ -72,6 +73,26 @@ export type Service = {
 export type Testimonial = {
   quote: string;
   who: string;
+};
+
+export type Achievement = {
+  id: string;
+  title: string;
+  issuer: string;
+  date: string;
+  href: string;
+  description?: string;
+};
+
+export type SocialPost = {
+  id: string;
+  title: string;
+  excerpt: string;
+  platform: string;
+  challenge?: string;
+  date: string;
+  href: string;
+  tags?: string[];
 };
 
 export type ContactSubmission = {

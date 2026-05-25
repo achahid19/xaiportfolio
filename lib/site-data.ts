@@ -1,9 +1,11 @@
 import type {
+  Achievement,
   HeroMetric,
   ProofMetric,
   Profile,
   Project,
   Service,
+  SocialPost,
   System,
   Testimonial
 } from "@/lib/types";
@@ -100,6 +102,17 @@ export const projects: Project[] = [
 
 export const systems: System[] = [
   // ── FEATURED (homepage preview grid) ─────────────────────────────
+  {
+    id: "S-012",
+    title: "HITL Content Pipeline",
+    problem: "Scaling content output with AI means losing control — generated posts ship without review, breaking brand consistency and client trust.",
+    result: "Three-stage human-in-the-loop pipeline (strategy → creative → final review) with full approve / revise / reject loops at every gate.",
+    impact: "AI can 10x content volume, but only if humans stay in control of every decision that touches the client. This pipeline keeps quality locked in while removing all the manual bottlenecks between brief and publish.",
+    category: "AI Agent",
+    tags: ["Content Automation", "Human-in-the-Loop"],
+    tools: ["n8n", "OpenRouter", "Gemini", "Airtable", "Slack", "Postgres"],
+    featured: true
+  },
   {
     id: "S-001",
     title: "Package Eval Agent",
@@ -204,11 +217,11 @@ export const systems: System[] = [
     impact: "Deadline slippage is almost always preventable — the information exists, it just doesn't reach the right person in time. This system closes that gap automatically.",
     category: "Deadline Management",
     tools: ["Jira", "Gmail", "n8n"]
-  }
+  },
 ];
 
 export const heroMetrics: HeroMetric[] = [
-  { v: "11+", label: "Systems shipped" },
+  { v: "12+", label: "Systems shipped" },
   { v: "<5min", label: "P1 ticket response" },
   { v: "30→0.1", label: "Eval minutes / package" }
 ];
@@ -261,6 +274,58 @@ export const trustTools = [
   "Vercel",
   "Slack",
   "Jira"
+];
+
+export const achievements: Achievement[] = [
+  {
+    id: "A-001",
+    title: "n8n Course Level 1",
+    issuer: "n8n",
+    date: "2024",
+    href: "https://community.n8n.io/badges/104/completed-n8n-course-level-1?username=anasks",
+    description: "Completed the official n8n Level 1 course covering core workflow concepts, nodes, and automation fundamentals."
+  },
+  {
+    id: "A-002",
+    title: "n8n Course Level 2",
+    issuer: "n8n",
+    date: "2024",
+    href: "https://community.n8n.io/badges/105/completed-n8n-course-level-2?username=anasks",
+    description: "Completed the advanced n8n Level 2 course — error handling, sub-workflows, expressions, and production-ready automation patterns."
+  },
+  {
+    id: "A-003",
+    title: "n8n Verified Creator",
+    issuer: "n8n",
+    date: "2024",
+    href: "https://n8n.io/creators/anasks/",
+    description: "Published 3 workflow templates on the official n8n template library, verified by the n8n team."
+  }
+];
+
+export const socialPosts: SocialPost[] = [
+  {
+    id: "SP-002",
+    title: "Package Evaluator Agent — April Challenge Submission",
+    excerpt:
+      "Built a Firecrawl-powered web crawler agent that researches any npm package — scrapes GitHub, npm trends, and docs, then delivers a structured go/no-go recommendation to Slack in under 10 seconds. No more manual due diligence.",
+    platform: "LinkedIn",
+    challenge: "n8n Community Challenge April 2026",
+    date: "2026-04-25",
+    href: "https://www.linkedin.com/posts/anas-chahid-ksabi_n8n-firecrawl-automation-ugcPost-7448771011388481536-haI3/",
+    tags: ["n8n", "Firecrawl", "AI Agent", "Slack"]
+  },
+  {
+    id: "SP-001",
+    title: "Human-in-the-Loop Content Pipeline — April Challenge Submission",
+    excerpt:
+      "Built a 3-stage HITL automation for a social media content agency: Sofia (strategy), Marcus (creative), and Taylor (final review) each hold a gate with full approve / revise / reject loops. AI drafts, humans decide.",
+    platform: "LinkedIn",
+    challenge: "n8n Community Challenge May 2026",
+    date: "2026-05-25",
+    href: "https://www.linkedin.com/feed/update/urn:li:activity:7464337434114338816/",
+    tags: ["n8n", "HITL", "AI Agent"]
+  }
 ];
 
 export const timeline = [

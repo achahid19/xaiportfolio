@@ -1359,6 +1359,201 @@ h3 {
 }
 
 /* ============================================================
+   ACHIEVEMENTS
+   ============================================================ */
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line-soft);
+  border: 1px solid var(--line-soft);
+  margin-bottom: 0;
+}
+
+.achievement-card {
+  background: var(--bg);
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.2s;
+  position: relative;
+}
+
+.achievement-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+}
+
+.achievement-card:hover {
+  background: var(--bg-elev);
+}
+
+.achievement-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.achievement-issuer {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+.achievement-date {
+  font-size: 10.5px;
+  color: var(--fg-dim);
+}
+
+.achievement-card__title {
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: var(--fg);
+  margin-top: 4px;
+}
+
+.achievement-card__desc {
+  font-size: 12.5px;
+  color: var(--fg-mute);
+  line-height: 1.55;
+  flex: 1;
+}
+
+.achievement-card__cta {
+  font-size: 11px;
+  color: var(--fg-dim);
+  margin-top: 8px;
+  transition: color 0.15s;
+}
+
+.achievement-card:hover .achievement-card__cta {
+  color: var(--accent);
+}
+
+/* ============================================================
+   SOCIAL FEED
+   ============================================================ */
+.social-feed {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--line-soft);
+  border: 1px solid var(--line-soft);
+}
+
+.social-card {
+  background: var(--bg);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.2s;
+  position: relative;
+}
+
+.social-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.social-card:hover {
+  background: var(--bg-elev);
+}
+
+.social-card:hover::before {
+  opacity: 1;
+}
+
+.social-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.social-platform {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--line);
+  color: var(--fg-mute);
+}
+
+.social-platform--linkedin {
+  border-color: oklch(0.55 0.14 240 / 0.5);
+  color: oklch(0.65 0.14 240);
+  background: oklch(0.55 0.14 240 / 0.08);
+}
+
+.social-platform--x {
+  border-color: var(--line);
+  color: var(--fg-mute);
+}
+
+.social-challenge {
+  font-size: 10.5px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.social-date {
+  font-size: 10.5px;
+  color: var(--fg-dim);
+  margin-left: auto;
+}
+
+.social-card__title {
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: var(--fg);
+}
+
+.social-card__excerpt {
+  font-size: 13px;
+  color: var(--fg-mute);
+  line-height: 1.6;
+}
+
+.social-card__cta {
+  margin-top: auto;
+  padding-top: 12px;
+  font-size: 11px;
+  color: var(--fg-dim);
+  transition: color 0.15s;
+}
+
+.social-card:hover .social-card__cta {
+  color: var(--accent);
+}
+
+/* ============================================================
    SYSTEMS CAROUSEL (homepage preview)
    ============================================================ */
 .carousel {
@@ -2514,6 +2709,14 @@ h3 {
 
   /* Systems grid (on /systems page) */
   .systems-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .achievements-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .social-feed {
     grid-template-columns: 1fr;
   }
 

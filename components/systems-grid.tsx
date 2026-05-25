@@ -15,10 +15,14 @@ export function SystemsGrid({ systems, showFilters = false }: Props) {
   const [tool, setTool] = useState("All");
   const [expanded, setExpanded] = useState<string | null>(null);
 
-  const cats = useMemo(
-    () => ["All", ...Array.from(new Set(systems.map((s) => s.category)))],
-    [systems]
-  );
+  const cats = useMemo(() => {
+    const set = new Set<string>();
+    systems.forEach((s) => {
+      set.add(s.category);
+      s.tags?.forEach((t) => set.add(t));
+    });
+    return ["All", ...Array.from(set)];
+  }, [systems]);
 
   const tools = useMemo(() => {
     const all = new Set<string>();
@@ -30,7 +34,7 @@ export function SystemsGrid({ systems, showFilters = false }: Props) {
     () =>
       systems.filter(
         (s) =>
-          (filter === "All" || s.category === filter) &&
+          (filter === "All" || s.category === filter || s.tags?.includes(filter)) &&
           (tool === "All" || s.tools.includes(tool))
       ),
     [systems, filter, tool]

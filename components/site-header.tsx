@@ -12,6 +12,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 const navItems: ReadonlyArray<readonly [string, string]> = [
   ["/", "Home"],
   ["/systems", "Systems"],
+  ["/social", "Social"],
   ["/blog", "Notes"],
   ["/contact", "Contact"]
 ] as const;
