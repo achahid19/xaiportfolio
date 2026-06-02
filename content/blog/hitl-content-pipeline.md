@@ -109,3 +109,7 @@ The HITL pattern does not fight this reality. It works with it. AI handles the v
 When the system is built correctly, the team moves faster and the quality goes up. Not because the AI gets better — but because every human decision is now supported by a well-prepared first draft instead of a blank page.
 
 That is the real leverage.
+
+---
+
+*Originally shared on [LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7464337434114338816/) as part of the n8n Community Challenge May 2026.*
