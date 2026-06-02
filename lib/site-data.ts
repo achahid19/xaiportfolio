@@ -165,6 +165,15 @@ export const systems: System[] = [
   },
   // ── LIBRARY ───────────────────────────────────────────────────────
   {
+    id: "S-013",
+    title: "Weekly Portfolio Analysis Agent",
+    problem: "Manual market research means jumping between Google Finance, news sites, and macro calendars — an hour of work every week pulling data that's already going stale.",
+    result: "Full AI market report delivered to Gmail every week — live prices, macro context, risk signals, and a clear Hold / Add / Trim / Exit call per position.",
+    impact: "An investor's edge is in the decision, not the data collection. Automating the entire research layer — Google Finance, macro news, risk alerts — means the analysis is always fresh, always consistent, and never skipped.",
+    category: "AI Agent",
+    tools: ["n8n", "ScrapingDog", "Google Sheets", "Google Finance", "Gmail"]
+  },
+  {
     id: "S-006",
     title: "Sprint Blocker Radar",
     problem: "Blocked sprint issues go unnoticed for days, silently delaying delivery until retrospectives.",
@@ -221,7 +230,7 @@ export const systems: System[] = [
 ];
 
 export const heroMetrics: HeroMetric[] = [
-  { v: "12+", label: "Systems shipped" },
+  { v: "13+", label: "Systems shipped" },
   { v: "<5min", label: "P1 ticket response" },
   { v: "30→0.1", label: "Eval minutes / package" }
 ];
