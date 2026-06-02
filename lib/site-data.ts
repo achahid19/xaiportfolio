@@ -305,6 +305,16 @@ export const achievements: Achievement[] = [
 
 export const socialPosts: SocialPost[] = [
   {
+    id: "SP-003",
+    title: "Automated Weekly Portfolio Analysis with ScrapingDog + AI",
+    excerpt:
+      "Built a fully automated market intelligence workflow: Google Sheets watchlist triggers weekly, ScrapingDog pulls live Google Finance data and news in parallel, an AI agent synthesises everything into a structured report — Hold, Add, Trim, or Exit — and delivers it as a clean HTML email to Gmail. No manual research, no wasted morning.",
+    platform: "LinkedIn",
+    date: "2026-06-02",
+    href: "https://www.linkedin.com/posts/anas-chahid-ksabi_n8n-automation-ai-ugcPost-7467513609993183232-SpVm/",
+    tags: ["n8n", "ScrapingDog", "AI Agent", "Google Finance", "Gmail", "Partnership"]
+  },
+  {
     id: "SP-002",
     title: "Package Evaluator Agent — April Challenge Submission",
     excerpt:
