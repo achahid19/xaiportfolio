@@ -33,7 +33,10 @@ export const profile: Profile = {
     "Python",
     "Next.js",
     "Web Scraping",
-    "System Design"
+    "System Design",
+    "RAG",
+    "MCP",
+    "LangChain"
   ],
   tools: [
     "n8n",
