@@ -12,6 +12,10 @@ coverImage: "HITL content pipeline workflow"
 published: true
 ---
 
+*This post is based on my submission for the n8n Community Challenge May 2026. The scenario — Relay, the agency, and the team members — is entirely fictional and was designed for the challenge. The workflow and architecture are real.*
+
+---
+
 AI can generate content fast. The problem is not speed — it is control.
 
 When a content agency scales its output using AI, the failure mode is always the same. Generated posts ship without proper review. Brand voice drifts. A client gets something that does not match their audience. Trust erodes.
