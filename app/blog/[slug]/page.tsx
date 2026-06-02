@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { HitlFlow } from "@/components/hitl-flow";
 import { getBlogPostBySlug, getBlogPosts } from "@/lib/blog";
 
 type BlogPostPageProps = {
@@ -53,6 +54,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
       <section className="container" style={{ paddingBottom: "96px" }}>
         <article className="article-wrap">
+          {slug === "hitl-content-pipeline" && <HitlFlow />}
           <div
             className="prose"
             dangerouslySetInnerHTML={{ __html: post.content }}
