@@ -171,7 +171,8 @@ export const systems: System[] = [
     result: "Full AI market report delivered to Gmail every week — live prices, macro context, risk signals, and a clear Hold / Add / Trim / Exit call per position.",
     impact: "An investor's edge is in the decision, not the data collection. Automating the entire research layer — Google Finance, macro news, risk alerts — means the analysis is always fresh, always consistent, and never skipped.",
     category: "AI Agent",
-    tools: ["n8n", "ScrapingDog", "Google Sheets", "Google Finance", "Gmail"]
+    tools: ["n8n", "ScrapingDog", "Google Sheets", "Google Finance", "Gmail"],
+    featured: true
   },
   {
     id: "S-006",
