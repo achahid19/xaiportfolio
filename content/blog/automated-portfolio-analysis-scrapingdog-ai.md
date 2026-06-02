@@ -83,3 +83,7 @@ This workflow is a specific application of a pattern that works across many doma
 The same architecture applies to competitor monitoring, customer feedback analysis, supply chain alerts, or any domain where the bottleneck is not the decision but the preparation that leads to it.
 
 The decision still belongs to the human. The preparation no longer has to.
+
+---
+
+*Originally shared on [LinkedIn](https://www.linkedin.com/posts/anas-chahid-ksabi_n8n-automation-ai-ugcPost-7467513609993183232-SpVm/) — workflow walkthrough and full build breakdown.*

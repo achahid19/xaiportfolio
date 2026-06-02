@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { HitlFlow } from "@/components/hitl-flow";
+import { PortfolioFlow } from "@/components/portfolio-flow";
 import { getBlogPostBySlug, getBlogPosts } from "@/lib/blog";
 
 type BlogPostPageProps = {
@@ -55,6 +56,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <section className="container" style={{ paddingBottom: "96px" }}>
         <article className="article-wrap">
           {slug === "hitl-content-pipeline" && <HitlFlow />}
+          {slug === "automated-portfolio-analysis-scrapingdog-ai" && <PortfolioFlow />}
           <div
             className="prose"
             dangerouslySetInnerHTML={{ __html: post.content }}
