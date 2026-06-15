@@ -46,8 +46,18 @@ export default function SocialPage() {
             <span className="oss-card__arrow">↗</span>
           </div>
           <p className="oss-card__desc">
-            CLI tool for n8n workflow backup and restore — version-control your automations to GitHub with a single command. Built for teams who treat their automation stack as infrastructure.
+            Version-control your n8n automations with a single command. The CLI is free and open-source — backup, restore, and push your workflows to GitHub without touching a UI.
           </p>
+          <div className="oss-card__tiers">
+            <div className="oss-card__tier">
+              <span className="oss-card__tier-label mono">CLI · Free</span>
+              <span className="oss-card__tier-desc">Backup, restore &amp; sync workflows to GitHub. Open source, self-hosted, community-ready.</span>
+            </div>
+            <div className="oss-card__tier">
+              <span className="oss-card__tier-label mono">Dashboard · Pro</span>
+              <span className="oss-card__tier-desc">UI for workflow management + agent features — scheduling, multi-instance control, and alerts.</span>
+            </div>
+          </div>
           <div className="oss-card__meta mono">
             <span>TypeScript</span>
             <span className="oss-card__sep">·</span>

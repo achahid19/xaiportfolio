@@ -79,7 +79,7 @@ export default async function HomePage() {
                     <span className="hero-badge__icon">★</span>
                     Verified Creator
                     <span className="hero-badge__sep" />
-                    3 templates
+                    4 templates
                     <span className="hero-badge__arrow">↗</span>
                   </a>
                   <a

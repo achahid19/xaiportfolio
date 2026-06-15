@@ -846,6 +846,31 @@ h3 {
   gap: 6px;
 }
 .oss-card__sep { color: var(--hairline); }
+.oss-card__tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+  background: var(--bg);
+}
+.oss-card__tier {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.oss-card__tier-label {
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+.oss-card__tier-desc {
+  font-size: 13px;
+  color: var(--fg-mute);
+  line-height: 1.5;
+}
 
 /* Footer social tags (OSS / For hire labels) */
 .footer-social-link {

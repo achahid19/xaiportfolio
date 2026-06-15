@@ -322,7 +322,7 @@ export const achievements: Achievement[] = [
     issuer: "n8n",
     date: "2024",
     href: "https://n8n.io/creators/anasks/",
-    description: "Published 3 workflow templates on the official n8n template library, verified by the n8n team."
+    description: "Published 4 workflow templates on the official n8n template library, verified by the n8n team."
   }
 ];
 
