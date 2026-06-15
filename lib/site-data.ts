@@ -31,12 +31,17 @@ export const profile: Profile = {
     "JavaScript",
     "TypeScript",
     "Python",
+    "Node.js",
     "Next.js",
     "Web Scraping",
     "System Design",
     "RAG",
     "MCP",
-    "LangChain"
+    "LangChain",
+    "Vercel",
+    "Docker",
+    "Git & GitHub",
+    "REST APIs"
   ],
   tools: [
     "n8n",
@@ -198,12 +203,12 @@ export const systems: System[] = [
   },
   {
     id: "S-007",
-    title: "Daily Automation Backup",
-    problem: "n8n has no built-in version control — one misconfiguration could wipe weeks of automation work.",
-    result: "100% of automations versioned daily to GitHub — full recovery in under 5 minutes.",
-    impact: "Your automation stack is infrastructure. Losing it without a recovery path means rebuilding from scratch — a risk no serious operation should carry.",
+    title: "Flowsave — n8n Backup & Restore CLI",
+    problem: "n8n has no built-in version control — one misconfiguration or server wipe can erase weeks of automation work with no recovery path.",
+    result: "100% of workflows versioned to GitHub with a single CLI command — full restore in under 5 minutes, from anywhere.",
+    impact: "Your automation stack is infrastructure. Flowsave treats it that way — open-source CLI for teams who need daily backups, plus a dashboard for scheduling, multi-instance management, and alerts.",
     category: "DevOps",
-    tools: ["n8n", "GitHub"]
+    tools: ["n8n", "GitHub", "TypeScript", "Node.js", "CLI"]
   },
   {
     id: "S-008",
