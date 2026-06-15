@@ -1967,6 +1967,46 @@ h3 {
   margin-bottom: 4px;
 }
 
+/* Upwork hire card (contact sidebar) */
+.contact-upwork-card {
+  display: block;
+  margin: 20px 0 28px;
+  padding: 18px 20px;
+  border: 1px solid var(--accent-line);
+  border-radius: 10px;
+  background: var(--accent-soft);
+  text-decoration: none;
+  transition: border-color 0.18s, background 0.18s;
+}
+.contact-upwork-card:hover {
+  border-color: var(--accent-glow);
+  background: oklch(0.72 0.17 var(--accent-h) / 0.16);
+}
+.contact-upwork-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.contact-upwork-badge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.contact-upwork-arrow {
+  font-size: 16px;
+  color: var(--accent);
+  line-height: 1;
+}
+.contact-upwork-desc {
+  font-size: 12.5px;
+  color: var(--fg-mute);
+  line-height: 1.65;
+  margin: 0;
+}
+
 .status-message {
   font-size: 13px;
   padding: 10px 14px;

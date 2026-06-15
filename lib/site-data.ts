@@ -40,13 +40,12 @@ export const profile: Profile = {
     "Docker"
   ],
   socialLinks: [
-    { label: "GitHub", href: "https://github.com/achahid19" },
-    {
-      label: "LinkedIn",
-      href: "https://www.linkedin.com/in/anas-chahid-ksabi/?skipRedirect=true"
-    },
-    { label: "Email", href: "mailto:aixautomation01@gmail.com" },
-    { label: "X", href: "https://x.com/it_CryptoKs" }
+    { label: "GitHub",    href: "https://github.com/achahid19" },
+    { label: "LinkedIn",  href: "https://www.linkedin.com/in/anas-chahid-ksabi/?skipRedirect=true" },
+    { label: "Email",     href: "mailto:aixautomation01@gmail.com" },
+    { label: "X",         href: "https://x.com/it_CryptoKs" },
+    { label: "Flowsave",  href: "https://flowsave.space/" },
+    { label: "Upwork",    href: "https://www.upwork.com/services/product/development-it-custom-n8n-workflow-that-automates-your-business-operations-end-to-end-2066511273559432464" }
   ]
 };
 
