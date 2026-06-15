@@ -765,39 +765,87 @@ h3 {
 }
 
 /* Upwork availability badge — hero */
-.hero-upwork-badge {
+/* Upwork subtle inline line — hero, below CTA buttons */
+.hero-upwork-line {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  margin-top: 10px;
-  padding: 6px 12px;
-  border: 1px solid var(--accent-line);
-  border-radius: 3px;
-  background: var(--accent-soft);
-  font-size: 11px;
-  color: var(--fg-mute);
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--fg-dim);
   text-decoration: none;
-  transition: border-color 0.18s, background 0.18s, color 0.18s;
+  transition: color 0.18s;
   width: fit-content;
 }
-.hero-upwork-badge:hover {
-  border-color: var(--accent);
-  background: oklch(0.72 0.17 var(--accent-h) / 0.18);
-  color: var(--fg);
-}
-.hero-upwork-dot {
-  width: 7px;
-  height: 7px;
+.hero-upwork-line:hover { color: var(--accent); }
+.hero-upwork-line__dot {
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 6px var(--accent-glow);
   flex-shrink: 0;
-  animation: pulse-dot 2s ease-in-out infinite;
+  animation: pulse-dot 2.4s ease-in-out infinite;
 }
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  50% { opacity: 0.35; }
 }
+
+/* OSS card — social page */
+.oss-card {
+  display: block;
+  padding: 24px 28px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg-elev);
+  text-decoration: none;
+  transition: border-color 0.18s, background 0.18s;
+  max-width: 640px;
+}
+.oss-card:hover {
+  border-color: var(--accent-line);
+  background: var(--bg-card);
+}
+.oss-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.oss-card__name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fg);
+  margin-right: 10px;
+}
+.oss-card__tag {
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  border: 1px solid var(--accent-line);
+  color: var(--accent);
+  background: var(--accent-soft);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.oss-card__arrow {
+  font-size: 16px;
+  color: var(--fg-dim);
+}
+.oss-card__desc {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--fg-mute);
+  margin-bottom: 14px;
+}
+.oss-card__meta {
+  font-size: 11px;
+  color: var(--fg-dim);
+  display: flex;
+  gap: 6px;
+}
+.oss-card__sep { color: var(--hairline); }
 
 /* Footer social tags (OSS / For hire labels) */
 .footer-social-link {

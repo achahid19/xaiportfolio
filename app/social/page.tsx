@@ -27,6 +27,37 @@ export default function SocialPage() {
         </div>
       </section>
 
+      {/* Open Source */}
+      <section className="container" style={{ paddingBottom: "56px" }}>
+        <div className="section-head" style={{ marginBottom: "24px" }}>
+          <div className="eyebrow mono">Open Source</div>
+        </div>
+        <a
+          href="https://flowsave.space/"
+          target="_blank"
+          rel="noreferrer"
+          className="oss-card"
+        >
+          <div className="oss-card__header">
+            <div>
+              <span className="oss-card__name mono">Flowsave</span>
+              <span className="oss-card__tag mono">OSS</span>
+            </div>
+            <span className="oss-card__arrow">↗</span>
+          </div>
+          <p className="oss-card__desc">
+            CLI tool for n8n workflow backup and restore — version-control your automations to GitHub with a single command. Built for teams who treat their automation stack as infrastructure.
+          </p>
+          <div className="oss-card__meta mono">
+            <span>TypeScript</span>
+            <span className="oss-card__sep">·</span>
+            <span>n8n</span>
+            <span className="oss-card__sep">·</span>
+            <span>flowsave.space</span>
+          </div>
+        </a>
+      </section>
+
       {/* Achievements */}
       <section className="container" style={{ paddingBottom: "56px" }}>
         <div className="section-head" style={{ marginBottom: "24px" }}>
