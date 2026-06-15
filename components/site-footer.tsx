@@ -43,8 +43,15 @@ export function SiteFooter() {
           {socialLinks
             .filter((s) => s.label !== "Email")
             .map((s) => (
-              <a key={s.label} href={s.href} target="_blank" rel="noreferrer">
-                {s.label} ↗
+              <a key={s.label} href={s.href} target="_blank" rel="noreferrer" className="footer-social-link">
+                {s.label}
+                {s.label === "Flowsave" && (
+                  <span className="footer-social-tag mono">OSS</span>
+                )}
+                {s.label === "Upwork" && (
+                  <span className="footer-social-tag footer-social-tag--hire mono">For hire</span>
+                )}
+                <span> ↗</span>
               </a>
             ))}
         </div>
