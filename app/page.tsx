@@ -94,6 +94,18 @@ export default async function HomePage() {
                     <span className="hero-badge__arrow">↗</span>
                   </a>
                 </div>
+                <a
+                  href="https://www.upwork.com/services/product/development-it-custom-n8n-workflow-that-automates-your-business-operations-end-to-end-2066511273559432464"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hero-upwork-badge mono"
+                >
+                  <span className="hero-upwork-dot" />
+                  Available on Upwork
+                  <span className="hero-badge__sep" />
+                  n8n workflows
+                  <span className="hero-badge__arrow">↗</span>
+                </a>
               </div>
             </div>
           </div>
