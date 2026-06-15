@@ -58,15 +58,31 @@ export default function ContactPage() {
               <div>
                 <span className="label mono">Open to</span>
                 <span className="mono" style={{ fontSize: "13px", color: "var(--fg)" }}>
-                  Freelance · CDI · Retainer
+                  Freelance · CDI · Retainer · Upwork
                 </span>
               </div>
             </div>
 
+            {/* Upwork hire card */}
+            <a
+              href="https://www.upwork.com/services/product/development-it-custom-n8n-workflow-that-automates-your-business-operations-end-to-end-2066511273559432464"
+              target="_blank"
+              rel="noreferrer"
+              className="contact-upwork-card"
+            >
+              <div className="contact-upwork-top">
+                <span className="mono contact-upwork-badge">AVAILABLE ON UPWORK</span>
+                <span className="contact-upwork-arrow">↗</span>
+              </div>
+              <p className="contact-upwork-desc mono">
+                Custom n8n workflow automation — end-to-end business process design, built and delivered.
+              </p>
+            </a>
+
             <h4 className="mono">Find me elsewhere</h4>
             <div className="contact-meta">
               {socialLinks
-                .filter((s) => s.label !== "Email")
+                .filter((s) => s.label !== "Email" && s.label !== "Upwork")
                 .map((s) => (
                   <a
                     key={s.label}
