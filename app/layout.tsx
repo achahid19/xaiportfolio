@@ -71,8 +71,8 @@ export default function RootLayout({
               (function() {
                 try {
                   var stored = localStorage.getItem("theme");
-                  // Dark-first: default to dark unless explicitly set to light.
-                  var theme = stored === "light" ? "light" : "dark";
+                  // Light-first: default to light unless explicitly set to dark.
+                  var theme = stored === "dark" ? "dark" : "light";
                   document.documentElement.dataset.theme = theme;
                   document.documentElement.style.colorScheme = theme;
                 } catch (e) {}
